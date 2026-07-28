@@ -91,17 +91,15 @@
     <div class="inventory__filters">
       <select id="filterMarca" class="filter">
         <option value="">Marca</option>
-        <option>Porsche</option>
-        <option>Ferrari</option>
+        <option>Bentley</option>
+        <option>Jaguar</option>
         <option>Lamborghini</option>
-        <option>Audi</option>
-        <option>BMW</option>
+        <option>Mercedes-AMG</option>
       </select>
       <select id="filterTipo" class="filter">
         <option value="">Tipo</option>
         <option>Deportivo</option>
-        <option>Exótico</option>
-        <option>Sedán premium</option>
+        <option>Gran Turismo</option>
         <option>SUV performance</option>
       </select>
       <select id="filterPrecio" class="filter">
@@ -214,11 +212,10 @@
         <h3>2. Vehículo de interés</h3>
         <select id="bookingVehiculo" class="filter">
           <option value="">General / aún no lo sé</option>
-          <option>Porsche 911 Carrera</option>
-          <option>Ferrari Portofino</option>
-          <option>Lamborghini Huracán</option>
-          <option>Audi R8</option>
-          <option>BMW M4 Competition</option>
+          <option>Bentley Continental GT Speed</option>
+          <option>Jaguar F-Type Coupé</option>
+          <option>Lamborghini Urus</option>
+          <option>Mercedes-AMG GT R</option>
         </select>
         <h3>Fecha y horario</h3>
         <div class="form__grid">
@@ -366,6 +363,33 @@
     </div>
     <p class="site-footer__copy">© <span id="year"></span> ESSENZA MOTORS mx. Todos los derechos reservados.</p>
   </footer>
+
+  <!-- Modal de galería de vehículo -->
+  <div id="vehicleModal" class="vehicle-modal" hidden>
+    <div class="vehicle-modal__backdrop"></div>
+    <div class="vehicle-modal__dialog" role="dialog" aria-modal="true">
+      <button type="button" class="vehicle-modal__close" aria-label="Cerrar">✕</button>
+
+      <div class="vehicle-modal__gallery">
+        <button type="button" class="vehicle-modal__nav vehicle-modal__nav--prev" aria-label="Foto anterior">‹</button>
+        <img class="vehicle-modal__image" src="" alt="" />
+        <button type="button" class="vehicle-modal__nav vehicle-modal__nav--next" aria-label="Foto siguiente">›</button>
+      </div>
+      <div class="vehicle-modal__thumbs"></div>
+
+      <div class="vehicle-modal__info">
+        <h3 class="vehicle-modal__title"></h3>
+        <p class="vehicle-modal__gen"></p>
+        <div class="vehicle-modal__specs"></div>
+        <p class="vehicle-modal__price"></p>
+        <div class="vehicle-modal__actions">
+          <a class="btn btn--primary vehicle-modal__whatsapp" target="_blank" rel="noopener">WhatsApp</a>
+          <a class="btn btn--ghost" href="#experiencia">Reservar cita</a>
+          <a class="btn btn--ghost vehicle-modal__financing" target="_blank" rel="noopener">Financiamiento</a>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>

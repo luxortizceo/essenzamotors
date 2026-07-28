@@ -93,32 +93,90 @@
 })();
 
 // ---------- 3. Inventory — catalog + filters ----------
+// Vehículos reales del showroom. Año, kilometraje, precio y estatus están
+// marcados como "Consultar" / pendientes: son fotos reales pero esos datos
+// no fueron proporcionados y no deben inventarse — hay que confirmarlos con
+// ESSENZA antes de publicar cifras exactas. Motor/potencia/transmisión son
+// especificaciones de fábrica publicadas para el modelo, no de la unidad.
 const ESSENZA_INVENTORY = [
-  { marca: 'Porsche', modelo: '911 Carrera', anio: 2023, tipo: 'Deportivo', km: '12,400 km', precio: 2450000, motor: '3.0L Twin-Turbo', potencia: '379 hp', transmision: 'PDK 8 vel.', color: 'Negro obsidiana', estatus: 'Disponible' },
-  { marca: 'Ferrari', modelo: 'Portofino', anio: 2022, tipo: 'Exótico', km: '8,100 km', precio: 4650000, motor: '3.9L V8 Twin-Turbo', potencia: '612 hp', transmision: 'Automática 8 vel.', color: 'Rosso Corsa', estatus: 'Disponible' },
-  { marca: 'Lamborghini', modelo: 'Huracán EVO', anio: 2021, tipo: 'Exótico', km: '15,600 km', precio: 5980000, motor: '5.2L V10', potencia: '631 hp', transmision: 'Automática 7 vel.', color: 'Verde Mantis', estatus: 'Apartado' },
-  { marca: 'Audi', modelo: 'R8 V10 Performance', anio: 2022, tipo: 'Deportivo', km: '9,800 km', precio: 3350000, motor: '5.2L V10', potencia: '620 hp', transmision: 'S tronic 7 vel.', color: 'Gris Titanio', estatus: 'Disponible' },
-  { marca: 'BMW', modelo: 'M4 Competition', anio: 2023, tipo: 'Deportivo', km: '6,200 km', precio: 1780000, motor: '3.0L I6 Twin-Turbo', potencia: '503 hp', transmision: 'Automática 8 vel.', color: 'Blanco frío', estatus: 'Disponible' },
-  { marca: 'Porsche', modelo: 'Cayenne Turbo GT', anio: 2023, tipo: 'SUV performance', km: '4,900 km', precio: 3120000, motor: '4.0L V8 Twin-Turbo', potencia: '631 hp', transmision: 'Tiptronic 8 vel.', color: 'Negro carbono', estatus: 'Próximo ingreso' },
+  {
+    marca: 'Bentley',
+    modelo: 'Continental GT Speed',
+    generacion: 'Generación 2012–2015 (por confirmar año exacto)',
+    tipo: 'Gran Turismo',
+    km: null,
+    precio: null,
+    motor: '6.0L W12 Biturbo',
+    potencia: '~616 hp (dato de fábrica del modelo)',
+    transmision: 'Automática 8 vel. AWD',
+    color: 'Naranja metálico',
+    estatus: 'Disponible',
+    galeria: ['assets/inventory/bentley-continental-gt-speed.jpg'],
+  },
+  {
+    marca: 'Jaguar',
+    modelo: 'F-Type Coupé',
+    generacion: 'Generación 2021+ (facelift, versión por confirmar)',
+    tipo: 'Deportivo',
+    km: null,
+    precio: null,
+    motor: 'V6 o V8 sobrealimentado (versión por confirmar)',
+    potencia: 'Por confirmar según versión',
+    transmision: 'Automática',
+    color: 'Rojo',
+    estatus: 'Disponible',
+    galeria: ['assets/inventory/jaguar-f-type.jpg'],
+  },
+  {
+    marca: 'Lamborghini',
+    modelo: 'Urus',
+    generacion: 'Generación 2018+ (versión por confirmar)',
+    tipo: 'SUV performance',
+    km: null,
+    precio: null,
+    motor: '4.0L V8 Biturbo',
+    potencia: '~650 hp (dato de fábrica del modelo)',
+    transmision: 'Automática 8 vel.',
+    color: 'Negro',
+    estatus: 'Disponible',
+    galeria: ['assets/inventory/lamborghini-urus.jpg'],
+  },
+  {
+    marca: 'Mercedes-AMG',
+    modelo: 'GT R',
+    generacion: 'Generación 2017+ (edición con gráficos por confirmar)',
+    tipo: 'Deportivo',
+    km: null,
+    precio: null,
+    motor: '4.0L V8 Biturbo',
+    potencia: '~577 hp (dato de fábrica del modelo)',
+    transmision: 'AMG SPEEDSHIFT DCT 7 vel.',
+    color: 'Negro con gráficos amarillos',
+    estatus: 'Disponible',
+    galeria: ['assets/inventory/mercedes-amg-gt-r.jpg'],
+  },
 ];
 
 (() => {
   const grid = document.getElementById('inventoryGrid');
   if (!grid) return;
 
-  const money = (n) => '$' + n.toLocaleString('es-MX') + ' MXN';
+  const money = (n) => (n == null ? 'Consultar precio' : '$' + n.toLocaleString('es-MX') + ' MXN');
+  const kmLabel = (v) => (v == null ? 'Consultar kilometraje' : v);
 
-  const cardHTML = (v) => `
-    <article class="vehicle-card" data-marca="${v.marca}" data-tipo="${v.tipo}" data-precio="${v.precio}" data-disponibilidad="${v.estatus}">
+  const cardHTML = (v, i) => `
+    <article class="vehicle-card" data-index="${i}" data-marca="${v.marca}" data-tipo="${v.tipo}" data-precio="${v.precio ?? ''}" data-disponibilidad="${v.estatus}" tabindex="0" role="button" aria-label="Ver galería de ${v.marca} ${v.modelo}">
       <div class="vehicle-card__media">
+        <img src="${v.galeria[0]}" alt="${v.marca} ${v.modelo}" loading="lazy" />
         <span class="vehicle-card__status">${v.estatus}</span>
-        Fotografía / video pendiente
+        ${v.galeria.length > 1 ? `<span class="vehicle-card__gallery-count">${v.galeria.length} fotos</span>` : ''}
       </div>
       <div class="vehicle-card__body">
         <span class="vehicle-card__brand">${v.marca}</span>
-        <h3 class="vehicle-card__name">${v.modelo} · ${v.anio}</h3>
+        <h3 class="vehicle-card__name">${v.modelo}</h3>
+        <p class="vehicle-card__gen">${v.generacion}</p>
         <div class="vehicle-card__specs">
-          <span>Km: ${v.km}</span>
+          <span>Km: ${kmLabel(v.km)}</span>
           <span>Motor: ${v.motor}</span>
           <span>Potencia: ${v.potencia}</span>
           <span>Transmisión: ${v.transmision}</span>
@@ -127,12 +185,16 @@ const ESSENZA_INVENTORY = [
         <p class="vehicle-card__price">${money(v.precio)}</p>
         <div class="vehicle-card__actions">
           <a class="btn btn--primary" target="_blank" rel="noopener"
-             href="https://wa.me/524774492547?text=${encodeURIComponent(`Hola, me interesa el ${v.marca} ${v.modelo} ${v.anio}.`)}">WhatsApp</a>
+             href="https://wa.me/524774492547?text=${encodeURIComponent(`Hola, me interesa el ${v.marca} ${v.modelo}.`)}">WhatsApp</a>
           <a class="btn btn--ghost" href="#experiencia">Reservar cita</a>
+          <a class="btn btn--ghost" target="_blank" rel="noopener"
+             href="https://wa.me/524774492547?text=${encodeURIComponent(`Hola, quiero información de financiamiento para el ${v.marca} ${v.modelo}.`)}">Financiamiento</a>
         </div>
       </div>
     </article>
   `;
+
+  let currentList = ESSENZA_INVENTORY;
 
   const render = () => {
     const marca = document.getElementById('filterMarca').value;
@@ -140,16 +202,19 @@ const ESSENZA_INVENTORY = [
     const disponibilidad = document.getElementById('filterDisponibilidad').value;
     const precioRange = document.getElementById('filterPrecio').value.split('-').map(Number);
 
-    const filtered = ESSENZA_INVENTORY.filter((v) => {
+    currentList = ESSENZA_INVENTORY.filter((v) => {
       if (marca && v.marca !== marca) return false;
       if (tipo && v.tipo !== tipo) return false;
       if (disponibilidad && v.estatus !== disponibilidad) return false;
-      if (precioRange.length === 2 && (v.precio < precioRange[0] || v.precio > precioRange[1])) return false;
+      if (precioRange.length === 2) {
+        if (v.precio == null) return false;
+        if (v.precio < precioRange[0] || v.precio > precioRange[1]) return false;
+      }
       return true;
     });
 
-    grid.innerHTML = filtered.length
-      ? filtered.map(cardHTML).join('')
+    grid.innerHTML = currentList.length
+      ? currentList.map(cardHTML).join('')
       : '<p class="inventory__empty">No hay vehículos que coincidan con estos filtros por ahora. Escríbenos por WhatsApp y te avisamos en cuanto ingrese uno.</p>';
   };
 
@@ -157,7 +222,115 @@ const ESSENZA_INVENTORY = [
     document.getElementById(id).addEventListener('change', render);
   });
 
+  grid.addEventListener('click', (event) => {
+    if (event.target.closest('.vehicle-card__actions')) return;
+    const card = event.target.closest('.vehicle-card');
+    if (!card) return;
+    const vehicle = currentList[Number(card.dataset.index)];
+    if (vehicle) window.essenzaOpenVehicleModal(vehicle, money, kmLabel);
+  });
+
+  grid.addEventListener('keydown', (event) => {
+    if (event.key !== 'Enter' && event.key !== ' ') return;
+    const card = event.target.closest('.vehicle-card');
+    if (!card) return;
+    event.preventDefault();
+    const vehicle = currentList[Number(card.dataset.index)];
+    if (vehicle) window.essenzaOpenVehicleModal(vehicle, money, kmLabel);
+  });
+
   render();
+})();
+
+// ---------- 3b. Vehicle gallery modal ----------
+(() => {
+  const modal = document.getElementById('vehicleModal');
+  if (!modal) return;
+
+  const imgEl = modal.querySelector('.vehicle-modal__image');
+  const thumbsEl = modal.querySelector('.vehicle-modal__thumbs');
+  const titleEl = modal.querySelector('.vehicle-modal__title');
+  const genEl = modal.querySelector('.vehicle-modal__gen');
+  const specsEl = modal.querySelector('.vehicle-modal__specs');
+  const priceEl = modal.querySelector('.vehicle-modal__price');
+  const waLink = modal.querySelector('.vehicle-modal__whatsapp');
+  const financingLink = modal.querySelector('.vehicle-modal__financing');
+  const closeBtn = modal.querySelector('.vehicle-modal__close');
+  const prevBtn = modal.querySelector('.vehicle-modal__nav--prev');
+  const nextBtn = modal.querySelector('.vehicle-modal__nav--next');
+
+  let gallery = [];
+  let galleryIndex = 0;
+  let lastFocused = null;
+
+  const showImage = () => {
+    imgEl.src = gallery[galleryIndex];
+    [...thumbsEl.children].forEach((t, i) => t.classList.toggle('is-active', i === galleryIndex));
+  };
+
+  const close = () => {
+    modal.hidden = true;
+    document.body.style.overflow = '';
+    lastFocused?.focus();
+  };
+
+  window.essenzaOpenVehicleModal = (v, money, kmLabel) => {
+    lastFocused = document.activeElement;
+    gallery = v.galeria;
+    galleryIndex = 0;
+
+    titleEl.textContent = `${v.marca} ${v.modelo}`;
+    genEl.textContent = v.generacion;
+    specsEl.innerHTML = `
+      <span>Km: ${kmLabel(v.km)}</span>
+      <span>Motor: ${v.motor}</span>
+      <span>Potencia: ${v.potencia}</span>
+      <span>Transmisión: ${v.transmision}</span>
+      <span>Color: ${v.color}</span>
+      <span>Estatus: ${v.estatus}</span>
+    `;
+    priceEl.textContent = money(v.precio);
+    waLink.href = `https://wa.me/524774492547?text=${encodeURIComponent(`Hola, me interesa el ${v.marca} ${v.modelo}.`)}`;
+    financingLink.href = `https://wa.me/524774492547?text=${encodeURIComponent(`Hola, quiero información de financiamiento para el ${v.marca} ${v.modelo}.`)}`;
+
+    thumbsEl.innerHTML = gallery
+      .map((src, i) => `<button type="button" class="vehicle-modal__thumb${i === 0 ? ' is-active' : ''}" data-i="${i}"><img src="${src}" alt="Foto ${i + 1}" /></button>`)
+      .join('');
+    thumbsEl.hidden = gallery.length < 2;
+    prevBtn.hidden = nextBtn.hidden = gallery.length < 2;
+
+    showImage();
+    modal.hidden = false;
+    document.body.style.overflow = 'hidden';
+    closeBtn.focus();
+  };
+
+  thumbsEl.addEventListener('click', (event) => {
+    const btn = event.target.closest('.vehicle-modal__thumb');
+    if (!btn) return;
+    galleryIndex = Number(btn.dataset.i);
+    showImage();
+  });
+
+  prevBtn.addEventListener('click', () => {
+    galleryIndex = (galleryIndex - 1 + gallery.length) % gallery.length;
+    showImage();
+  });
+
+  nextBtn.addEventListener('click', () => {
+    galleryIndex = (galleryIndex + 1) % gallery.length;
+    showImage();
+  });
+
+  closeBtn.addEventListener('click', close);
+  modal.querySelector('.vehicle-modal__backdrop').addEventListener('click', close);
+
+  document.addEventListener('keydown', (event) => {
+    if (modal.hidden) return;
+    if (event.key === 'Escape') close();
+    if (event.key === 'ArrowRight' && gallery.length > 1) nextBtn.click();
+    if (event.key === 'ArrowLeft' && gallery.length > 1) prevBtn.click();
+  });
 })();
 
 // ---------- 6. Vende tu auto — form → WhatsApp ----------

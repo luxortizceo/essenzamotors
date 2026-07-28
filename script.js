@@ -1,44 +1,4 @@
-// Hero — ESSENZA MOTORS
-// "Scroll to ignite": once the visitor scrolls past the hero, hand off
-// to whatever section follows instead of holding them on the intro.
-(() => {
-  const hero = document.getElementById('hero');
-  const video = document.querySelector('.hero__video');
-  const igniteButton = document.getElementById('scrollIgnite');
-
-  if (video) {
-    // Some mobile browsers ignore the autoplay attribute until a play() call.
-    video.play().catch(() => {
-      /* Autoplay blocked; poster image remains visible until user interacts. */
-    });
-  }
-
-  const igniteScroll = () => {
-    const next = hero.nextElementSibling;
-    const target = next || document.body;
-    window.scrollTo({
-      top: next ? next.offsetTop : hero.offsetHeight,
-      behavior: 'smooth',
-    });
-  };
-
-  igniteButton?.addEventListener('click', igniteScroll);
-
-  // Subtle parallax: the hero content drifts and fades as the user scrolls,
-  // reinforcing the "camera advancing past the vehicle" feel from the brief.
-  const content = document.querySelector('.hero__content');
-  window.addEventListener(
-    'scroll',
-    () => {
-      const progress = Math.min(window.scrollY / hero.offsetHeight, 1);
-      if (content) {
-        content.style.transform = `translateY(${progress * -40}px)`;
-        content.style.opacity = String(1 - progress);
-      }
-    },
-    { passive: true }
-  );
-})();
+// Hero — see cinema-hero.js for the scroll-driven multi-vehicle experience.
 
 // ---------- Scroll reveal for every section ----------
 (() => {

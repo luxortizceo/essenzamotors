@@ -12,50 +12,48 @@
 </head>
 <body>
 
-  <section id="hero" class="hero">
-    <div class="hero__media">
-      <video
-        class="hero__video"
-        autoplay
-        muted
-        loop
-        playsinline
-        poster="https://d8j0ntlcm91z4.cloudfront.net/user_3FHUBhQnSww3PP26RR6E46BkjNS/hf_20260728_015300_3345dc09-8909-4edf-ab56-cc74c55d285a.png"
-      >
-        <source src="https://d8j0ntlcm91z4.cloudfront.net/user_3FHUBhQnSww3PP26RR6E46BkjNS/hf_20260728_020134_173d3d12-5552-4678-9380-6d263f298920.mp4" type="video/mp4" />
-      </video>
-      <div class="hero__scrim"></div>
-      <div class="hero__vignette"></div>
-    </div>
+  <section id="hero" class="cinema-hero">
+    <div class="cinema-hero__pin">
 
-    <header class="hero__nav">
-      <span class="hero__nav-mark">ESSENZA MOTORS</span>
-      <nav class="hero__nav-links">
-        <a href="#inventario">Inventario</a>
-        <a href="#experiencia">Agenda una experiencia</a>
-      </nav>
-    </header>
+      <header class="hero__nav">
+        <span class="hero__nav-mark">ESSENZA MOTORS</span>
+        <nav class="hero__nav-links">
+          <a href="#inventario">Inventario</a>
+          <a href="#experiencia">Agenda una experiencia</a>
+        </nav>
+      </header>
 
-    <div class="hero__content">
-      <div class="hero__logo-line" aria-hidden="true"></div>
-      <h1 class="hero__logo">ESSENZA</h1>
-      <p class="hero__tagline">The Art of Motion</p>
+      <div class="cinema-hero__stage">
+        <video class="cinema-video" data-vehicle="0" muted playsinline preload="auto">
+          <source src="assets/video/01-mercedes.webm" type="video/webm" />
+          <source src="assets/video/01-mercedes.mp4" type="video/mp4" />
+        </video>
+        <video class="cinema-video" data-vehicle="1" muted playsinline preload="auto">
+          <source src="assets/video/02-porsche.webm" type="video/webm" />
+          <source src="assets/video/02-porsche.mp4" type="video/mp4" />
+        </video>
+        <video class="cinema-video" data-vehicle="2" muted playsinline preload="auto">
+          <source src="assets/video/03-lamborghini.webm" type="video/webm" />
+          <source src="assets/video/03-lamborghini.mp4" type="video/mp4" />
+        </video>
 
-      <p class="hero__message">
-        “No vendemos automóviles.<br />
-        Seleccionamos máquinas extraordinarias.”
-      </p>
+        <div class="cinema-hero__vignette" aria-hidden="true"></div>
+        <div class="cinema-hero__transition" aria-hidden="true">
+          <span class="cinema-hero__led"></span>
+        </div>
+      </div>
 
-      <div class="hero__actions">
-        <a href="#inventario" class="btn btn--primary">Explorar inventario</a>
-        <a href="#experiencia" class="btn btn--ghost">Agenda una experiencia</a>
+      <div class="cinema-hero__text">
+        <span class="cinema-hero__brand" data-text-brand>MERCEDES-AMG</span>
+        <span class="cinema-hero__model" data-text-model>GT R</span>
+        <span class="cinema-hero__year" data-text-year>2020</span>
+      </div>
+
+      <div class="cinema-hero__scroll" aria-hidden="true">
+        <span class="cinema-hero__scroll-label">SCROLL</span>
+        <span class="hero__scroll-bar"><span class="hero__scroll-dot"></span></span>
       </div>
     </div>
-
-    <button class="hero__scroll" id="scrollIgnite" aria-label="Scroll to ignite">
-      <span class="hero__scroll-label">SCROLL TO IGNITE</span>
-      <span class="hero__scroll-bar"><span class="hero__scroll-dot"></span></span>
-    </button>
   </section>
 
   <!-- 2. ENTRADA AL SHOWROOM -->
@@ -391,6 +389,10 @@
     </div>
   </div>
 
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script src="assets/vendor/ScrollTrigger.min.js"></script>
+  <script src="assets/vendor/lenis.min.js"></script>
+  <script src="cinema-hero.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

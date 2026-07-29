@@ -69,6 +69,7 @@ html.lenis, html.lenis body { height: auto; }
   letter-spacing: 0.35em;
   font-size: 0.85rem;
   color: var(--blanco-frio);
+  white-space: nowrap;
 }
 
 .hero__nav-links {
@@ -83,11 +84,40 @@ html.lenis, html.lenis body { height: auto; }
   letter-spacing: 0.08em;
   text-transform: uppercase;
   transition: color 0.3s ease;
+  white-space: nowrap;
 }
 
 .hero__nav-links a:hover {
   color: var(--rojo-deportivo);
 }
+
+.hero__nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  z-index: 6;
+}
+
+.hero__nav-toggle span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--blanco-frio);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.hero__nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hero__nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.hero__nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
 @keyframes drop-in {
   from { opacity: 0; transform: translateY(-14px); }
@@ -125,36 +155,6 @@ html.lenis, html.lenis body { height: auto; }
   background: radial-gradient(120% 90% at 50% 60%, transparent 45%, rgba(0,0,0,0.55) 100%);
   box-shadow: inset 0 0 20vw 5vw rgba(0,0,0,0.7);
   pointer-events: none;
-}
-
-/* black + red LED sweep transition layer between vehicles */
-.cinema-hero__transition {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  background: #000;
-  opacity: 0;
-  pointer-events: none;
-  overflow: hidden;
-  will-change: opacity;
-}
-
-.cinema-hero__led {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: 14%;
-  background: linear-gradient(90deg,
-    transparent 0%,
-    rgba(225, 6, 0, 0) 20%,
-    rgba(225, 6, 0, 0.9) 50%,
-    rgba(225, 6, 0, 0) 80%,
-    transparent 100%);
-  filter: blur(6px);
-  transform: translateX(-100%);
-  box-shadow: 0 0 60px 10px rgba(225, 6, 0, 0.5);
-  will-change: transform;
 }
 
 /* ---------- BOTTOM-LEFT VEHICLE TEXT ---------- */
@@ -284,15 +284,39 @@ html.lenis, html.lenis body { height: auto; }
   box-shadow: 0 0 18px rgba(244, 246, 248, 0.2);
 }
 
-@media (max-width: 640px) {
-  .hero__nav-links { gap: 1rem; }
-  .hero__nav-links a { font-size: 0.7rem; }
-  .cinema-hero__scroll { display: none; }
+@media (max-width: 680px) {
+  .hero__nav-toggle { display: flex; }
+
+  .hero__nav-links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    gap: 0;
+    background: rgba(5, 5, 5, 0.97);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(244, 246, 248, 0.1);
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.35s ease, opacity 0.3s ease;
+  }
+
+  .hero__nav-links.is-open {
+    max-height: 240px;
+    opacity: 1;
+  }
+
+  .hero__nav-links a {
+    padding: 1.1rem clamp(1.25rem, 4vw, 4rem);
+    border-top: 1px solid rgba(244, 246, 248, 0.08);
+    font-size: 0.85rem;
+  }
 }
 
-/* Respect users who don't want motion: skip the pin/scrub, just show vehicle 1 */
-@media (prefers-reduced-motion: reduce) {
-  .cinema-video[data-vehicle="0"] { opacity: 1; }
+@media (max-width: 640px) {
+  .cinema-hero__scroll { display: none; }
 }
 
 /* ---------- SHARED SECTION LAYOUT ---------- */

@@ -1,5 +1,24 @@
 // Hero — see cinema-hero.js for the scroll-driven multi-vehicle experience.
 
+// ---------- Mobile nav toggle ----------
+(() => {
+  const toggle = document.getElementById('navToggle');
+  const links = document.getElementById('navLinks');
+  if (!toggle || !links) return;
+
+  const closeMenu = () => {
+    toggle.setAttribute('aria-expanded', 'false');
+    links.classList.remove('is-open');
+  };
+
+  toggle.addEventListener('click', () => {
+    const isOpen = links.classList.toggle('is-open');
+    toggle.setAttribute('aria-expanded', String(isOpen));
+  });
+
+  links.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeMenu));
+})();
+
 // ---------- Scroll reveal for every section ----------
 (() => {
   const targets = document.querySelectorAll('.reveal');

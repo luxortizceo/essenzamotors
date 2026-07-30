@@ -106,7 +106,21 @@
       </select>
     </div>
 
-    <div class="inventory__grid" id="inventoryGrid"><!-- cards inyectadas por script.js --></div>
+    <div class="showroom-carousel" id="showroomCarousel">
+      <div class="showroom-carousel__stage" id="carouselStage" tabindex="0" role="region" aria-roledescription="carrusel 3D" aria-label="Carrusel de vehículos ESSENZA">
+        <div class="showroom-carousel__floor" aria-hidden="true"></div>
+        <div class="showroom-carousel__haze" aria-hidden="true"></div>
+        <div class="showroom-carousel__ring" id="carouselRing"><!-- vehículos inyectados por script.js --></div>
+        <button type="button" class="showroom-carousel__arrow showroom-carousel__arrow--prev" id="carouselPrev" aria-label="Vehículo anterior">‹</button>
+        <button type="button" class="showroom-carousel__arrow showroom-carousel__arrow--next" id="carouselNext" aria-label="Vehículo siguiente">›</button>
+      </div>
+
+      <div class="showroom-carousel__panel" id="carouselPanel"><!-- info del vehículo activo --></div>
+
+      <div class="showroom-carousel__dots" id="carouselDots"></div>
+    </div>
+
+    <p class="inventory__empty" id="inventoryEmpty" hidden>No hay vehículos que coincidan con estos filtros por ahora. Escríbenos por WhatsApp y te avisamos en cuanto ingrese uno.</p>
   </section>
 
   <!-- 5. COMPRA, VENTA Y CONSIGNACIÓN -->

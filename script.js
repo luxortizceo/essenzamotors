@@ -71,117 +71,329 @@
   numbers.forEach((el) => observer.observe(el));
 })();
 
-// ---------- 3. Inventory — catalog + filters ----------
-// Vehículos reales del showroom. Año, kilometraje, precio y estatus están
-// marcados como "Consultar" / pendientes: son fotos reales pero esos datos
-// no fueron proporcionados y no deben inventarse — hay que confirmarlos con
-// ESSENZA antes de publicar cifras exactas. Motor/potencia/transmisión son
-// especificaciones de fábrica publicadas para el modelo, no de la unidad.
+// ---------- 3. Inventory — data + 3D showroom carousel ----------
+// Vehículos reales del showroom. Los campos marcados con null (precio, km,
+// rines) no fueron proporcionados por ESSENZA para esa unidad y no deben
+// inventarse — se muestran como "Consultar" hasta confirmarse.
 const ESSENZA_INVENTORY = [
-  {
-    marca: 'Bentley',
-    modelo: 'Continental GT Speed',
-    generacion: 'Generación 2012–2015 (por confirmar año exacto)',
-    tipo: 'Gran Turismo',
-    km: null,
-    precio: null,
-    motor: '6.0L W12 Biturbo',
-    potencia: '~616 hp (dato de fábrica del modelo)',
-    transmision: 'Automática 8 vel. AWD',
-    color: 'Naranja metálico',
-    estatus: 'Disponible',
-    galeria: ['assets/inventory/bentley-continental-gt-speed.jpg'],
-  },
-  {
-    marca: 'Jaguar',
-    modelo: 'F-Type Coupé',
-    generacion: 'Generación 2021+ (facelift, versión por confirmar)',
-    tipo: 'Deportivo',
-    km: null,
-    precio: null,
-    motor: 'V6 o V8 sobrealimentado (versión por confirmar)',
-    potencia: 'Por confirmar según versión',
-    transmision: 'Automática',
-    color: 'Rojo',
-    estatus: 'Disponible',
-    galeria: ['assets/inventory/jaguar-f-type.jpg'],
-  },
   {
     marca: 'Lamborghini',
     modelo: 'Urus',
-    generacion: 'Generación 2018+ (versión por confirmar)',
+    anio: 2023,
     tipo: 'SUV performance',
-    km: null,
-    precio: null,
-    motor: '4.0L V8 Biturbo',
-    potencia: '~650 hp (dato de fábrica del modelo)',
-    transmision: 'Automática 8 vel.',
-    color: 'Negro',
+    km: 9000,
+    precio: 6300000,
+    motor: 'V8 4.0L Biturbo',
+    potencia: '650 hp',
+    transmision: 'Automática',
+    traccion: 'AWD',
+    rines: 'Rin 23"',
+    colorExterior: 'Negro',
+    colorInterior: 'Negro (piel con costuras naranjas)',
     estatus: 'Disponible',
-    galeria: ['assets/inventory/lamborghini-urus.jpg'],
+    galeria: [
+      'assets/inventory/urus/urus-01-frontal.jpg',
+      'assets/inventory/urus/urus-02-frontal-b.jpg',
+      'assets/inventory/urus/urus-03-frontal-recta.jpg',
+      'assets/inventory/urus/urus-04-perfil.jpg',
+      'assets/inventory/urus/urus-05-trasera-a.jpg',
+      'assets/inventory/urus/urus-06-trasera-b.jpg',
+      'assets/inventory/urus/urus-07-interior-tablero.jpg',
+      'assets/inventory/urus/urus-08-interior-cabina.jpg',
+      'assets/inventory/urus/urus-09-asientos-traseros.jpg',
+    ],
+  },
+  {
+    marca: 'Jaguar',
+    modelo: 'F-TYPE P300 R-Dynamic First Edition',
+    anio: 2021,
+    tipo: 'Deportivo',
+    km: 18000,
+    precio: null,
+    motor: '4 cil.',
+    potencia: '300 hp',
+    transmision: 'Automática',
+    traccion: 'Trasera',
+    rines: 'Rin 20"',
+    audio: 'Meridian',
+    colorExterior: 'Rojo',
+    colorInterior: 'Negro (piel/gamuza)',
+    estatus: 'Disponible',
+    galeria: [
+      'assets/inventory/jaguar/jaguar-01-frontal.jpg',
+      'assets/inventory/jaguar/jaguar-02-frontal-b.jpg',
+      'assets/inventory/jaguar/jaguar-03-perfil-trasera.jpg',
+      'assets/inventory/jaguar/jaguar-04-trasera.jpg',
+      'assets/inventory/jaguar/jaguar-05-trasera-recta.jpg',
+      'assets/inventory/jaguar/jaguar-06-interior-tablero.jpg',
+      'assets/inventory/jaguar/jaguar-07-interior-asientos.jpg',
+      'assets/inventory/jaguar/jaguar-08-detalle-audio.jpg',
+    ],
   },
   {
     marca: 'Mercedes-AMG',
     modelo: 'GT R',
-    generacion: 'Generación 2017+ (edición con gráficos por confirmar)',
+    anio: 2020,
     tipo: 'Deportivo',
-    km: null,
+    km: 3800,
     precio: null,
-    motor: '4.0L V8 Biturbo',
-    potencia: '~577 hp (dato de fábrica del modelo)',
+    motor: 'V8 Biturbo',
+    potencia: '585 hp',
     transmision: 'AMG SPEEDSHIFT DCT 7 vel.',
-    color: 'Negro con gráficos amarillos',
+    traccion: 'Trasera',
+    rines: null,
+    colorExterior: 'Gris',
+    colorInterior: 'Negro (piel, Alcantara)',
     estatus: 'Disponible',
-    galeria: ['assets/inventory/mercedes-amg-gt-r.jpg'],
+    galeria: [
+      'assets/inventory/mercedes/mercedes-01-frontal.jpg',
+      'assets/inventory/mercedes/mercedes-02-frontal-b.jpg',
+      'assets/inventory/mercedes/mercedes-03-frontal-recta.jpg',
+      'assets/inventory/mercedes/mercedes-04-perfil-a.jpg',
+      'assets/inventory/mercedes/mercedes-05-perfil-b.jpg',
+      'assets/inventory/mercedes/mercedes-06-trasera-lateral.jpg',
+      'assets/inventory/mercedes/mercedes-07-trasera-recta.jpg',
+      'assets/inventory/mercedes/mercedes-08-detalle-toldera.jpg',
+      'assets/inventory/mercedes/mercedes-09-interior-tablero.jpg',
+      'assets/inventory/mercedes/mercedes-10-interior-asientos.jpg',
+    ],
+  },
+  {
+    marca: 'Bentley',
+    modelo: 'Continental GT Speed',
+    anio: 2014,
+    tipo: 'Gran Turismo',
+    km: 24000,
+    precio: 3100000,
+    motor: '6.0L W12 Biturbo',
+    potencia: '635 hp',
+    transmision: 'Automática 8 vel.',
+    traccion: 'AWD',
+    rines: null,
+    audio: 'Naim for Bentley (11 altavoces)',
+    colorExterior: 'Naranja',
+    colorInterior: 'Azul (piel)',
+    estatus: 'Disponible',
+    galeria: [
+      'assets/inventory/bentley/bentley-01-frontal.jpg',
+      'assets/inventory/bentley/bentley-02-frontal-lateral.jpg',
+      'assets/inventory/bentley/bentley-03-perfil.jpg',
+      'assets/inventory/bentley/bentley-04-trasera-lateral.jpg',
+      'assets/inventory/bentley/bentley-05-trasera.jpg',
+      'assets/inventory/bentley/bentley-06-frontal-b.jpg',
+      'assets/inventory/bentley/bentley-07-interior-tablero.jpg',
+      'assets/inventory/bentley/bentley-08-volante.jpg',
+      'assets/inventory/bentley/bentley-09-asientos.jpg',
+      'assets/inventory/bentley/bentley-10-palanca.jpg',
+      'assets/inventory/bentley/bentley-11-odometro.jpg',
+    ],
+  },
+  {
+    marca: 'Lamborghini',
+    modelo: 'Gallardo Spyder',
+    anio: null,
+    tipo: 'Deportivo',
+    km: 72140,
+    precio: null,
+    motor: '5.2L V10 (dato de fábrica del modelo, versión por confirmar)',
+    potencia: '~560 hp (dato de fábrica del modelo)',
+    transmision: 'e-gear automatizada (modos Sport/Corsa)',
+    traccion: null,
+    rines: null,
+    colorExterior: 'Blanco',
+    colorInterior: 'Negro (piel)',
+    estatus: 'Disponible',
+    galeria: [
+      'assets/inventory/gallardo/gallardo-01-frontal.jpg',
+      'assets/inventory/gallardo/gallardo-02-frontal-b.jpg',
+      'assets/inventory/gallardo/gallardo-03-frontal-c.jpg',
+      'assets/inventory/gallardo/gallardo-04-frontal-recta.jpg',
+      'assets/inventory/gallardo/gallardo-05-trasera.jpg',
+      'assets/inventory/gallardo/gallardo-06-trasera-detalle.jpg',
+      'assets/inventory/gallardo/gallardo-07-interior-tablero.jpg',
+      'assets/inventory/gallardo/gallardo-08-interior-volante.jpg',
+    ],
   },
 ];
 
 (() => {
-  const grid = document.getElementById('inventoryGrid');
-  if (!grid) return;
+  const carousel = document.getElementById('showroomCarousel');
+  const stage = document.getElementById('carouselStage');
+  const ring = document.getElementById('carouselRing');
+  const panel = document.getElementById('carouselPanel');
+  const dotsEl = document.getElementById('carouselDots');
+  const prevBtn = document.getElementById('carouselPrev');
+  const nextBtn = document.getElementById('carouselNext');
+  const emptyEl = document.getElementById('inventoryEmpty');
+  if (!carousel || !stage || !ring || !panel || !dotsEl) return;
 
   const money = (n) => (n == null ? 'Consultar precio' : '$' + n.toLocaleString('es-MX') + ' MXN');
-  const kmLabel = (v) => (v == null ? 'Consultar kilometraje' : v);
+  const kmLabel = (v) => (v == null ? 'Consultar kilometraje' : v.toLocaleString('es-MX') + ' km');
 
-  const cardHTML = (v, i) => `
-    <article class="vehicle-card" data-index="${i}" data-marca="${v.marca}" data-tipo="${v.tipo}" data-precio="${v.precio ?? ''}" data-disponibilidad="${v.estatus}" tabindex="0" role="button" aria-label="Ver galería de ${v.marca} ${v.modelo}">
-      <div class="vehicle-card__media">
-        <img src="${v.galeria[0]}" alt="${v.marca} ${v.modelo}" loading="lazy" />
-        <span class="vehicle-card__status">${v.estatus}</span>
-        ${v.galeria.length > 1 ? `<span class="vehicle-card__gallery-count">${v.galeria.length} fotos</span>` : ''}
-      </div>
-      <div class="vehicle-card__body">
-        <span class="vehicle-card__brand">${v.marca}</span>
-        <h3 class="vehicle-card__name">${v.modelo}</h3>
-        <p class="vehicle-card__gen">${v.generacion}</p>
-        <div class="vehicle-card__specs">
-          <span>Km: ${kmLabel(v.km)}</span>
-          <span>Motor: ${v.motor}</span>
-          <span>Potencia: ${v.potencia}</span>
-          <span>Transmisión: ${v.transmision}</span>
-          <span>Color: ${v.color}</span>
-        </div>
-        <p class="vehicle-card__price">${money(v.precio)}</p>
-        <div class="vehicle-card__actions">
-          <a class="btn btn--primary" target="_blank" rel="noopener"
-             href="https://wa.me/524774492547?text=${encodeURIComponent(`Hola, me interesa el ${v.marca} ${v.modelo}.`)}">WhatsApp</a>
-          <a class="btn btn--ghost" href="#experiencia">Reservar cita</a>
-          <a class="btn btn--ghost" target="_blank" rel="noopener"
-             href="https://wa.me/524774492547?text=${encodeURIComponent(`Hola, quiero información de financiamiento para el ${v.marca} ${v.modelo}.`)}">Financiamiento</a>
-        </div>
-      </div>
-    </article>
-  `;
+  const specLine = (v) =>
+    [v.anio, kmLabel(v.km), v.motor, v.potencia, v.traccion, v.rines].filter(Boolean).join(' · ');
 
-  let currentList = ESSENZA_INVENTORY;
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const ANGLE_STEP = 38; // degrees between neighboring vehicles on the orbit
+
+  let list = ESSENZA_INVENTORY.slice();
+  let currentIndex = 0;
+  let rotationSteps = 0; // continuous float position along the orbit (0..list.length-1)
+  let radius = 320;
+  let tweenState = { v: 0 };
+  let currentTween = null;
+
+  let dragging = false;
+  let dragMoved = false;
+  let dragStartX = 0;
+  let dragStartRotation = 0;
+  let lastMoveX = 0;
+  let lastMoveTime = 0;
+  let velocity = 0; // px per ms
+
+  const STEP_PX = 160;
+  const clampIndex = (i) => Math.max(0, Math.min(list.length - 1, i));
+
+  const rubberBand = (v) => {
+    const min = 0;
+    const max = list.length - 1;
+    if (v < min) return min - (min - v) * 0.28;
+    if (v > max) return max + (v - max) * 0.28;
+    return v;
+  };
+
+  const measure = () => {
+    const rect = stage.getBoundingClientRect();
+    const cardW = Math.max(180, Math.min(rect.width * 0.3, 340));
+    const cardH = cardW * 0.72;
+    radius = cardW * 1.12;
+    stage.style.setProperty('--card-w', cardW + 'px');
+    stage.style.setProperty('--card-h', cardH + 'px');
+    render();
+  };
 
   const render = () => {
+    const cars = ring.children;
+    for (let i = 0; i < cars.length; i += 1) {
+      const car = cars[i];
+      const angle = i * ANGLE_STEP;
+      const diff = i - rotationSteps;
+      const closeness = Math.max(0, 1 - Math.min(Math.abs(diff), 2) / 2);
+      const scale = 0.6 + 0.4 * closeness;
+      const opacity = 0.32 + 0.68 * closeness;
+      const brightness = 0.45 + 0.55 * closeness;
+      const lift = closeness * 16;
+      car.style.transform =
+        `translate(-50%, -50%) translateY(${-lift}px) rotateY(${angle}deg) translateZ(${radius}px) scale(${scale})`;
+      car.style.opacity = String(opacity);
+      // brightness only — a blur filter on a 3D-transformed element is expensive to
+      // rasterize and was causing dropped frames the first time this section scrolled
+      // into view, so depth is conveyed via scale/opacity/perspective instead.
+      car.style.filter = `brightness(${brightness})`;
+      car.classList.toggle('is-active', Math.abs(diff) < 0.02);
+      car.setAttribute('aria-hidden', closeness < 0.05 ? 'true' : 'false');
+    }
+    ring.style.transform = `rotateY(${-rotationSteps * ANGLE_STEP}deg)`;
+  };
+
+  const renderDots = () => {
+    dotsEl.innerHTML = list
+      .map(
+        (v, i) =>
+          `<button type="button" class="showroom-carousel__dot${i === currentIndex ? ' is-active' : ''}" data-index="${i}" aria-label="Ir a ${v.marca} ${v.modelo}"></button>`
+      )
+      .join('');
+  };
+
+  const renderPanel = () => {
+    const v = list[currentIndex];
+    if (!v) {
+      panel.innerHTML = '';
+      return;
+    }
+    panel.innerHTML = `
+      <span class="showroom-carousel__brand">${v.marca}</span>
+      <h3 class="showroom-carousel__name">${v.modelo}</h3>
+      <p class="showroom-carousel__specline">${specLine(v)}</p>
+      <p class="showroom-carousel__colors">Exterior ${v.colorExterior} · Interior ${v.colorInterior}</p>
+      <p class="showroom-carousel__price">${money(v.precio)}</p>
+      <div class="showroom-carousel__actions">
+        <button type="button" class="btn btn--primary" data-action="gallery">Ver galería</button>
+        <a class="btn btn--ghost" href="#experiencia">Reservar cita</a>
+        <a class="btn btn--ghost" target="_blank" rel="noopener"
+           href="https://wa.me/524774492547?text=${encodeURIComponent(`Hola, me interesa el ${v.marca} ${v.modelo}.`)}">WhatsApp</a>
+      </div>
+    `;
+  };
+
+  const openGallery = (i) => {
+    const v = list[i];
+    if (v) window.essenzaOpenVehicleModal(v, money, kmLabel);
+  };
+
+  panel.addEventListener('click', (event) => {
+    if (event.target.closest('[data-action="gallery"]')) openGallery(currentIndex);
+  });
+
+  const settle = (index) => {
+    currentIndex = clampIndex(index);
+    rotationSteps = currentIndex;
+    renderDots();
+    renderPanel();
+    render();
+  };
+
+  const goTo = (index) => {
+    index = clampIndex(index);
+    if (currentTween && currentTween.kill) currentTween.kill();
+    if (typeof gsap !== 'undefined') {
+      tweenState.v = rotationSteps;
+      currentTween = gsap.to(tweenState, {
+        v: index,
+        duration: reducedMotion ? 0.01 : 0.7,
+        ease: 'power3.out',
+        onUpdate: () => {
+          rotationSteps = tweenState.v;
+          render();
+        },
+        onComplete: () => settle(index),
+      });
+    } else {
+      settle(index);
+    }
+  };
+
+  const buildCars = () => {
+    ring.innerHTML = list
+      .map(
+        (v, i) => `
+      <div class="showroom-carousel__car" data-index="${i}" role="button" tabindex="-1" aria-label="${v.marca} ${v.modelo}">
+        <span class="showroom-carousel__reflection" aria-hidden="true"></span>
+        <div class="showroom-carousel__frame">
+          <img src="${v.galeria[0]}" alt="${v.marca} ${v.modelo}" loading="lazy" />
+          <span class="showroom-carousel__status">${v.estatus}</span>
+        </div>
+      </div>`
+      )
+      .join('');
+
+    [...ring.children].forEach((car) => {
+      car.addEventListener('click', () => {
+        if (dragMoved) return;
+        const i = Number(car.dataset.index);
+        if (i === currentIndex) openGallery(i);
+        else goTo(i);
+      });
+    });
+  };
+
+  const applyFilters = () => {
     const marca = document.getElementById('filterMarca').value;
     const tipo = document.getElementById('filterTipo').value;
     const disponibilidad = document.getElementById('filterDisponibilidad').value;
     const precioRange = document.getElementById('filterPrecio').value.split('-').map(Number);
 
-    currentList = ESSENZA_INVENTORY.filter((v) => {
+    list = ESSENZA_INVENTORY.filter((v) => {
       if (marca && v.marca !== marca) return false;
       if (tipo && v.tipo !== tipo) return false;
       if (disponibilidad && v.estatus !== disponibilidad) return false;
@@ -192,33 +404,143 @@ const ESSENZA_INVENTORY = [
       return true;
     });
 
-    grid.innerHTML = currentList.length
-      ? currentList.map(cardHTML).join('')
-      : '<p class="inventory__empty">No hay vehículos que coincidan con estos filtros por ahora. Escríbenos por WhatsApp y te avisamos en cuanto ingrese uno.</p>';
+    carousel.hidden = list.length === 0;
+    if (emptyEl) emptyEl.hidden = list.length !== 0;
+    if (!list.length) return;
+
+    buildCars();
+    currentIndex = 0;
+    rotationSteps = 0;
+    measure();
+    renderDots();
+    renderPanel();
   };
 
   ['filterMarca', 'filterTipo', 'filterPrecio', 'filterDisponibilidad'].forEach((id) => {
-    document.getElementById(id).addEventListener('change', render);
+    document.getElementById(id).addEventListener('change', applyFilters);
   });
 
-  grid.addEventListener('click', (event) => {
-    if (event.target.closest('.vehicle-card__actions')) return;
-    const card = event.target.closest('.vehicle-card');
-    if (!card) return;
-    const vehicle = currentList[Number(card.dataset.index)];
-    if (vehicle) window.essenzaOpenVehicleModal(vehicle, money, kmLabel);
+  // ---- Pointer drag (mouse + touch) ----
+  // Deliberately not using setPointerCapture: capturing on the stage
+  // retargets the synthetic 'click' event to the stage itself, which
+  // silently swallows clicks on cars/arrows underneath the pointer.
+  // Tracking the drag via window-level listeners avoids that.
+  const onPointerMove = (event) => {
+    if (!dragging) return;
+    const dx = event.clientX - dragStartX;
+    if (Math.abs(dx) > 6) dragMoved = true;
+    rotationSteps = rubberBand(dragStartRotation - dx / STEP_PX);
+    const now = performance.now();
+    const dt = now - lastMoveTime;
+    if (dt > 0) velocity = (event.clientX - lastMoveX) / dt;
+    lastMoveX = event.clientX;
+    lastMoveTime = now;
+    render();
+  };
+
+  const onPointerUp = () => {
+    if (!dragging) return;
+    dragging = false;
+    window.removeEventListener('pointermove', onPointerMove);
+    window.removeEventListener('pointerup', onPointerUp);
+    window.removeEventListener('pointercancel', onPointerUp);
+    const stepsVelocity = -velocity / STEP_PX;
+    const momentum = Math.max(-1, Math.min(1, stepsVelocity * 55));
+    goTo(Math.round(clampIndex(rotationSteps + momentum)));
+  };
+
+  stage.addEventListener('pointerdown', (event) => {
+    if (event.target.closest('.showroom-carousel__arrow')) return;
+    dragging = true;
+    dragMoved = false;
+    dragStartX = event.clientX;
+    dragStartRotation = rotationSteps;
+    lastMoveX = event.clientX;
+    lastMoveTime = performance.now();
+    velocity = 0;
+    if (currentTween && currentTween.kill) currentTween.kill();
+    window.addEventListener('pointermove', onPointerMove);
+    window.addEventListener('pointerup', onPointerUp);
+    window.addEventListener('pointercancel', onPointerUp);
   });
 
-  grid.addEventListener('keydown', (event) => {
-    if (event.key !== 'Enter' && event.key !== ' ') return;
-    const card = event.target.closest('.vehicle-card');
-    if (!card) return;
-    event.preventDefault();
-    const vehicle = currentList[Number(card.dataset.index)];
-    if (vehicle) window.essenzaOpenVehicleModal(vehicle, money, kmLabel);
+  // ---- Mouse wheel (only while the pointer is over the carousel) ----
+  let wheelCooldown = false;
+  stage.addEventListener(
+    'wheel',
+    (event) => {
+      const delta = Math.abs(event.deltaY) > Math.abs(event.deltaX) ? event.deltaY : event.deltaX;
+      if (Math.abs(delta) < 6) return;
+      event.preventDefault();
+      if (wheelCooldown) return;
+      wheelCooldown = true;
+      setTimeout(() => {
+        wheelCooldown = false;
+      }, 420);
+      goTo(currentIndex + (delta > 0 ? 1 : -1));
+    },
+    { passive: false }
+  );
+
+  // ---- Keyboard ----
+  stage.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowRight') {
+      event.preventDefault();
+      goTo(currentIndex + 1);
+    } else if (event.key === 'ArrowLeft') {
+      event.preventDefault();
+      goTo(currentIndex - 1);
+    } else if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      openGallery(currentIndex);
+    }
   });
 
-  render();
+  // ---- Arrows + pagination dots ----
+  prevBtn?.addEventListener('click', () => goTo(currentIndex - 1));
+  nextBtn?.addEventListener('click', () => goTo(currentIndex + 1));
+  dotsEl.addEventListener('click', (event) => {
+    const dot = event.target.closest('.showroom-carousel__dot');
+    if (dot) goTo(Number(dot.dataset.index));
+  });
+
+  // ---- Scroll-in reveal: establish depth without hijacking scroll ----
+  const revealObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        carousel.classList.add('is-revealed');
+        if (!reducedMotion) {
+          if (typeof gsap !== 'undefined') {
+            tweenState.v = rotationSteps + 0.4;
+            gsap.fromTo(
+              tweenState,
+              { v: rotationSteps + 0.4 },
+              {
+                v: rotationSteps,
+                duration: 1.1,
+                ease: 'power2.out',
+                onUpdate: () => {
+                  rotationSteps = tweenState.v;
+                  render();
+                },
+              }
+            );
+          }
+        }
+        revealObserver.unobserve(entry.target);
+      });
+    },
+    { threshold: 0.25 }
+  );
+  revealObserver.observe(carousel);
+
+  window.addEventListener('resize', () => {
+    clearTimeout(window.__essenzaCarouselResize);
+    window.__essenzaCarouselResize = setTimeout(measure, 150);
+  });
+
+  applyFilters();
 })();
 
 // ---------- 3b. Vehicle gallery modal ----------
@@ -259,13 +581,17 @@ const ESSENZA_INVENTORY = [
     galleryIndex = 0;
 
     titleEl.textContent = `${v.marca} ${v.modelo}`;
-    genEl.textContent = v.generacion;
+    genEl.textContent = v.anio ? `${v.anio}` : '';
     specsEl.innerHTML = `
       <span>Km: ${kmLabel(v.km)}</span>
       <span>Motor: ${v.motor}</span>
       <span>Potencia: ${v.potencia}</span>
       <span>Transmisión: ${v.transmision}</span>
-      <span>Color: ${v.color}</span>
+      ${v.traccion ? `<span>Tracción: ${v.traccion}</span>` : ''}
+      ${v.rines ? `<span>Rines: ${v.rines}</span>` : ''}
+      ${v.audio ? `<span>Audio: ${v.audio}</span>` : ''}
+      <span>Color exterior: ${v.colorExterior}</span>
+      <span>Interior: ${v.colorInterior}</span>
       <span>Estatus: ${v.estatus}</span>
     `;
     priceEl.textContent = money(v.precio);

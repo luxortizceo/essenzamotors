@@ -212,12 +212,14 @@ const ESSENZA_INVENTORY = [
       const scale = 0.6 + 0.4 * closeness;
       const opacity = 0.32 + 0.68 * closeness;
       const brightness = 0.45 + 0.55 * closeness;
-      const blur = reducedMotion ? 0 : (1 - closeness) * 2.4;
       const lift = closeness * 16;
       car.style.transform =
         `translate(-50%, -50%) translateY(${-lift}px) rotateY(${angle}deg) translateZ(${radius}px) scale(${scale})`;
       car.style.opacity = String(opacity);
-      car.style.filter = blur > 0.05 ? `brightness(${brightness}) blur(${blur}px)` : `brightness(${brightness})`;
+      // brightness only — a blur filter on a 3D-transformed element is expensive to
+      // rasterize and was causing dropped frames the first time this section scrolled
+      // into view, so depth is conveyed via scale/opacity/perspective instead.
+      car.style.filter = `brightness(${brightness})`;
       car.classList.toggle('is-active', Math.abs(diff) < 0.02);
       car.setAttribute('aria-hidden', closeness < 0.05 ? 'true' : 'false');
     }

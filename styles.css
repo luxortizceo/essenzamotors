@@ -443,294 +443,134 @@ section {
   font-family: var(--font-body);
 }
 
-.inventory__empty {
-  color: var(--gris-titanio);
-  padding: 2rem 0;
-}
-
-/* ---------- 3b. INVENTORY — 3D SHOWROOM CAROUSEL ---------- */
-
-.showroom-carousel {
-  margin-top: 3rem;
+.inventory__grid {
+  margin-top: 2.5rem;
   display: grid;
-  gap: 1.75rem;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
 }
 
-.showroom-carousel__stage {
-  position: relative;
-  height: clamp(360px, 44vw, 560px);
-  border-radius: 8px;
+.vehicle-card {
+  background: linear-gradient(180deg, #101012 0%, #0a0a0c 100%);
+  border: 1px solid rgba(244, 246, 248, 0.08);
+  border-radius: 4px;
   overflow: hidden;
-  background: radial-gradient(120% 90% at 50% 10%, #121216 0%, #030303 72%);
-  border: 1px solid rgba(244, 246, 248, 0.06);
-  perspective: 1600px;
-  touch-action: pan-y;
-  cursor: grab;
+  cursor: pointer;
+  transition: transform 0.35s ease, border-color 0.35s ease;
+}
+
+.vehicle-card:hover,
+.vehicle-card:focus-visible {
+  transform: translateY(-6px);
+  border-color: rgba(225, 6, 0, 0.4);
   outline: none;
 }
 
-.showroom-carousel__stage:active {
-  cursor: grabbing;
+.vehicle-card__gen {
+  font-size: 0.75rem;
+  color: var(--gris-titanio);
+  margin: -0.4rem 0 0.85rem;
 }
 
-.showroom-carousel__stage:focus-visible {
-  box-shadow: 0 0 0 2px rgba(225, 6, 0, 0.6) inset;
-}
-
-/* Ambient key light + faint LED wall strips, like the ESSENZA showroom photos.
-   Kept to plain gradients (no mask-image, no repeating-gradient) since those
-   are expensive to rasterize the first time this section scrolls into view. */
-.showroom-carousel__stage::before {
-  content: '';
+.vehicle-card__gallery-count {
   position: absolute;
-  inset: 0;
-  height: 55%;
-  background:
-    radial-gradient(38% 55% at 50% 0%, rgba(244, 246, 248, 0.16), transparent 72%),
-    linear-gradient(90deg, transparent 4%, rgba(244, 246, 248, 0.045) 4.4%, transparent 5%),
-    linear-gradient(90deg, transparent 94.6%, rgba(244, 246, 248, 0.045) 95%, transparent 95.4%);
-  pointer-events: none;
-  z-index: 0;
+  bottom: 0.75rem;
+  right: 0.75rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.05em;
+  padding: 0.3rem 0.6rem;
+  background: rgba(5,5,5,0.7);
+  border: 1px solid rgba(244,246,248,0.2);
+  border-radius: 2px;
 }
 
-/* Glossy marble floor with soft reflections */
-.showroom-carousel__floor {
-  position: absolute;
-  left: 2%;
-  right: 2%;
-  bottom: 4%;
-  height: 58%;
-  background:
-    radial-gradient(38% 70% at 50% 0%, rgba(244, 246, 248, 0.24), transparent 68%),
-    linear-gradient(180deg, #1c1c20 0%, #0a0a0c 55%, #030303 100%);
-  border-radius: 50% / 16%;
-  transform: rotateX(72deg);
-  transform-origin: top center;
-  box-shadow: 0 0 90px 20px rgba(0, 0, 0, 0.8) inset;
-  opacity: 0;
-  transition: opacity 1.2s ease;
-}
-
-.showroom-carousel__haze {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(32% 26% at 50% 30%, rgba(244, 246, 248, 0.08), transparent 72%),
-    radial-gradient(45% 35% at 50% 105%, rgba(225, 6, 0, 0.06), transparent 70%),
-    linear-gradient(180deg, transparent 40%, rgba(0, 0, 0, 0.65) 100%),
-    radial-gradient(120% 100% at 50% 50%, transparent 55%, rgba(0, 0, 0, 0.55) 100%);
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 1.2s ease;
-}
-
-.showroom-carousel.is-revealed .showroom-carousel__floor,
-.showroom-carousel.is-revealed .showroom-carousel__haze {
-  opacity: 1;
-}
-
-.showroom-carousel__ring {
-  position: absolute;
-  left: 50%;
-  top: 56%;
-  width: 0;
-  height: 0;
-  transform-style: preserve-3d;
-  will-change: transform;
-}
-
-.showroom-carousel__car {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: var(--card-w, 260px);
-  height: var(--card-h, 190px);
-  transform-style: preserve-3d;
-  cursor: pointer;
-}
-
-.showroom-carousel__car.is-active {
-  cursor: zoom-in;
-}
-
-.showroom-carousel__reflection {
-  position: absolute;
-  left: 16%;
-  right: 16%;
-  bottom: -10%;
-  height: 16%;
-  background: radial-gradient(closest-side, rgba(0, 0, 0, 0.55), transparent 78%);
-  filter: blur(4px);
-  opacity: 0.7;
-  pointer-events: none;
-}
-
-.showroom-carousel__frame {
+/* Actions inside cards shouldn't trigger the card's own click-to-open */
+.vehicle-card__actions {
   position: relative;
-  width: 100%;
-  height: 100%;
-  border-radius: 6px;
-  background: radial-gradient(120% 100% at 50% 30%, #1c1c20 0%, #08080a 75%);
-  border: 1px solid rgba(244, 246, 248, 0.1);
-  box-shadow: 0 24px 55px rgba(0, 0, 0, 0.6);
+  z-index: 2;
+}
+
+.vehicle-card__media {
+  position: relative;
+  height: 190px;
   overflow: hidden;
+  background:
+    linear-gradient(135deg, rgba(225,6,0,0.08), transparent 60%),
+    repeating-linear-gradient(115deg, #141416 0 2px, #0c0c0e 2px 5px);
 }
 
-.showroom-carousel__car.is-active .showroom-carousel__frame {
-  border-color: rgba(225, 6, 0, 0.4);
-  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.7), 0 0 45px rgba(225, 6, 0, 0.1);
-}
-
-.showroom-carousel__frame img {
-  position: relative;
-  z-index: 0;
+.vehicle-card__media img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   display: block;
-  padding: 8%;
-  pointer-events: none;
+  transition: transform 0.5s ease;
 }
 
-/* Soft vignette so real (non-transparent) photo backgrounds blend into the showroom */
-.showroom-carousel__frame::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background: radial-gradient(72% 72% at 50% 46%, transparent 55%, rgba(3, 3, 4, 0.6) 100%);
-  pointer-events: none;
+.vehicle-card:hover .vehicle-card__media img {
+  transform: scale(1.05);
 }
 
-.showroom-carousel__status {
+.vehicle-card__status {
   position: absolute;
-  top: 0.6rem;
-  left: 0.6rem;
-  font-size: 0.6rem;
+  top: 0.75rem;
+  left: 0.75rem;
+  font-size: 0.65rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  padding: 0.25rem 0.55rem;
-  background: rgba(5, 5, 5, 0.7);
-  border: 1px solid rgba(244, 246, 248, 0.2);
+  padding: 0.3rem 0.6rem;
+  background: rgba(5,5,5,0.7);
+  border: 1px solid rgba(244,246,248,0.2);
   border-radius: 2px;
-  pointer-events: none;
 }
 
-.showroom-carousel__arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 3;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: 1px solid rgba(244, 246, 248, 0.25);
-  background: rgba(5, 5, 5, 0.55);
-  color: var(--blanco-frio);
-  font-size: 1.5rem;
-  line-height: 1;
-  cursor: pointer;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+.vehicle-card__body {
+  padding: 1.25rem 1.25rem 1.5rem;
 }
 
-.showroom-carousel__arrow:hover {
-  border-color: rgba(225, 6, 0, 0.5);
-  box-shadow: 0 0 18px rgba(225, 6, 0, 0.25);
-}
-
-.showroom-carousel__arrow--prev {
-  left: clamp(0.5rem, 2vw, 1.5rem);
-}
-
-.showroom-carousel__arrow--next {
-  right: clamp(0.5rem, 2vw, 1.5rem);
-}
-
-.showroom-carousel__panel {
-  text-align: center;
-  opacity: 0;
-  transform: translateY(14px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-
-.showroom-carousel.is-revealed .showroom-carousel__panel {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.showroom-carousel__brand {
-  font-size: 0.72rem;
-  letter-spacing: 0.25em;
+.vehicle-card__brand {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--rojo-deportivo);
 }
 
-.showroom-carousel__name {
+.vehicle-card__name {
   font-family: var(--font-display);
-  font-size: clamp(1.2rem, 2.4vw, 1.6rem);
-  margin: 0.35rem 0 0.6rem;
+  font-size: 1.15rem;
+  margin: 0.35rem 0 0.75rem;
 }
 
-.showroom-carousel__specline {
-  font-size: 0.85rem;
+.vehicle-card__specs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.35rem 1rem;
+  font-size: 0.78rem;
   color: var(--gris-titanio);
+  margin-bottom: 1rem;
 }
 
-.showroom-carousel__colors {
-  margin-top: 0.35rem;
-  font-size: 0.8rem;
-  color: var(--gris-titanio);
-}
-
-.showroom-carousel__price {
-  margin-top: 0.85rem;
+.vehicle-card__price {
   font-family: var(--font-display);
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: var(--blanco-frio);
+  margin-bottom: 1rem;
 }
 
-.showroom-carousel__actions {
-  margin-top: 1.15rem;
+.vehicle-card__actions {
   display: flex;
-  justify-content: center;
   gap: 0.6rem;
   flex-wrap: wrap;
 }
 
-.showroom-carousel__actions .btn {
-  padding: 0.7rem 1.3rem;
-  font-size: 0.72rem;
+.vehicle-card__actions .btn {
+  padding: 0.6rem 1rem;
+  font-size: 0.7rem;
 }
 
-.showroom-carousel__dots {
-  display: flex;
-  justify-content: center;
-  gap: 0.6rem;
-}
-
-.showroom-carousel__dot {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  border: 1px solid rgba(244, 246, 248, 0.35);
-  background: transparent;
-  cursor: pointer;
-  padding: 0;
-  transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
-}
-
-.showroom-carousel__dot.is-active {
-  background: var(--rojo-deportivo);
-  border-color: var(--rojo-deportivo);
-  transform: scale(1.25);
-}
-
-@media (max-width: 640px) {
-  .showroom-carousel__arrow {
-    width: 36px;
-    height: 36px;
-    font-size: 1.2rem;
-  }
+.inventory__empty {
+  color: var(--gris-titanio);
+  padding: 2rem 0;
 }
 
 /* ---------- 5. SERVICES ---------- */

@@ -264,7 +264,7 @@ const ESSENZA_INVENTORY = [
 
   const measure = () => {
     const rect = stage.getBoundingClientRect();
-    const cardW = Math.max(180, Math.min(rect.width * 0.3, 340));
+    const cardW = Math.max(270, Math.min(rect.width * 0.45, 510));
     const cardH = cardW * 0.72;
     radius = cardW * 1.12;
     stage.style.setProperty('--card-w', cardW + 'px');

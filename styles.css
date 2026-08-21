@@ -1103,14 +1103,23 @@ section {
   padding: 1.75rem;
   border-radius: 4px;
   background: linear-gradient(180deg, rgba(244,246,248,0.06), rgba(244,246,248,0.02));
-  border: 1px dashed rgba(244, 246, 248, 0.18);
+  border: 1px solid rgba(244, 246, 248, 0.1);
   backdrop-filter: blur(6px);
 }
 
-.testimonial-card__placeholder {
-  color: rgba(139, 143, 150, 0.75);
-  font-size: 0.85rem;
-  font-style: italic;
+.testimonial-card__quote {
+  color: var(--blanco-frio);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+.testimonial-card__author {
+  margin-top: 1rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--rojo-deportivo);
 }
 
 /* ---------- 10. LOCATION ---------- */

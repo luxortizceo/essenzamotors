@@ -23,6 +23,7 @@
         <nav class="hero__nav-links" id="navLinks">
           <a href="#inventario">Inventario</a>
           <a href="#experiencia">Agenda una experiencia</a>
+          <div id="google_translate_element" class="hero__nav-lang notranslate" aria-label="Seleccionar idioma"></div>
         </nav>
       </header>
 
@@ -403,5 +404,15 @@
   <script src="assets/vendor/lenis.min.js"></script>
   <script src="cinema-hero.js"></script>
   <script src="script.js"></script>
+
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement(
+        { pageLanguage: 'es', includedLanguages: 'en,de,fr,ja,zh-CN', autoDisplay: false },
+        'google_translate_element'
+      );
+    }
+  </script>
+  <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 </html>

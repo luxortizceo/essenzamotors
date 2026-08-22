@@ -228,6 +228,7 @@ const ESSENZA_INVENTORY = [
   if (!carousel || !stage || !ring || !panel || !dotsEl) return;
 
   const money = (n) => (n == null ? 'Consultar precio' : '$' + n.toLocaleString('es-MX') + ' MXN');
+  const priceHTML = (n) => (n == null ? 'Consultar precio' : '$' + n.toLocaleString('es-MX') + ' MXN<span class="price-usd"></span>');
   const kmLabel = (v) => (v == null ? 'Consultar kilometraje' : v.toLocaleString('es-MX') + ' km');
 
   const specLine = (v) =>
@@ -316,7 +317,7 @@ const ESSENZA_INVENTORY = [
       <h3 class="showroom-carousel__name">${v.modelo}</h3>
       <p class="showroom-carousel__specline">${specLine(v)}</p>
       <p class="showroom-carousel__colors">Exterior ${v.colorExterior} · Interior ${v.colorInterior}</p>
-      <p class="showroom-carousel__price">${money(v.precio)}</p>
+      <p class="showroom-carousel__price" data-price-mxn="${v.precio ?? ''}">${priceHTML(v.precio)}</p>
       <div class="showroom-carousel__actions">
         <button type="button" class="btn btn--primary" data-action="gallery">Ver galería</button>
         <a class="btn btn--ghost" href="#experiencia">Reservar cita</a>
@@ -324,11 +325,12 @@ const ESSENZA_INVENTORY = [
            href="https://wa.me/524774492547?text=${encodeURIComponent(`Hola, me interesa el ${v.marca} ${v.modelo}.`)}">WhatsApp</a>
       </div>
     `;
+    if (window.essenzaRefreshCurrency) window.essenzaRefreshCurrency();
   };
 
   const openGallery = (i) => {
     const v = list[i];
-    if (v) window.essenzaOpenVehicleModal(v, money, kmLabel);
+    if (v) window.essenzaOpenVehicleModal(v, priceHTML, kmLabel);
   };
 
   panel.addEventListener('click', (event) => {
@@ -594,7 +596,9 @@ const ESSENZA_INVENTORY = [
       <span>Interior: ${v.colorInterior}</span>
       <span>Estatus: ${v.estatus}</span>
     `;
-    priceEl.textContent = money(v.precio);
+    priceEl.dataset.priceMxn = v.precio ?? '';
+    priceEl.innerHTML = money(v.precio);
+    if (window.essenzaRefreshCurrency) window.essenzaRefreshCurrency();
     waLink.href = `https://wa.me/524774492547?text=${encodeURIComponent(`Hola, me interesa el ${v.marca} ${v.modelo}.`)}`;
     financingLink.href = `https://wa.me/524774492547?text=${encodeURIComponent(`Hola, quiero información de financiamiento para el ${v.marca} ${v.modelo}.`)}`;
 
@@ -760,4 +764,86 @@ const ESSENZA_INVENTORY = [
 (() => {
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear().toString();
+})();
+
+// ---------- Live MXN → USD price equivalent (shown for any non-Spanish language) ----------
+// Prices stay quoted in MXN (the actual transaction currency); this only adds a
+// secondary "≈ $X,XXX USD" line once the page is viewed in another language via
+// the Google Translate widget, using a live, keyless exchange-rate API.
+(() => {
+  const RATE_CACHE_KEY = 'essenzaFxRateMXNUSD';
+  const RATE_MAX_AGE_MS = 60 * 60 * 1000; // 1 hour
+  const state = { rate: null, lang: 'es' };
+
+  const detectLang = () => {
+    const match = document.cookie.match(/googtrans=\/[a-zA-Z-]+\/([a-zA-Z-]+)/);
+    return match ? match[1] : 'es';
+  };
+
+  const refresh = () => {
+    document.querySelectorAll('[data-price-mxn]').forEach((el) => {
+      const mxn = Number(el.dataset.priceMxn);
+      const usdEl = el.querySelector('.price-usd');
+      if (!usdEl) return;
+      if (state.lang !== 'es' && state.rate && mxn) {
+        const usd = mxn * state.rate;
+        usdEl.textContent = `≈ $${usd.toLocaleString('en-US', { maximumFractionDigits: 0 })} USD`;
+      } else {
+        usdEl.textContent = '';
+      }
+    });
+  };
+  window.essenzaRefreshCurrency = refresh;
+
+  const fetchRate = async () => {
+    try {
+      const cached = JSON.parse(localStorage.getItem(RATE_CACHE_KEY) || 'null');
+      if (cached && Date.now() - cached.ts < RATE_MAX_AGE_MS) {
+        state.rate = cached.rate;
+        refresh();
+        return;
+      }
+      const res = await fetch('https://api.frankfurter.app/latest?from=MXN&to=USD');
+      const data = await res.json();
+      const rate = data?.rates?.USD;
+      if (rate) {
+        state.rate = rate;
+        localStorage.setItem(RATE_CACHE_KEY, JSON.stringify({ rate, ts: Date.now() }));
+        refresh();
+      }
+    } catch (err) {
+      // No live rate available (offline, blocked, etc.) — prices just stay MXN-only.
+    }
+  };
+
+  const watchLanguage = () => {
+    state.lang = detectLang();
+    refresh();
+
+    // The Google Translate <select> is created asynchronously by its own script.
+    const attachListener = setInterval(() => {
+      const combo = document.querySelector('select.goog-te-combo');
+      if (!combo) return;
+      clearInterval(attachListener);
+      document.getElementById('google_translate_element')?.classList.add('is-ready');
+      combo.addEventListener('change', () => {
+        setTimeout(() => {
+          state.lang = detectLang();
+          refresh();
+        }, 300);
+      });
+    }, 500);
+
+    // Fallback in case the language changes without that listener firing.
+    setInterval(() => {
+      const lang = detectLang();
+      if (lang !== state.lang) {
+        state.lang = lang;
+        refresh();
+      }
+    }, 1500);
+  };
+
+  fetchRate();
+  watchLanguage();
 })();

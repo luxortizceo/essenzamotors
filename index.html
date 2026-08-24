@@ -17,13 +17,13 @@
 
       <header class="hero__nav">
         <span class="hero__nav-mark">ESSENZA MOTORS</span>
-        <button type="button" class="hero__nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="navLinks">
+        <button type="button" class="hero__nav-toggle" id="navToggle" aria-label="Abrir menú" data-i18n-aria="nav.openMenu" aria-expanded="false" aria-controls="navLinks">
           <span></span><span></span><span></span>
         </button>
         <nav class="hero__nav-links" id="navLinks">
-          <a href="#inventario">Inventario</a>
-          <a href="#experiencia">Agenda una experiencia</a>
-          <div id="google_translate_element" class="hero__nav-lang notranslate" aria-label="Seleccionar idioma"></div>
+          <a href="#inventario" data-i18n="nav.inventario">Inventario</a>
+          <a href="#experiencia" data-i18n="nav.agenda">Agenda una experiencia</a>
+          <div id="langSwitch" class="lang-switch"></div>
         </nav>
       </header>
 
@@ -52,68 +52,68 @@
   <!-- 2. ENTRADA AL SHOWROOM -->
   <section id="showroom" class="showroom reveal">
     <div class="showroom__glow" aria-hidden="true"></div>
-    <p class="eyebrow">Bienvenido al showroom</p>
-    <h2 class="section-title">Cada vehículo, seleccionado por obsesión al detalle.</h2>
+    <p class="eyebrow" data-i18n="showroom.eyebrow">Bienvenido al showroom</p>
+    <h2 class="section-title" data-i18n="showroom.title">Cada vehículo, seleccionado por obsesión al detalle.</h2>
     <div class="stats">
       <div class="stat">
         <span class="stat__number" data-count="40">0</span><span class="stat__suffix">+</span>
-        <span class="stat__label">Vehículos seleccionados</span>
+        <span class="stat__label" data-i18n="showroom.stat1">Vehículos seleccionados</span>
       </div>
       <div class="stat">
         <span class="stat__number" data-count="8">0</span>
-        <span class="stat__label">Marcas premium</span>
+        <span class="stat__label" data-i18n="showroom.stat2">Marcas premium</span>
       </div>
       <div class="stat">
         <span class="stat__number" data-count="10">0</span><span class="stat__suffix">+</span>
-        <span class="stat__label">Años de experiencia</span>
+        <span class="stat__label" data-i18n="showroom.stat3">Años de experiencia</span>
       </div>
       <div class="stat">
         <span class="stat__number" data-count="4.6" data-decimal="true">0</span>
-        <span class="stat__label">Calificación · 100 opiniones</span>
+        <span class="stat__label" data-i18n="showroom.stat4">Calificación · 100 opiniones</span>
       </div>
     </div>
   </section>
 
   <!-- 3. INVENTARIO PREMIUM -->
   <section id="inventario" class="inventory reveal">
-    <p class="eyebrow">Catálogo</p>
-    <h2 class="section-title">Inventario premium</h2>
+    <p class="eyebrow" data-i18n="inventory.eyebrow">Catálogo</p>
+    <h2 class="section-title" data-i18n="inventory.title">Inventario premium</h2>
 
     <div class="inventory__filters">
       <select id="filterMarca" class="filter">
-        <option value="">Marca</option>
+        <option value="" data-i18n="inventory.filterMarca">Marca</option>
         <option>Bentley</option>
         <option>Jaguar</option>
         <option>Lamborghini</option>
         <option>Mercedes-AMG</option>
       </select>
       <select id="filterTipo" class="filter">
-        <option value="">Tipo</option>
-        <option>Deportivo</option>
-        <option>Gran Turismo</option>
-        <option>SUV performance</option>
+        <option value="" data-i18n="inventory.filterTipo">Tipo</option>
+        <option data-i18n="val.Deportivo">Deportivo</option>
+        <option data-i18n="val.Gran Turismo">Gran Turismo</option>
+        <option data-i18n="val.SUV performance">SUV performance</option>
       </select>
       <select id="filterPrecio" class="filter">
-        <option value="">Precio</option>
-        <option value="0-1500000">Hasta $1.5M</option>
-        <option value="1500000-3000000">$1.5M – $3M</option>
-        <option value="3000000-999999999">$3M+</option>
+        <option value="" data-i18n="inventory.filterPrecio">Precio</option>
+        <option value="0-1500000" data-i18n="inventory.precioHasta">Hasta $1.5M</option>
+        <option value="1500000-3000000" data-i18n="inventory.precioRango">$1.5M – $3M</option>
+        <option value="3000000-999999999" data-i18n="inventory.precioMas">$3M+</option>
       </select>
       <select id="filterDisponibilidad" class="filter">
-        <option value="">Disponibilidad</option>
-        <option>Disponible</option>
-        <option>Apartado</option>
-        <option>Próximo ingreso</option>
+        <option value="" data-i18n="inventory.filterDisponibilidad">Disponibilidad</option>
+        <option data-i18n="val.Disponible">Disponible</option>
+        <option data-i18n="val.Apartado">Apartado</option>
+        <option data-i18n="val.Próximo ingreso">Próximo ingreso</option>
       </select>
     </div>
 
     <div class="showroom-carousel" id="showroomCarousel">
-      <div class="showroom-carousel__stage" id="carouselStage" tabindex="0" role="region" aria-roledescription="carrusel 3D" aria-label="Carrusel de vehículos ESSENZA">
+      <div class="showroom-carousel__stage" id="carouselStage" tabindex="0" role="region" aria-roledescription="carrusel 3D" aria-label="Carrusel de vehículos ESSENZA" data-i18n-aria="inventory.carouselAriaLabel">
         <div class="showroom-carousel__floor" aria-hidden="true"></div>
         <div class="showroom-carousel__haze" aria-hidden="true"></div>
         <div class="showroom-carousel__ring" id="carouselRing"><!-- vehículos inyectados por script.js --></div>
-        <button type="button" class="showroom-carousel__arrow showroom-carousel__arrow--prev" id="carouselPrev" aria-label="Vehículo anterior">‹</button>
-        <button type="button" class="showroom-carousel__arrow showroom-carousel__arrow--next" id="carouselNext" aria-label="Vehículo siguiente">›</button>
+        <button type="button" class="showroom-carousel__arrow showroom-carousel__arrow--prev" id="carouselPrev" aria-label="Vehículo anterior" data-i18n-aria="inventory.prevAria">‹</button>
+        <button type="button" class="showroom-carousel__arrow showroom-carousel__arrow--next" id="carouselNext" aria-label="Vehículo siguiente" data-i18n-aria="inventory.nextAria">›</button>
       </div>
 
       <div class="showroom-carousel__panel" id="carouselPanel"><!-- info del vehículo activo --></div>
@@ -121,78 +121,78 @@
       <div class="showroom-carousel__dots" id="carouselDots"></div>
     </div>
 
-    <p class="inventory__empty" id="inventoryEmpty" hidden>No hay vehículos que coincidan con estos filtros por ahora. Escríbenos por WhatsApp y te avisamos en cuanto ingrese uno.</p>
+    <p class="inventory__empty" id="inventoryEmpty" hidden data-i18n="inventory.empty">No hay vehículos que coincidan con estos filtros por ahora. Escríbenos por WhatsApp y te avisamos en cuanto ingrese uno.</p>
   </section>
 
   <!-- 5. COMPRA, VENTA Y CONSIGNACIÓN -->
   <section id="servicios" class="services reveal">
-    <p class="eyebrow">Cómo trabajamos</p>
-    <h2 class="section-title">Compra, venta y consignación</h2>
+    <p class="eyebrow" data-i18n="services.eyebrow">Cómo trabajamos</p>
+    <h2 class="section-title" data-i18n="services.title">Compra, venta y consignación</h2>
     <div class="services__grid">
       <article class="service-card service-card--compra">
         <span class="service-card__icon" aria-hidden="true">◈</span>
-        <h3>Compra</h3>
-        <p>“Encontramos el automóvil que representa tu siguiente etapa.”</p>
-        <a href="#inventario" class="link-arrow">Explorar inventario →</a>
+        <h3 data-i18n="services.compraTitle">Compra</h3>
+        <p data-i18n="services.compraQuote">“Encontramos el automóvil que representa tu siguiente etapa.”</p>
+        <a href="#inventario" class="link-arrow" data-i18n="services.compraLink">Explorar inventario →</a>
       </article>
       <article class="service-card service-card--venta">
         <span class="service-card__icon" aria-hidden="true">◉</span>
-        <h3>Venta</h3>
-        <p>“Evaluación profesional, exposición premium y compradores calificados.”</p>
-        <a href="#vende-tu-auto" class="link-arrow">Vender mi vehículo →</a>
+        <h3 data-i18n="services.ventaTitle">Venta</h3>
+        <p data-i18n="services.ventaQuote">“Evaluación profesional, exposición premium y compradores calificados.”</p>
+        <a href="#vende-tu-auto" class="link-arrow" data-i18n="services.ventaLink">Vender mi vehículo →</a>
       </article>
       <article class="service-card service-card--consignacion">
         <span class="service-card__icon" aria-hidden="true">◎</span>
-        <h3>Consignación</h3>
-        <p>“Tu automóvil, presentado ante la audiencia correcta.”</p>
-        <a href="#vende-tu-auto" class="link-arrow">Consignar mi auto →</a>
+        <h3 data-i18n="services.consignacionTitle">Consignación</h3>
+        <p data-i18n="services.consignacionQuote">“Tu automóvil, presentado ante la audiencia correcta.”</p>
+        <a href="#vende-tu-auto" class="link-arrow" data-i18n="services.consignacionLink">Consignar mi auto →</a>
       </article>
     </div>
   </section>
 
   <!-- 6. VENDE TU AUTO -->
   <section id="vende-tu-auto" class="sell reveal">
-    <p class="eyebrow">Vende o consigna</p>
-    <h2 class="section-title">Vende tu automóvil</h2>
-    <p class="section-lead">Cuéntanos sobre tu vehículo. Un asesor ESSENZA revisará tu información y te contactará por WhatsApp.</p>
+    <p class="eyebrow" data-i18n="sell.eyebrow">Vende o consigna</p>
+    <h2 class="section-title" data-i18n="sell.title">Vende tu automóvil</h2>
+    <p class="section-lead" data-i18n="sell.lead">Cuéntanos sobre tu vehículo. Un asesor ESSENZA revisará tu información y te contactará por WhatsApp.</p>
 
     <form id="sellForm" class="form">
       <div class="form__grid">
-        <label>Marca<input type="text" name="marca" required placeholder="Porsche" /></label>
-        <label>Modelo<input type="text" name="modelo" required placeholder="911 Carrera" /></label>
-        <label>Año<input type="number" name="anio" required min="1980" max="2027" placeholder="2022" /></label>
-        <label>Kilometraje<input type="text" name="kilometraje" required placeholder="18,000 km" /></label>
-        <label>Versión<input type="text" name="version" placeholder="GTS" /></label>
-        <label>Precio esperado<input type="text" name="precio" placeholder="$2,400,000 MXN" /></label>
-        <label class="form__full">Estado general
+        <label><span data-i18n="sell.marca">Marca</span><input type="text" name="marca" required placeholder="Porsche" /></label>
+        <label><span data-i18n="sell.modelo">Modelo</span><input type="text" name="modelo" required placeholder="911 Carrera" /></label>
+        <label><span data-i18n="sell.anio">Año</span><input type="number" name="anio" required min="1980" max="2027" placeholder="2022" /></label>
+        <label><span data-i18n="sell.kilometraje">Kilometraje</span><input type="text" name="kilometraje" required placeholder="18,000 km" data-i18n-placeholder="sell.placeholderKm" /></label>
+        <label><span data-i18n="sell.version">Versión</span><input type="text" name="version" placeholder="GTS" /></label>
+        <label><span data-i18n="sell.precioEsperado">Precio esperado</span><input type="text" name="precio" placeholder="$2,400,000 MXN" /></label>
+        <label class="form__full"><span data-i18n="sell.estadoGeneral">Estado general</span>
           <select name="estado" required>
-            <option value="">Selecciona una opción</option>
-            <option>Excelente</option>
-            <option>Muy bueno</option>
-            <option>Bueno</option>
-            <option>Requiere atención</option>
+            <option value="" data-i18n="sell.selecciona">Selecciona una opción</option>
+            <option value="Excelente" data-i18n="sell.excelente">Excelente</option>
+            <option value="Muy bueno" data-i18n="sell.muyBueno">Muy bueno</option>
+            <option value="Bueno" data-i18n="sell.bueno">Bueno</option>
+            <option value="Requiere atención" data-i18n="sell.requiereAtencion">Requiere atención</option>
           </select>
         </label>
-        <label class="form__full">Fotografías del vehículo<input type="file" name="fotos" accept="image/*" multiple /></label>
-        <label>Nombre<input type="text" name="nombre" required placeholder="Tu nombre" /></label>
-        <label>Teléfono<input type="tel" name="telefono" required placeholder="477 000 0000" /></label>
+        <label class="form__full"><span data-i18n="sell.fotos">Fotografías del vehículo</span><input type="file" name="fotos" accept="image/*" multiple /></label>
+        <label><span data-i18n="sell.nombre">Nombre</span><input type="text" name="nombre" required placeholder="Tu nombre" data-i18n-placeholder="sell.placeholderNombre" /></label>
+        <label><span data-i18n="sell.telefono">Teléfono</span><input type="tel" name="telefono" required placeholder="477 000 0000" /></label>
       </div>
       <label class="form__consent">
         <input type="checkbox" name="consentimiento" required />
-        Acepto que ESSENZA MOTORS mx contacte mi información de acuerdo con el aviso de privacidad.
+        <span data-i18n="sell.consentimiento">Acepto que ESSENZA MOTORS mx contacte mi información de acuerdo con el aviso de privacidad.</span>
       </label>
-      <button type="submit" class="btn btn--primary">Enviar al proceso de selección ESSENZA</button>
+      <button type="submit" class="btn btn--primary" data-i18n="sell.submit">Enviar al proceso de selección ESSENZA</button>
     </form>
     <div id="sellConfirmation" class="form__confirmation" hidden>
-      <p>“Tu vehículo ha entrado al proceso de selección ESSENZA.”</p>
-      <a id="sellWhatsappLink" class="btn btn--ghost" target="_blank" rel="noopener">Continuar por WhatsApp →</a>
+      <p data-i18n="sell.confirmQuote">“Tu vehículo ha entrado al proceso de selección ESSENZA.”</p>
+      <a id="sellWhatsappLink" class="btn btn--ghost" target="_blank" rel="noopener" data-i18n="sell.continueWhatsapp">Continuar por WhatsApp →</a>
     </div>
   </section>
 
   <!-- 7. RESERVACIÓN DE CITA -->
   <section id="experiencia" class="booking reveal">
-    <p class="eyebrow">Agenda una experiencia</p>
-    <h2 class="section-title">Reservación de cita</h2>
+    <p class="eyebrow" data-i18n="booking.eyebrow">Agenda una experiencia</p>
+    <h2 class="section-title" data-i18n="booking.title">Reservación de cita</h2>
 
     <div class="stepper" id="stepper">
       <div class="stepper__track">
@@ -203,114 +203,114 @@
       </div>
 
       <div class="stepper__panel is-active" data-panel="1">
-        <h3>1. Tipo de cita</h3>
+        <h3 data-i18n="booking.step1Title">1. Tipo de cita</h3>
         <div class="option-grid" data-field="tipoCita">
-          <button type="button" class="option-btn">Visita al showroom</button>
-          <button type="button" class="option-btn">Prueba de manejo</button>
-          <button type="button" class="option-btn">Evaluación para consignación</button>
-          <button type="button" class="option-btn">Venta de vehículo</button>
-          <button type="button" class="option-btn">Asesoría de compra</button>
+          <button type="button" class="option-btn" data-i18n="booking.optVisita">Visita al showroom</button>
+          <button type="button" class="option-btn" data-i18n="booking.optPrueba">Prueba de manejo</button>
+          <button type="button" class="option-btn" data-i18n="booking.optEvaluacion">Evaluación para consignación</button>
+          <button type="button" class="option-btn" data-i18n="booking.optVenta">Venta de vehículo</button>
+          <button type="button" class="option-btn" data-i18n="booking.optAsesoria">Asesoría de compra</button>
         </div>
       </div>
 
       <div class="stepper__panel" data-panel="2">
-        <h3>2. Vehículo de interés</h3>
+        <h3 data-i18n="booking.step2Title">2. Vehículo de interés</h3>
         <select id="bookingVehiculo" class="filter">
-          <option value="">General / aún no lo sé</option>
+          <option value="" data-i18n="booking.generalOption">General / aún no lo sé</option>
           <option>Bentley Continental GT Speed</option>
           <option>Jaguar F-Type Coupé</option>
           <option>Lamborghini Urus</option>
           <option>Mercedes-AMG GT R</option>
         </select>
-        <h3>Fecha y horario</h3>
+        <h3 data-i18n="booking.fechaHorario">Fecha y horario</h3>
         <div class="form__grid">
-          <label>Fecha<input type="date" id="bookingFecha" /></label>
-          <label>Hora<input type="time" id="bookingHora" min="09:00" max="20:00" /></label>
+          <label><span data-i18n="booking.fecha">Fecha</span><input type="date" id="bookingFecha" /></label>
+          <label><span data-i18n="booking.hora">Hora</span><input type="time" id="bookingHora" min="09:00" max="20:00" /></label>
         </div>
       </div>
 
       <div class="stepper__panel" data-panel="3">
-        <h3>3. Tus datos</h3>
+        <h3 data-i18n="booking.step3Title">3. Tus datos</h3>
         <div class="form__grid">
-          <label>Nombre<input type="text" id="bookingNombre" placeholder="Tu nombre" /></label>
-          <label>Teléfono<input type="tel" id="bookingTelefono" placeholder="477 000 0000" /></label>
+          <label><span data-i18n="booking.nombre">Nombre</span><input type="text" id="bookingNombre" placeholder="Tu nombre" data-i18n-placeholder="booking.placeholderNombre" /></label>
+          <label><span data-i18n="booking.telefono">Teléfono</span><input type="tel" id="bookingTelefono" placeholder="477 000 0000" /></label>
         </div>
       </div>
 
       <div class="stepper__panel" data-panel="4">
-        <h3>4. Confirmación</h3>
+        <h3 data-i18n="booking.step4Title">4. Confirmación</h3>
         <p id="bookingSummary" class="booking__summary"></p>
-        <a id="bookingWhatsappLink" class="btn btn--primary" target="_blank" rel="noopener">Confirmar por WhatsApp →</a>
+        <a id="bookingWhatsappLink" class="btn btn--primary" target="_blank" rel="noopener" data-i18n="booking.confirmarWhatsapp">Confirmar por WhatsApp →</a>
       </div>
 
       <div class="stepper__nav">
-        <button type="button" id="stepperBack" class="btn btn--ghost" disabled>Atrás</button>
-        <button type="button" id="stepperNext" class="btn btn--primary">Continuar</button>
+        <button type="button" id="stepperBack" class="btn btn--ghost" disabled data-i18n="booking.atras">Atrás</button>
+        <button type="button" id="stepperNext" class="btn btn--primary" data-i18n="booking.continuar">Continuar</button>
       </div>
     </div>
   </section>
 
   <!-- 8. HISTORIA DE ESSENZA -->
   <section id="historia" class="history reveal">
-    <p class="eyebrow">Nuestra historia</p>
-    <h2 class="section-title">ESSENZA nació de una obsesión: encontrar automóviles que provoquen algo antes incluso de encenderlos.</h2>
+    <p class="eyebrow" data-i18n="history.eyebrow">Nuestra historia</p>
+    <h2 class="section-title" data-i18n="history.title">ESSENZA nació de una obsesión: encontrar automóviles que provoquen algo antes incluso de encenderlos.</h2>
     <div class="timeline">
       <div class="timeline__road" aria-hidden="true"><span class="timeline__line"></span></div>
       <ol class="timeline__list">
         <li class="timeline__item">
-          <span class="timeline__year">Fundación</span>
-          <p>Nace ESSENZA MOTORS en León, Guanajuato, con la visión de curar —no solo vender— automóviles excepcionales.</p>
+          <span class="timeline__year" data-i18n="history.item1Year">Fundación</span>
+          <p data-i18n="history.item1Text">Nace ESSENZA MOTORS en León, Guanajuato, con la visión de curar —no solo vender— automóviles excepcionales.</p>
         </li>
         <li class="timeline__item">
-          <span class="timeline__year">Primer vehículo premium</span>
-          <p>La primera unidad de alto desempeño entra al showroom y define el estándar de selección de la marca.</p>
+          <span class="timeline__year" data-i18n="history.item2Year">Primer vehículo premium</span>
+          <p data-i18n="history.item2Text">La primera unidad de alto desempeño entra al showroom y define el estándar de selección de la marca.</p>
         </li>
         <li class="timeline__item">
-          <span class="timeline__year">Apertura del showroom</span>
-          <p>ESSENZA abre sus puertas en Lomas del Campestre como punto de encuentro para coleccionistas y entusiastas.</p>
+          <span class="timeline__year" data-i18n="history.item3Year">Apertura del showroom</span>
+          <p data-i18n="history.item3Text">ESSENZA abre sus puertas en Lomas del Campestre como punto de encuentro para coleccionistas y entusiastas.</p>
         </li>
         <li class="timeline__item">
-          <span class="timeline__year">Crecimiento del inventario</span>
-          <p>El catálogo se expande con marcas como Porsche, Ferrari, Lamborghini, Audi y BMW.</p>
+          <span class="timeline__year" data-i18n="history.item4Year">Crecimiento del inventario</span>
+          <p data-i18n="history.item4Text">El catálogo se expande con marcas como Porsche, Ferrari, Lamborghini, Audi y BMW.</p>
         </li>
         <li class="timeline__item">
-          <span class="timeline__year">Vehículos exóticos</span>
-          <p>ESSENZA incorpora unidades exóticas y de edición limitada a su selección permanente.</p>
+          <span class="timeline__year" data-i18n="history.item5Year">Vehículos exóticos</span>
+          <p data-i18n="history.item5Text">ESSENZA incorpora unidades exóticas y de edición limitada a su selección permanente.</p>
         </li>
       </ol>
-      <p class="timeline__note">Cronología editable — pendiente de fechas e hitos reales proporcionados por ESSENZA MOTORS.</p>
+      <p class="timeline__note" data-i18n="history.note">Cronología editable — pendiente de fechas e hitos reales proporcionados por ESSENZA MOTORS.</p>
     </div>
   </section>
 
   <!-- 9. CONFIANZA Y OPINIONES -->
   <section id="confianza" class="trust reveal">
-    <p class="eyebrow">Confianza y opiniones</p>
-    <h2 class="section-title">Reputación construida en cada entrega.</h2>
+    <p class="eyebrow" data-i18n="trust.eyebrow">Confianza y opiniones</p>
+    <h2 class="section-title" data-i18n="trust.title">Reputación construida en cada entrega.</h2>
 
     <div class="trust__rating">
       <span class="trust__score">4.6</span>
       <div>
         <span class="trust__stars" aria-hidden="true">★★★★★</span>
-        <span class="trust__count">Basado en 100 opiniones en Google</span>
+        <span class="trust__count" data-i18n="trust.basedOn">Basado en 100 opiniones en Google</span>
       </div>
     </div>
 
     <div class="trust__grid">
       <div class="trust-card">
-        <h3>Revisión de unidades</h3>
-        <p>Cada vehículo pasa por un proceso de inspección antes de integrarse al inventario.</p>
+        <h3 data-i18n="trust.card1Title">Revisión de unidades</h3>
+        <p data-i18n="trust.card1Text">Cada vehículo pasa por un proceso de inspección antes de integrarse al inventario.</p>
       </div>
       <div class="trust-card">
-        <h3>Documentación</h3>
-        <p>Acompañamiento en la verificación documental de cada unidad.</p>
+        <h3 data-i18n="trust.card2Title">Documentación</h3>
+        <p data-i18n="trust.card2Text">Acompañamiento en la verificación documental de cada unidad.</p>
       </div>
       <div class="trust-card">
-        <h3>Transparencia</h3>
-        <p>Información clara sobre el estado y la historia de cada automóvil.</p>
+        <h3 data-i18n="trust.card3Title">Transparencia</h3>
+        <p data-i18n="trust.card3Text">Información clara sobre el estado y la historia de cada automóvil.</p>
       </div>
       <div class="trust-card">
-        <h3>Acompañamiento</h3>
-        <p>Asesoría personalizada durante todo el proceso de compra, venta o consignación.</p>
+        <h3 data-i18n="trust.card4Title">Acompañamiento</h3>
+        <p data-i18n="trust.card4Text">Asesoría personalizada durante todo el proceso de compra, venta o consignación.</p>
       </div>
     </div>
 
@@ -332,16 +332,16 @@
 
   <!-- 10. UBICACIÓN Y CONTACTO -->
   <section id="ubicacion" class="location reveal">
-    <p class="eyebrow">Visítanos</p>
+    <p class="eyebrow" data-i18n="location.eyebrow">Visítanos</p>
     <h2 class="section-title">León, Guanajuato</h2>
     <p class="location__address">
       Blvd. Juan Alonso de Torres Pte. 2404, Lomas del Campestre,<br />
       León, Guanajuato · Abrimos hasta las 8:00 p.m.
     </p>
     <div class="location__actions">
-      <a class="btn btn--primary" target="_blank" rel="noopener"
+      <a class="btn btn--primary" target="_blank" rel="noopener" data-i18n="location.comoLlegar"
          href="https://www.google.com/maps/place/ESSENZA+MOTORS+mx/@21.1511019,-101.7062517,17z">Cómo llegar</a>
-      <a class="btn btn--ghost" href="tel:+524774492547">Llamar · 477 449 2547</a>
+      <a class="btn btn--ghost" href="tel:+524774492547" data-i18n="location.llamar">Llamar · 477 449 2547</a>
       <a class="btn btn--ghost" target="_blank" rel="noopener"
          href="https://wa.me/524774492547?text=Hola%2C%20quiero%20más%20información%20sobre%20ESSENZA%20MOTORS.">WhatsApp</a>
     </div>
@@ -350,38 +350,38 @@
   <footer class="site-footer">
     <div class="site-footer__top">
       <span class="hero__nav-mark">ESSENZA MOTORS</span>
-      <p class="site-footer__cta">Tu próxima máquina extraordinaria comienza aquí.</p>
+      <p class="site-footer__cta" data-i18n="footer.cta">Tu próxima máquina extraordinaria comienza aquí.</p>
     </div>
     <div class="site-footer__grid">
       <div>
-        <h4>Contacto</h4>
+        <h4 data-i18n="footer.contacto">Contacto</h4>
         <p>Blvd. Juan Alonso de Torres Pte. 2404<br />Lomas del Campestre, León, Guanajuato</p>
         <p>477 449 2547</p>
       </div>
       <div>
-        <h4>Síguenos</h4>
+        <h4 data-i18n="footer.siguenos">Síguenos</h4>
         <p><a href="#" target="_blank" rel="noopener">Instagram</a></p>
         <p><a href="#" target="_blank" rel="noopener">Facebook</a></p>
       </div>
       <div>
-        <h4>Legal</h4>
-        <p><a href="#">Aviso de privacidad</a></p>
-        <p><a href="#">Términos y condiciones</a></p>
+        <h4 data-i18n="footer.legal">Legal</h4>
+        <p><a href="#" data-i18n="footer.avisoPrivacidad">Aviso de privacidad</a></p>
+        <p><a href="#" data-i18n="footer.terminos">Términos y condiciones</a></p>
       </div>
     </div>
-    <p class="site-footer__copy">© <span id="year"></span> ESSENZA MOTORS mx. Todos los derechos reservados.</p>
+    <p class="site-footer__copy">© <span id="year"></span> ESSENZA MOTORS mx. <span data-i18n="footer.copyright">Todos los derechos reservados.</span></p>
   </footer>
 
   <!-- Modal de galería de vehículo -->
   <div id="vehicleModal" class="vehicle-modal" hidden>
     <div class="vehicle-modal__backdrop"></div>
     <div class="vehicle-modal__dialog" role="dialog" aria-modal="true">
-      <button type="button" class="vehicle-modal__close" aria-label="Cerrar">✕</button>
+      <button type="button" class="vehicle-modal__close" aria-label="Cerrar" data-i18n-aria="modal.close">✕</button>
 
       <div class="vehicle-modal__gallery">
-        <button type="button" class="vehicle-modal__nav vehicle-modal__nav--prev" aria-label="Foto anterior">‹</button>
+        <button type="button" class="vehicle-modal__nav vehicle-modal__nav--prev" aria-label="Foto anterior" data-i18n-aria="modal.photoPrev">‹</button>
         <img class="vehicle-modal__image" src="" alt="" />
-        <button type="button" class="vehicle-modal__nav vehicle-modal__nav--next" aria-label="Foto siguiente">›</button>
+        <button type="button" class="vehicle-modal__nav vehicle-modal__nav--next" aria-label="Foto siguiente" data-i18n-aria="modal.photoNext">›</button>
       </div>
       <div class="vehicle-modal__thumbs"></div>
 
@@ -392,8 +392,8 @@
         <p class="vehicle-modal__price"></p>
         <div class="vehicle-modal__actions">
           <a class="btn btn--primary vehicle-modal__whatsapp" target="_blank" rel="noopener">WhatsApp</a>
-          <a class="btn btn--ghost" href="#experiencia">Reservar cita</a>
-          <a class="btn btn--ghost vehicle-modal__financing" target="_blank" rel="noopener">Financiamiento</a>
+          <a class="btn btn--ghost" href="#experiencia" data-i18n="modal.reservarCita">Reservar cita</a>
+          <a class="btn btn--ghost vehicle-modal__financing" target="_blank" rel="noopener" data-i18n="modal.financiamiento">Financiamiento</a>
         </div>
       </div>
     </div>
@@ -403,16 +403,7 @@
   <script src="assets/vendor/ScrollTrigger.min.js"></script>
   <script src="assets/vendor/lenis.min.js"></script>
   <script src="cinema-hero.js"></script>
+  <script src="i18n.js"></script>
   <script src="script.js"></script>
-
-  <script type="text/javascript">
-    function googleTranslateElementInit() {
-      new google.translate.TranslateElement(
-        { pageLanguage: 'es', includedLanguages: 'en,de,fr,ja,zh-CN', autoDisplay: false },
-        'google_translate_element'
-      );
-    }
-  </script>
-  <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 </html>

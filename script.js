@@ -227,11 +227,13 @@ const ESSENZA_INVENTORY = [
   const emptyEl = document.getElementById('inventoryEmpty');
   if (!carousel || !stage || !ring || !panel || !dotsEl) return;
 
-  const money = (n) => (n == null ? 'Consultar precio' : '$' + n.toLocaleString('es-MX') + ' MXN');
-  const kmLabel = (v) => (v == null ? 'Consultar kilometraje' : v.toLocaleString('es-MX') + ' km');
+  const { t, tv } = window.essenzaI18n;
+
+  const money = (n) => (n == null ? t('inventory.consultarPrecio') : '$' + n.toLocaleString('es-MX') + ' MXN');
+  const kmLabel = (v) => (v == null ? t('inventory.consultarKm') : v.toLocaleString('es-MX') + ' km');
 
   const specLine = (v) =>
-    [v.anio, kmLabel(v.km), v.motor, v.potencia, v.traccion, v.rines].filter(Boolean).join(' · ');
+    [v.anio, kmLabel(v.km), tv(v.motor), tv(v.potencia), tv(v.traccion), tv(v.rines)].filter(Boolean).join(' · ');
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const ANGLE_STEP = 38; // degrees between neighboring vehicles on the orbit
@@ -300,7 +302,7 @@ const ESSENZA_INVENTORY = [
     dotsEl.innerHTML = list
       .map(
         (v, i) =>
-          `<button type="button" class="showroom-carousel__dot${i === currentIndex ? ' is-active' : ''}" data-index="${i}" aria-label="Ir a ${v.marca} ${v.modelo}"></button>`
+          `<button type="button" class="showroom-carousel__dot${i === currentIndex ? ' is-active' : ''}" data-index="${i}" aria-label="${t('inventory.dotAria')} ${v.marca} ${v.modelo}"></button>`
       )
       .join('');
   };
@@ -315,11 +317,11 @@ const ESSENZA_INVENTORY = [
       <span class="showroom-carousel__brand">${v.marca}</span>
       <h3 class="showroom-carousel__name">${v.modelo}</h3>
       <p class="showroom-carousel__specline">${specLine(v)}</p>
-      <p class="showroom-carousel__colors">Exterior ${v.colorExterior} · Interior ${v.colorInterior}</p>
+      <p class="showroom-carousel__colors">${t('inventory.exterior')} ${tv(v.colorExterior)} · ${t('inventory.interior')} ${tv(v.colorInterior)}</p>
       <p class="showroom-carousel__price">${money(v.precio)}</p>
       <div class="showroom-carousel__actions">
-        <button type="button" class="btn btn--primary" data-action="gallery">Ver galería</button>
-        <a class="btn btn--ghost" href="#experiencia">Reservar cita</a>
+        <button type="button" class="btn btn--primary" data-action="gallery">${t('inventory.verGaleria')}</button>
+        <a class="btn btn--ghost" href="#experiencia">${t('inventory.reservarCita')}</a>
         <a class="btn btn--ghost" target="_blank" rel="noopener"
            href="https://wa.me/524774492547?text=${encodeURIComponent(`Hola, me interesa el ${v.marca} ${v.modelo}.`)}">WhatsApp</a>
       </div>
@@ -371,7 +373,7 @@ const ESSENZA_INVENTORY = [
         <span class="showroom-carousel__reflection" aria-hidden="true"></span>
         <div class="showroom-carousel__frame">
           <img src="${v.galeria[0]}" alt="${v.marca} ${v.modelo}" loading="lazy" />
-          <span class="showroom-carousel__status">${v.estatus}</span>
+          <span class="showroom-carousel__status">${tv(v.estatus)}</span>
         </div>
       </div>`
       )
@@ -540,6 +542,15 @@ const ESSENZA_INVENTORY = [
     window.__essenzaCarouselResize = setTimeout(measure, 150);
   });
 
+  document.addEventListener('essenza:langchange', () => {
+    renderPanel();
+    renderDots();
+    [...ring.children].forEach((car, i) => {
+      const statusEl = car.querySelector('.showroom-carousel__status');
+      if (statusEl && list[i]) statusEl.textContent = tv(list[i].estatus);
+    });
+  });
+
   applyFilters();
 })();
 
@@ -548,6 +559,7 @@ const ESSENZA_INVENTORY = [
   const modal = document.getElementById('vehicleModal');
   if (!modal) return;
 
+  const { t, tv } = window.essenzaI18n;
   const imgEl = modal.querySelector('.vehicle-modal__image');
   const thumbsEl = modal.querySelector('.vehicle-modal__thumbs');
   const titleEl = modal.querySelector('.vehicle-modal__title');
@@ -563,52 +575,66 @@ const ESSENZA_INVENTORY = [
   let gallery = [];
   let galleryIndex = 0;
   let lastFocused = null;
+  let currentVehicle = null;
+  let currentMoneyFn = null;
+  let currentKmLabelFn = null;
 
   const showImage = () => {
     imgEl.src = gallery[galleryIndex];
-    [...thumbsEl.children].forEach((t, i) => t.classList.toggle('is-active', i === galleryIndex));
+    [...thumbsEl.children].forEach((thumb, i) => thumb.classList.toggle('is-active', i === galleryIndex));
   };
 
   const close = () => {
     modal.hidden = true;
+    currentVehicle = null;
     document.body.style.overflow = '';
     lastFocused?.focus();
   };
 
-  window.essenzaOpenVehicleModal = (v, money, kmLabel) => {
-    lastFocused = document.activeElement;
-    gallery = v.galeria;
-    galleryIndex = 0;
-
+  const renderContent = (v, money, kmLabel) => {
     titleEl.textContent = `${v.marca} ${v.modelo}`;
     genEl.textContent = v.anio ? `${v.anio}` : '';
     specsEl.innerHTML = `
-      <span>Km: ${kmLabel(v.km)}</span>
-      <span>Motor: ${v.motor}</span>
-      <span>Potencia: ${v.potencia}</span>
-      <span>Transmisión: ${v.transmision}</span>
-      ${v.traccion ? `<span>Tracción: ${v.traccion}</span>` : ''}
-      ${v.rines ? `<span>Rines: ${v.rines}</span>` : ''}
-      ${v.audio ? `<span>Audio: ${v.audio}</span>` : ''}
-      <span>Color exterior: ${v.colorExterior}</span>
-      <span>Interior: ${v.colorInterior}</span>
-      <span>Estatus: ${v.estatus}</span>
+      <span>${t('modal.km')}: ${kmLabel(v.km)}</span>
+      <span>${t('modal.motor')}: ${tv(v.motor)}</span>
+      <span>${t('modal.potencia')}: ${tv(v.potencia)}</span>
+      <span>${t('modal.transmision')}: ${tv(v.transmision)}</span>
+      ${v.traccion ? `<span>${t('modal.traccion')}: ${tv(v.traccion)}</span>` : ''}
+      ${v.rines ? `<span>${t('modal.rines')}: ${tv(v.rines)}</span>` : ''}
+      ${v.audio ? `<span>${t('modal.audio')}: ${v.audio}</span>` : ''}
+      <span>${t('modal.colorExterior')}: ${tv(v.colorExterior)}</span>
+      <span>${t('modal.interior')}: ${tv(v.colorInterior)}</span>
+      <span>${t('modal.estatus')}: ${tv(v.estatus)}</span>
     `;
     priceEl.textContent = money(v.precio);
     waLink.href = `https://wa.me/524774492547?text=${encodeURIComponent(`Hola, me interesa el ${v.marca} ${v.modelo}.`)}`;
     financingLink.href = `https://wa.me/524774492547?text=${encodeURIComponent(`Hola, quiero información de financiamiento para el ${v.marca} ${v.modelo}.`)}`;
 
     thumbsEl.innerHTML = gallery
-      .map((src, i) => `<button type="button" class="vehicle-modal__thumb${i === 0 ? ' is-active' : ''}" data-i="${i}"><img src="${src}" alt="Foto ${i + 1}" /></button>`)
+      .map((src, i) => `<button type="button" class="vehicle-modal__thumb${i === 0 ? ' is-active' : ''}" data-i="${i}"><img src="${src}" alt="${t('modal.foto')} ${i + 1}" /></button>`)
       .join('');
     thumbsEl.hidden = gallery.length < 2;
     prevBtn.hidden = nextBtn.hidden = gallery.length < 2;
+  };
 
+  window.essenzaOpenVehicleModal = (v, money, kmLabel) => {
+    lastFocused = document.activeElement;
+    currentVehicle = v;
+    currentMoneyFn = money;
+    currentKmLabelFn = kmLabel;
+    gallery = v.galeria;
+    galleryIndex = 0;
+
+    renderContent(v, money, kmLabel);
     showImage();
     modal.hidden = false;
     document.body.style.overflow = 'hidden';
     closeBtn.focus();
   };
+
+  document.addEventListener('essenza:langchange', () => {
+    if (!modal.hidden && currentVehicle) renderContent(currentVehicle, currentMoneyFn, currentKmLabelFn);
+  });
 
   thumbsEl.addEventListener('click', (event) => {
     const btn = event.target.closest('.vehicle-modal__thumb');
@@ -676,6 +702,7 @@ const ESSENZA_INVENTORY = [
   const stepper = document.getElementById('stepper');
   if (!stepper) return;
 
+  const { t, tEs } = window.essenzaI18n;
   const dots = [...stepper.querySelectorAll('.stepper__dot')];
   const panels = [...stepper.querySelectorAll('.stepper__panel')];
   const backBtn = document.getElementById('stepperBack');
@@ -689,7 +716,9 @@ const ESSENZA_INVENTORY = [
     btn.addEventListener('click', () => {
       optionButtons.forEach((b) => b.classList.remove('is-selected'));
       btn.classList.add('is-selected');
-      state.tipoCita = btn.textContent.trim();
+      // Kept in Spanish regardless of display language — this feeds the
+      // WhatsApp summary ESSENZA staff read, not the on-screen UI.
+      state.tipoCita = tEs(btn.dataset.i18n);
     });
   });
 
@@ -720,7 +749,7 @@ const ESSENZA_INVENTORY = [
     });
     panels.forEach((panel) => panel.classList.toggle('is-active', Number(panel.dataset.panel) === step));
     backBtn.disabled = step === 1;
-    nextBtn.textContent = step === panels.length ? 'Listo' : 'Continuar';
+    nextBtn.textContent = step === panels.length ? t('booking.listo') : t('booking.continuar');
     nextBtn.hidden = step === panels.length;
     if (step === panels.length) buildSummary();
   };
@@ -734,6 +763,8 @@ const ESSENZA_INVENTORY = [
     if (step > 1) step -= 1;
     render();
   });
+
+  document.addEventListener('essenza:langchange', render);
 
   render();
 })();

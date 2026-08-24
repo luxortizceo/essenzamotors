@@ -141,16 +141,6 @@ body {
   top: 0 !important;
 }
 
-.price-usd {
-  display: block;
-  margin-top: 0.2rem;
-  font-family: var(--font-body);
-  font-size: 0.7rem;
-  font-weight: 400;
-  letter-spacing: 0.02em;
-  color: var(--gris-titanio);
-}
-
 .hero__nav-toggle {
   display: none;
   flex-direction: column;

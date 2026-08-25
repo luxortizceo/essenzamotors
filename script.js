@@ -1,5 +1,30 @@
 // Hero — see cinema-hero.js for the scroll-driven multi-vehicle experience.
 
+// ---------- Persistent site nav (appears once the hero has scrolled past) ----------
+(() => {
+  const nav = document.getElementById('siteNav');
+  const hero = document.getElementById('hero');
+  if (!nav || !hero) return;
+
+  let ticking = false;
+  const check = () => {
+    ticking = false;
+    const heroGone = hero.getBoundingClientRect().bottom <= 0;
+    nav.classList.toggle('is-visible', heroGone);
+  };
+
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(check);
+    },
+    { passive: true }
+  );
+  check();
+})();
+
 // ---------- Mobile nav toggle ----------
 (() => {
   const toggle = document.getElementById('navToggle');
@@ -40,6 +65,9 @@
 (() => {
   const numbers = document.querySelectorAll('.stat__number');
   if (!numbers.length) return;
+  // Real values are already the static HTML content; skip the count-up
+  // flourish for reduced-motion users, the number itself stays correct.
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   const animate = (el) => {
     const target = parseFloat(el.dataset.count);
@@ -554,6 +582,78 @@ const ESSENZA_INVENTORY = [
   applyFilters();
 })();
 
+// ---------- 3c. Featured vehicle — real inventory data only, never invented ----------
+(() => {
+  const section = document.getElementById('destacado');
+  if (!section) return;
+
+  // The Urus is the only unit with a fully confirmed price, so it makes the
+  // most honest "featured" pick — swap the index if a different confirmed
+  // vehicle should headline instead.
+  const vehicle = ESSENZA_INVENTORY[0];
+  if (!vehicle) {
+    section.hidden = true;
+    return;
+  }
+
+  const { t, tv } = window.essenzaI18n;
+  const money = (n) => (n == null ? t('inventory.consultarPrecio') : '$' + n.toLocaleString('es-MX') + ' MXN');
+
+  const img = document.getElementById('featuredImg');
+  const brandEl = document.getElementById('featuredBrand');
+  const modelEl = document.getElementById('featuredModel');
+  const specEl = document.getElementById('featuredSpec');
+  const ctaBtn = document.getElementById('featuredCta');
+
+  const render = () => {
+    img.src = vehicle.galeria[0];
+    img.alt = `${vehicle.marca} ${vehicle.modelo}`;
+    brandEl.textContent = vehicle.marca;
+    modelEl.textContent = vehicle.modelo;
+    specEl.textContent = [vehicle.anio, tv(vehicle.potencia), tv(vehicle.traccion), money(vehicle.precio)]
+      .filter(Boolean)
+      .join(' · ');
+  };
+  render();
+  document.addEventListener('essenza:langchange', render);
+
+  ctaBtn.addEventListener('click', () => {
+    if (window.essenzaOpenVehicleModal) window.essenzaOpenVehicleModal(vehicle, money, (v) => (v == null ? t('inventory.consultarKm') : v.toLocaleString('es-MX') + ' km'));
+  });
+})();
+
+// ---------- 3d. Cinematic interlude — lazy-loaded, plays only while in view ----------
+(() => {
+  const video = document.getElementById('interludeVideo');
+  if (!video) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  let loaded = false;
+  const load = () => {
+    if (loaded) return;
+    loaded = true;
+    video.querySelectorAll('source').forEach((s) => {
+      s.src = s.dataset.src;
+    });
+    video.load();
+  };
+
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          load();
+          video.play().then(() => video.classList.add('is-playing')).catch(() => {});
+        } else {
+          video.pause();
+        }
+      });
+    },
+    { threshold: 0.25 }
+  );
+  io.observe(video);
+})();
+
 // ---------- 3b. Vehicle gallery modal ----------
 (() => {
   const modal = document.getElementById('vehicleModal');
@@ -785,6 +885,51 @@ const ESSENZA_INVENTORY = [
     },
     { passive: true }
   );
+})();
+
+// ---------- 9. Reputation — single-review spotlight ----------
+(() => {
+  const carousel = document.getElementById('reviewCarousel');
+  if (!carousel) return;
+
+  const slides = [...carousel.querySelectorAll('.review-slide')];
+  const dotsEl = document.getElementById('reviewDots');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let index = 0;
+  let timer = null;
+
+  dotsEl.innerHTML = slides
+    .map((_, i) => `<button type="button" class="review-carousel__dot${i === 0 ? ' is-active' : ''}" data-index="${i}" aria-label="Reseña ${i + 1}"></button>`)
+    .join('');
+  const dots = [...dotsEl.children];
+
+  const show = (i) => {
+    index = (i + slides.length) % slides.length;
+    slides.forEach((slide, n) => slide.classList.toggle('is-active', n === index));
+    dots.forEach((dot, n) => dot.classList.toggle('is-active', n === index));
+  };
+
+  const startAuto = () => {
+    if (reducedMotion || slides.length < 2) return;
+    stopAuto();
+    timer = setInterval(() => show(index + 1), 6000);
+  };
+  const stopAuto = () => {
+    if (timer) clearInterval(timer);
+    timer = null;
+  };
+
+  dotsEl.addEventListener('click', (event) => {
+    const btn = event.target.closest('[data-index]');
+    if (!btn) return;
+    show(Number(btn.dataset.index));
+    startAuto();
+  });
+
+  carousel.addEventListener('mouseenter', stopAuto);
+  carousel.addEventListener('mouseleave', startAuto);
+
+  startAuto();
 })();
 
 // ---------- Footer year ----------

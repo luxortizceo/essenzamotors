@@ -20,6 +20,15 @@ const ESSENZA_UI = {
   'nav.agenda': { es: 'Agenda una experiencia', en: 'Book an experience', de: 'Termin vereinbaren', fr: 'Réserver une expérience', ru: 'Записаться на визит', it: 'Prenota un’esperienza' },
   'nav.openMenu': { es: 'Abrir menú', en: 'Open menu', de: 'Menü öffnen', fr: 'Ouvrir le menu', ru: 'Открыть меню', it: 'Apri il menu' },
   'nav.lang': { es: 'Idioma', en: 'Language', de: 'Sprache', fr: 'Langue', ru: 'Язык', it: 'Lingua' },
+  'hero.exploreCta': { es: 'Explorar inventario', en: 'Explore inventory', de: 'Inventar entdecken', fr: 'Explorer l’inventaire', ru: 'Смотреть автопарк', it: 'Esplora l’inventario' },
+
+  'manifesto.eyebrow': { es: 'Filosofía ESSENZA', en: 'ESSENZA philosophy', de: 'ESSENZA Philosophie', fr: 'Philosophie ESSENZA', ru: 'Философия ESSENZA', it: 'Filosofia ESSENZA' },
+  'manifesto.statement': { es: 'No vendemos automóviles.<br />Curamos obsesiones.', en: 'We don’t sell cars.<br />We curate obsessions.', de: 'Wir verkaufen keine Autos.<br />Wir kuratieren Obsessionen.', fr: 'Nous ne vendons pas des voitures.<br />Nous sélectionnons des obsessions.', ru: 'Мы не продаём автомобили.<br />Мы отбираем одержимость.', it: 'Non vendiamo automobili.<br />Curiamo ossessioni.' },
+  'featured.eyebrow': { es: 'Vehículo destacado', en: 'Featured vehicle', de: 'Ausgewähltes Fahrzeug', fr: 'Véhicule en vedette', ru: 'Автомобиль недели', it: 'Veicolo in evidenza' },
+  'featured.cta': { es: 'Descubrir →', en: 'Discover →', de: 'Entdecken →', fr: 'Découvrir →', ru: 'Смотреть →', it: 'Scopri →' },
+  'interlude.line': { es: 'El showroom nunca duerme.', en: 'The showroom never sleeps.', de: 'Der Showroom schläft nie.', fr: 'Le showroom ne dort jamais.', ru: 'Шоурум никогда не спит.', it: 'Lo showroom non dorme mai.' },
+  'interlude.cta': { es: 'Agenda tu visita →', en: 'Book your visit →', de: 'Besuch vereinbaren →', fr: 'Réservez votre visite →', ru: 'Записаться на визит →', it: 'Prenota la tua visita →' },
+  'manifesto.lead': { es: 'Cada unidad que entra a ESSENZA pasa una prueba silenciosa: ¿provoca algo antes de encender el motor? Si la respuesta es no, no está aquí.', en: 'Every unit that enters ESSENZA passes a silent test: does it stir something before you even start the engine? If the answer is no, it isn’t here.', de: 'Jedes Fahrzeug, das bei ESSENZA ankommt, besteht eine stille Prüfung: Löst es etwas aus, noch bevor der Motor läuft? Lautet die Antwort Nein, steht es nicht hier.', fr: 'Chaque véhicule qui entre chez ESSENZA passe un test silencieux : suscite-t-il quelque chose avant même de démarrer le moteur ? Si la réponse est non, il n’est pas ici.', ru: 'Каждый автомобиль, попадающий в ESSENZA, проходит негласную проверку: вызывает ли он эмоции ещё до запуска двигателя? Если нет — его здесь не будет.', it: 'Ogni unità che entra in ESSENZA supera un test silenzioso: emoziona ancora prima di accendere il motore? Se la risposta è no, non è qui.' },
 
   'showroom.eyebrow': { es: 'Bienvenido al showroom', en: 'Welcome to the showroom', de: 'Willkommen im Showroom', fr: 'Bienvenue au showroom', ru: 'Добро пожаловать в шоурум', it: 'Benvenuti nello showroom' },
   'showroom.title': { es: 'Cada vehículo, seleccionado por obsesión al detalle.', en: 'Every vehicle, chosen with an obsession for detail.', de: 'Jedes Fahrzeug — mit Besessenheit fürs Detail ausgewählt.', fr: 'Chaque véhicule, choisi avec une obsession du détail.', ru: 'Каждый автомобиль отобран с одержимостью к деталям.', it: 'Ogni veicolo, scelto con un’ossessione per il dettaglio.' },
@@ -68,14 +77,17 @@ const ESSENZA_UI = {
 
   'services.eyebrow': { es: 'Cómo trabajamos', en: 'How we work', de: 'So arbeiten wir', fr: 'Comment nous travaillons', ru: 'Как мы работаем', it: 'Come lavoriamo' },
   'services.title': { es: 'Compra, venta y consignación', en: 'Buy, sell and consign', de: 'Kaufen, verkaufen, in Kommission geben', fr: 'Achat, vente et dépôt-vente', ru: 'Покупка, продажа и комиссия', it: 'Acquisto, vendita e conto vendita' },
-  'services.compraTitle': { es: 'Compra', en: 'Buy', de: 'Kaufen', fr: 'Achat', ru: 'Покупка', it: 'Acquisto' },
-  'services.compraQuote': { es: '“Encontramos el automóvil que representa tu siguiente etapa.”', en: '“We find the car that represents your next chapter.”', de: '„Wir finden das Auto für Ihren nächsten Lebensabschnitt.“', fr: '« Nous trouvons la voiture qui représente votre prochaine étape. »', ru: '«Мы находим автомобиль, который откроет ваш следующий этап».', it: '“Troviamo l’auto che rappresenta la tua prossima tappa.”' },
+  'services.compraTitle': { es: 'Adquirir', en: 'Acquire', de: 'Erwerben', fr: 'Acquérir', ru: 'Приобрести', it: 'Acquisire' },
+  'services.compraQuote': { es: '“Encuentra algo que no estabas buscando.”', en: '“Find something you weren’t looking for.”', de: '„Finden Sie etwas, das Sie nicht gesucht haben.“', fr: '« Trouvez ce que vous ne cherchiez pas. »', ru: '«Найдите то, что не искали».', it: '“Trova qualcosa che non stavi cercando.”' },
+  'services.compraDesc': { es: 'Cada unidad pasa por nuestra curaduría antes de llegar a ti — tú solo decides cuál te mueve.', en: 'Every unit passes through our curation before it reaches you — you just decide which one moves you.', de: 'Jedes Fahrzeug durchläuft unsere Kuratierung, bevor es Sie erreicht — Sie entscheiden nur, welches Sie bewegt.', fr: 'Chaque véhicule passe par notre sélection avant de vous parvenir — vous décidez simplement lequel vous touche.', ru: 'Каждый автомобиль проходит наш отбор, прежде чем попасть к вам — вам остаётся лишь выбрать тот, что тронет именно вас.', it: 'Ogni unità passa attraverso la nostra cura prima di arrivare a te: decidi solo quale ti emoziona.' },
   'services.compraLink': { es: 'Explorar inventario →', en: 'Explore inventory →', de: 'Inventar entdecken →', fr: 'Explorer l’inventaire →', ru: 'Смотреть автопарк →', it: 'Esplora l’inventario →' },
-  'services.ventaTitle': { es: 'Venta', en: 'Sell', de: 'Verkaufen', fr: 'Vente', ru: 'Продажа', it: 'Vendita' },
-  'services.ventaQuote': { es: '“Evaluación profesional, exposición premium y compradores calificados.”', en: '“Professional appraisal, premium exposure and qualified buyers.”', de: '„Professionelle Bewertung, Premium-Präsentation und geprüfte Käufer.“', fr: '« Évaluation professionnelle, exposition premium et acheteurs qualifiés. »', ru: '«Профессиональная оценка, премиальная площадка и проверенные покупатели».', it: '“Valutazione professionale, esposizione premium e acquirenti qualificati.”' },
+  'services.ventaTitle': { es: 'Vender', en: 'Sell', de: 'Verkaufen', fr: 'Vendre', ru: 'Продать', it: 'Vendere' },
+  'services.ventaQuote': { es: '“El automóvil correcto merece al siguiente propietario correcto.”', en: '“The right car deserves the right next owner.”', de: '„Das richtige Auto verdient den richtigen nächsten Besitzer.“', fr: '« La bonne voiture mérite le bon prochain propriétaire. »', ru: '«Правильный автомобиль заслуживает правильного нового владельца».', it: '“L’auto giusta merita il prossimo proprietario giusto.”' },
+  'services.ventaDesc': { es: 'Evaluación profesional, exposición premium y compradores calificados.', en: 'Professional appraisal, premium exposure and qualified buyers.', de: 'Professionelle Bewertung, Premium-Präsentation und geprüfte Käufer.', fr: 'Évaluation professionnelle, exposition premium et acheteurs qualifiés.', ru: 'Профессиональная оценка, премиальная площадка и проверенные покупатели.', it: 'Valutazione professionale, esposizione premium e acquirenti qualificati.' },
   'services.ventaLink': { es: 'Vender mi vehículo →', en: 'Sell my vehicle →', de: 'Mein Fahrzeug verkaufen →', fr: 'Vendre mon véhicule →', ru: 'Продать мой автомобиль →', it: 'Vendi il mio veicolo →' },
-  'services.consignacionTitle': { es: 'Consignación', en: 'Consignment', de: 'Kommissionsverkauf', fr: 'Dépôt-vente', ru: 'Комиссия', it: 'Conto vendita' },
-  'services.consignacionQuote': { es: '“Tu automóvil, presentado ante la audiencia correcta.”', en: '“Your car, presented to the right audience.”', de: '„Ihr Auto, präsentiert dem richtigen Publikum.“', fr: '« Votre voiture, présentée au bon public. »', ru: '«Ваш автомобиль — перед подходящей аудиторией».', it: '“La tua auto, presentata al pubblico giusto.”' },
+  'services.consignacionTitle': { es: 'Consignar', en: 'Consign', de: 'In Kommission geben', fr: 'Déposer', ru: 'Сдать на комиссию', it: 'Mettere in conto vendita' },
+  'services.consignacionQuote': { es: '“Tu automóvil. Nuestra audiencia.”', en: '“Your car. Our audience.”', de: '„Ihr Auto. Unser Publikum.“', fr: '« Votre voiture. Notre audience. »', ru: '«Ваш автомобиль. Наша аудитория».', it: '“La tua auto. Il nostro pubblico.”' },
+  'services.consignacionDesc': { es: 'Tu automóvil, presentado ante la audiencia correcta.', en: 'Your car, presented to the right audience.', de: 'Ihr Auto, präsentiert dem richtigen Publikum.', fr: 'Votre voiture, présentée au bon public.', ru: 'Ваш автомобиль — перед подходящей аудиторией.', it: 'La tua auto, presentata al pubblico giusto.' },
   'services.consignacionLink': { es: 'Consignar mi auto →', en: 'Consign my car →', de: 'Mein Auto in Kommission geben →', fr: 'Mettre ma voiture en dépôt-vente →', ru: 'Сдать авто на комиссию →', it: 'Metti la mia auto in conto vendita →' },
 
   'sell.eyebrow': { es: 'Vende o consigna', en: 'Sell or consign', de: 'Verkaufen oder in Kommission geben', fr: 'Vendre ou déposer', ru: 'Продать или сдать на комиссию', it: 'Vendi o metti in conto vendita' },
@@ -138,7 +150,6 @@ const ESSENZA_UI = {
   'history.item4Text': { es: 'El catálogo se expande con marcas como Porsche, Ferrari, Lamborghini, Audi y BMW.', en: 'The catalog expands with brands like Porsche, Ferrari, Lamborghini, Audi and BMW.', de: 'Der Katalog wächst um Marken wie Porsche, Ferrari, Lamborghini, Audi und BMW.', fr: 'Le catalogue s’enrichit de marques comme Porsche, Ferrari, Lamborghini, Audi et BMW.', ru: 'Каталог пополняется такими марками, как Porsche, Ferrari, Lamborghini, Audi и BMW.', it: 'Il catalogo si espande con marchi come Porsche, Ferrari, Lamborghini, Audi e BMW.' },
   'history.item5Year': { es: 'Vehículos exóticos', en: 'Exotic vehicles', de: 'Exotische Fahrzeuge', fr: 'Véhicules exotiques', ru: 'Эксклюзивные автомобили', it: 'Veicoli esotici' },
   'history.item5Text': { es: 'ESSENZA incorpora unidades exóticas y de edición limitada a su selección permanente.', en: 'ESSENZA adds exotic and limited-edition units to its permanent selection.', de: 'ESSENZA nimmt exotische Fahrzeuge und Sondermodelle in seine dauerhafte Auswahl auf.', fr: 'ESSENZA intègre des unités exotiques et en édition limitée à sa sélection permanente.', ru: 'ESSENZA включает эксклюзивные и лимитированные модели в постоянную коллекцию.', it: 'ESSENZA aggiunge unità esotiche e in edizione limitata alla propria selezione permanente.' },
-  'history.note': { es: 'Cronología editable — pendiente de fechas e hitos reales proporcionados por ESSENZA MOTORS.', en: 'Editable timeline — pending real dates and milestones from ESSENZA MOTORS.', de: 'Bearbeitbare Zeitleiste — echte Daten und Meilensteine von ESSENZA MOTORS ausstehend.', fr: 'Chronologie modifiable — en attente des dates et jalons réels fournis par ESSENZA MOTORS.', ru: 'Хронология в разработке — ожидаются реальные даты и вехи от ESSENZA MOTORS.', it: 'Cronologia modificabile — in attesa di date e tappe reali fornite da ESSENZA MOTORS.' },
 
   'trust.eyebrow': { es: 'Confianza y opiniones', en: 'Trust and reviews', de: 'Vertrauen und Bewertungen', fr: 'Confiance et avis', ru: 'Доверие и отзывы', it: 'Fiducia e recensioni' },
   'trust.title': { es: 'Reputación construida en cada entrega.', en: 'A reputation built with every delivery.', de: 'Ein Ruf, aufgebaut mit jeder Übergabe.', fr: 'Une réputation bâtie à chaque livraison.', ru: 'Репутация, выстроенная с каждой сделкой.', it: 'Una reputazione costruita a ogni consegna.' },
@@ -239,67 +250,76 @@ const ESSENZA_VAL = {
     document.dispatchEvent(new CustomEvent('essenza:langchange', { detail: { lang } }));
   };
 
+  // Supports any number of mount points (e.g. the hero nav and the
+  // persistent nav each carry their own .lang-switch) — all stay in sync
+  // via the essenza:langchange event.
   const buildLangSwitch = () => {
-    const mount = document.getElementById('langSwitch');
-    if (!mount) return;
+    const mounts = document.querySelectorAll('.lang-switch');
+    if (!mounts.length) return;
 
-    const current = getLang();
-    mount.innerHTML = `
-      <button type="button" class="lang-switch__toggle" aria-haspopup="listbox" aria-expanded="false">
-        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" class="lang-switch__icon">
-          <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.3"></circle>
-          <ellipse cx="12" cy="12" rx="4" ry="9" fill="none" stroke="currentColor" stroke-width="1.3"></ellipse>
-          <line x1="3" y1="12" x2="21" y2="12" stroke="currentColor" stroke-width="1.3"></line>
-          <path d="M5 7.5c1.9 1 4.4 1.5 7 1.5s5.1-.5 7-1.5M5 16.5c1.9-1 4.4-1.5 7-1.5s5.1.5 7 1.5" fill="none" stroke="currentColor" stroke-width="1.3"></path>
-        </svg>
-        <span class="lang-switch__code">${current.toUpperCase()}</span>
-      </button>
-      <ul class="lang-switch__menu" role="listbox" hidden>
-        ${ESSENZA_LANGS.map(
-          (l) => `<li>
-            <button type="button" class="lang-switch__option${l.code === current ? ' is-active' : ''}" role="option" aria-selected="${l.code === current}" data-lang="${l.code}">${l.name}</button>
-          </li>`
-        ).join('')}
-      </ul>
-    `;
+    mounts.forEach((mount) => {
+      const current = getLang();
+      mount.innerHTML = `
+        <button type="button" class="lang-switch__toggle" aria-haspopup="listbox" aria-expanded="false">
+          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" class="lang-switch__icon">
+            <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.3"></circle>
+            <ellipse cx="12" cy="12" rx="4" ry="9" fill="none" stroke="currentColor" stroke-width="1.3"></ellipse>
+            <line x1="3" y1="12" x2="21" y2="12" stroke="currentColor" stroke-width="1.3"></line>
+            <path d="M5 7.5c1.9 1 4.4 1.5 7 1.5s5.1-.5 7-1.5M5 16.5c1.9-1 4.4-1.5 7-1.5s5.1.5 7 1.5" fill="none" stroke="currentColor" stroke-width="1.3"></path>
+          </svg>
+          <span class="lang-switch__code">${current.toUpperCase()}</span>
+        </button>
+        <ul class="lang-switch__menu" role="listbox" hidden>
+          ${ESSENZA_LANGS.map(
+            (l) => `<li>
+              <button type="button" class="lang-switch__option${l.code === current ? ' is-active' : ''}" role="option" aria-selected="${l.code === current}" data-lang="${l.code}">${l.name}</button>
+            </li>`
+          ).join('')}
+        </ul>
+      `;
 
-    const toggle = mount.querySelector('.lang-switch__toggle');
-    const menu = mount.querySelector('.lang-switch__menu');
-    const codeEl = mount.querySelector('.lang-switch__code');
+      const toggle = mount.querySelector('.lang-switch__toggle');
+      const menu = mount.querySelector('.lang-switch__menu');
 
-    const close = () => {
-      menu.hidden = true;
-      toggle.setAttribute('aria-expanded', 'false');
-    };
-    const open = () => {
-      menu.hidden = false;
-      toggle.setAttribute('aria-expanded', 'true');
-    };
+      const close = () => {
+        menu.hidden = true;
+        toggle.setAttribute('aria-expanded', 'false');
+      };
+      const open = () => {
+        menu.hidden = false;
+        toggle.setAttribute('aria-expanded', 'true');
+      };
 
-    toggle.addEventListener('click', (event) => {
-      event.stopPropagation();
-      if (menu.hidden) open();
-      else close();
-    });
-
-    menu.addEventListener('click', (event) => {
-      const btn = event.target.closest('[data-lang]');
-      if (!btn) return;
-      const lang = btn.dataset.lang;
-      codeEl.textContent = lang.toUpperCase();
-      mount.querySelectorAll('.lang-switch__option').forEach((opt) => {
-        opt.classList.toggle('is-active', opt.dataset.lang === lang);
-        opt.setAttribute('aria-selected', String(opt.dataset.lang === lang));
+      toggle.addEventListener('click', (event) => {
+        event.stopPropagation();
+        if (menu.hidden) open();
+        else close();
       });
-      close();
-      setLang(lang);
+
+      menu.addEventListener('click', (event) => {
+        const btn = event.target.closest('[data-lang]');
+        if (!btn) return;
+        close();
+        setLang(btn.dataset.lang);
+      });
+
+      document.addEventListener('click', (event) => {
+        if (!mount.contains(event.target)) close();
+      });
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') close();
+      });
     });
 
-    document.addEventListener('click', (event) => {
-      if (!mount.contains(event.target)) close();
-    });
-    document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape') close();
+    document.addEventListener('essenza:langchange', (event) => {
+      const lang = event.detail.lang;
+      mounts.forEach((mount) => {
+        mount.querySelector('.lang-switch__code').textContent = lang.toUpperCase();
+        mount.querySelectorAll('.lang-switch__option').forEach((opt) => {
+          opt.classList.toggle('is-active', opt.dataset.lang === lang);
+          opt.setAttribute('aria-selected', String(opt.dataset.lang === lang));
+        });
+      });
     });
   };
 

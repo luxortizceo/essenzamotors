@@ -5,12 +5,58 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ESSENZA MOTORS — The Art of Motion</title>
   <meta name="description" content="ESSENZA MOTORS mx — Showroom digital de vehículos premium, deportivos y exóticos en León, Guanajuato." />
+  <meta name="theme-color" content="#050505" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="ESSENZA MOTORS" />
+  <meta property="og:title" content="ESSENZA MOTORS — The Art of Motion" />
+  <meta property="og:description" content="Showroom digital de vehículos premium, deportivos y exóticos en León, Guanajuato." />
+  <meta property="og:image" content="assets/inventory/lamborghini-urus.jpg" />
+  <meta property="og:locale" content="es_MX" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="ESSENZA MOTORS — The Art of Motion" />
+  <meta name="twitter:description" content="Showroom digital de vehículos premium, deportivos y exóticos en León, Guanajuato." />
+  <meta name="twitter:image" content="assets/inventory/lamborghini-urus.jpg" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "AutomotiveBusiness",
+    "name": "ESSENZA MOTORS",
+    "image": "assets/inventory/lamborghini-urus.jpg",
+    "telephone": "+52 477 449 2547",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Blvd. Juan Alonso de Torres Pte. 2404, Lomas del Campestre",
+      "addressLocality": "León",
+      "addressRegion": "Guanajuato",
+      "addressCountry": "MX"
+    }
+  }
+  </script>
 </head>
 <body>
+
+  <!-- Persistent site nav: hidden while the pinned hero nav is on screen,
+       fades in once the hero has scrolled past (see script.js). -->
+  <header class="site-nav" id="siteNav">
+    <a href="#hero" class="site-nav__mark">ESSENZA MOTORS</a>
+    <nav class="site-nav__links">
+      <a href="#inventario" data-i18n="nav.inventario">Inventario</a>
+      <a href="#vende-tu-auto" data-i18n="sell.title">Vende tu automóvil</a>
+      <a href="#experiencia" data-i18n="nav.agenda">Agenda una experiencia</a>
+      <a href="#ubicacion" data-i18n="location.eyebrow">Visítanos</a>
+    </nav>
+    <div class="site-nav__actions">
+      <div class="lang-switch"></div>
+      <a href="#experiencia" class="btn btn--primary site-nav__cta" data-i18n="nav.agenda">Agenda una experiencia</a>
+    </div>
+  </header>
 
   <section id="hero" class="cinema-hero">
     <div class="cinema-hero__pin">
@@ -40,6 +86,10 @@
         <span class="cinema-hero__brand">ESSENZA MOTORS</span>
         <span class="cinema-hero__model">THE ART OF MOTION</span>
         <span class="cinema-hero__year">LEÓN, GUANAJUATO</span>
+        <div class="cinema-hero__ctas">
+          <a href="#inventario" class="btn btn--primary" data-i18n="hero.exploreCta">Explorar inventario</a>
+          <a href="#experiencia" class="btn btn--ghost" data-i18n="nav.agenda">Agenda una experiencia</a>
+        </div>
       </div>
 
       <div class="cinema-hero__scroll" aria-hidden="true">
@@ -49,26 +99,33 @@
     </div>
   </section>
 
+  <!-- 1b. MANIFIESTO DE MARCA -->
+  <section id="manifiesto" class="manifesto reveal">
+    <p class="eyebrow" data-num="01" data-i18n="manifesto.eyebrow">Filosofía ESSENZA</p>
+    <h2 class="manifesto__statement" data-i18n-html="manifesto.statement">No vendemos automóviles.<br />Curamos obsesiones.</h2>
+    <p class="manifesto__lead" data-i18n="manifesto.lead">Cada unidad que entra a ESSENZA pasa una prueba silenciosa: ¿provoca algo antes de encender el motor? Si la respuesta es no, no está aquí.</p>
+  </section>
+
   <!-- 2. ENTRADA AL SHOWROOM -->
   <section id="showroom" class="showroom reveal">
     <div class="showroom__glow" aria-hidden="true"></div>
-    <p class="eyebrow" data-i18n="showroom.eyebrow">Bienvenido al showroom</p>
+    <p class="eyebrow" data-num="02" data-i18n="showroom.eyebrow">Bienvenido al showroom</p>
     <h2 class="section-title" data-i18n="showroom.title">Cada vehículo, seleccionado por obsesión al detalle.</h2>
     <div class="stats">
       <div class="stat">
-        <span class="stat__number" data-count="40">0</span><span class="stat__suffix">+</span>
+        <span class="stat__number" data-count="40">40</span><span class="stat__suffix">+</span>
         <span class="stat__label" data-i18n="showroom.stat1">Vehículos seleccionados</span>
       </div>
       <div class="stat">
-        <span class="stat__number" data-count="8">0</span>
+        <span class="stat__number" data-count="8">8</span>
         <span class="stat__label" data-i18n="showroom.stat2">Marcas premium</span>
       </div>
       <div class="stat">
-        <span class="stat__number" data-count="10">0</span><span class="stat__suffix">+</span>
+        <span class="stat__number" data-count="10">10</span><span class="stat__suffix">+</span>
         <span class="stat__label" data-i18n="showroom.stat3">Años de experiencia</span>
       </div>
       <div class="stat">
-        <span class="stat__number" data-count="4.6" data-decimal="true">0</span>
+        <span class="stat__number" data-count="4.6" data-decimal="true">4.6</span>
         <span class="stat__label" data-i18n="showroom.stat4">Calificación · 100 opiniones</span>
       </div>
     </div>
@@ -76,7 +133,7 @@
 
   <!-- 3. INVENTARIO PREMIUM -->
   <section id="inventario" class="inventory reveal">
-    <p class="eyebrow" data-i18n="inventory.eyebrow">Catálogo</p>
+    <p class="eyebrow" data-num="03" data-i18n="inventory.eyebrow">Catálogo</p>
     <h2 class="section-title" data-i18n="inventory.title">Inventario premium</h2>
 
     <div class="inventory__filters">
@@ -124,35 +181,53 @@
     <p class="inventory__empty" id="inventoryEmpty" hidden data-i18n="inventory.empty">No hay vehículos que coincidan con estos filtros por ahora. Escríbenos por WhatsApp y te avisamos en cuanto ingrese uno.</p>
   </section>
 
+  <!-- 4. VEHÍCULO DESTACADO (dato real tomado del inventario — ver script.js) -->
+  <section id="destacado" class="featured reveal">
+    <div class="featured__media">
+      <img id="featuredImg" src="" alt="" />
+      <div class="featured__vignette" aria-hidden="true"></div>
+    </div>
+    <div class="featured__content">
+      <p class="eyebrow" data-num="04" data-i18n="featured.eyebrow">Vehículo destacado</p>
+      <span class="featured__brand" id="featuredBrand"></span>
+      <h2 class="featured__model" id="featuredModel"></h2>
+      <p class="featured__spec" id="featuredSpec"></p>
+      <button type="button" class="featured__cta" id="featuredCta" data-i18n="featured.cta">Descubrir →</button>
+    </div>
+  </section>
+
   <!-- 5. COMPRA, VENTA Y CONSIGNACIÓN -->
   <section id="servicios" class="services reveal">
-    <p class="eyebrow" data-i18n="services.eyebrow">Cómo trabajamos</p>
+    <p class="eyebrow" data-num="05" data-i18n="services.eyebrow">Cómo trabajamos</p>
     <h2 class="section-title" data-i18n="services.title">Compra, venta y consignación</h2>
-    <div class="services__grid">
-      <article class="service-card service-card--compra">
-        <span class="service-card__icon" aria-hidden="true">◈</span>
-        <h3 data-i18n="services.compraTitle">Compra</h3>
-        <p data-i18n="services.compraQuote">“Encontramos el automóvil que representa tu siguiente etapa.”</p>
-        <a href="#inventario" class="link-arrow" data-i18n="services.compraLink">Explorar inventario →</a>
+    <div class="services__editorial">
+      <article class="service-panel">
+        <span class="service-panel__num">01</span>
+        <h3 class="service-panel__title" data-i18n="services.compraTitle">Adquirir</h3>
+        <p class="service-panel__quote" data-i18n="services.compraQuote">“Encuentra algo que no estabas buscando.”</p>
+        <p class="service-panel__desc" data-i18n="services.compraDesc">Cada unidad pasa por nuestra curaduría antes de llegar a ti — tú solo decides cuál te mueve.</p>
+        <a href="#inventario" class="service-panel__cta" data-i18n="services.compraLink">Explorar inventario →</a>
       </article>
-      <article class="service-card service-card--venta">
-        <span class="service-card__icon" aria-hidden="true">◉</span>
-        <h3 data-i18n="services.ventaTitle">Venta</h3>
-        <p data-i18n="services.ventaQuote">“Evaluación profesional, exposición premium y compradores calificados.”</p>
-        <a href="#vende-tu-auto" class="link-arrow" data-i18n="services.ventaLink">Vender mi vehículo →</a>
+      <article class="service-panel">
+        <span class="service-panel__num">02</span>
+        <h3 class="service-panel__title" data-i18n="services.ventaTitle">Vender</h3>
+        <p class="service-panel__quote" data-i18n="services.ventaQuote">“El automóvil correcto merece al siguiente propietario correcto.”</p>
+        <p class="service-panel__desc" data-i18n="services.ventaDesc">Evaluación profesional, exposición premium y compradores calificados.</p>
+        <a href="#vende-tu-auto" class="service-panel__cta" data-i18n="services.ventaLink">Vender mi vehículo →</a>
       </article>
-      <article class="service-card service-card--consignacion">
-        <span class="service-card__icon" aria-hidden="true">◎</span>
-        <h3 data-i18n="services.consignacionTitle">Consignación</h3>
-        <p data-i18n="services.consignacionQuote">“Tu automóvil, presentado ante la audiencia correcta.”</p>
-        <a href="#vende-tu-auto" class="link-arrow" data-i18n="services.consignacionLink">Consignar mi auto →</a>
+      <article class="service-panel">
+        <span class="service-panel__num">03</span>
+        <h3 class="service-panel__title" data-i18n="services.consignacionTitle">Consignar</h3>
+        <p class="service-panel__quote" data-i18n="services.consignacionQuote">“Tu automóvil. Nuestra audiencia.”</p>
+        <p class="service-panel__desc" data-i18n="services.consignacionDesc">Tu automóvil, presentado ante la audiencia correcta.</p>
+        <a href="#vende-tu-auto" class="service-panel__cta" data-i18n="services.consignacionLink">Consignar mi auto →</a>
       </article>
     </div>
   </section>
 
   <!-- 6. VENDE TU AUTO -->
   <section id="vende-tu-auto" class="sell reveal">
-    <p class="eyebrow" data-i18n="sell.eyebrow">Vende o consigna</p>
+    <p class="eyebrow" data-num="06" data-i18n="sell.eyebrow">Vende o consigna</p>
     <h2 class="section-title" data-i18n="sell.title">Vende tu automóvil</h2>
     <p class="section-lead" data-i18n="sell.lead">Cuéntanos sobre tu vehículo. Un asesor ESSENZA revisará tu información y te contactará por WhatsApp.</p>
 
@@ -191,7 +266,7 @@
 
   <!-- 7. RESERVACIÓN DE CITA -->
   <section id="experiencia" class="booking reveal">
-    <p class="eyebrow" data-i18n="booking.eyebrow">Agenda una experiencia</p>
+    <p class="eyebrow" data-num="07" data-i18n="booking.eyebrow">Agenda una experiencia</p>
     <h2 class="section-title" data-i18n="booking.title">Reservación de cita</h2>
 
     <div class="stepper" id="stepper">
@@ -252,7 +327,7 @@
 
   <!-- 8. HISTORIA DE ESSENZA -->
   <section id="historia" class="history reveal">
-    <p class="eyebrow" data-i18n="history.eyebrow">Nuestra historia</p>
+    <p class="eyebrow" data-num="08" data-i18n="history.eyebrow">Nuestra historia</p>
     <h2 class="section-title" data-i18n="history.title">ESSENZA nació de una obsesión: encontrar automóviles que provoquen algo antes incluso de encenderlos.</h2>
     <div class="timeline">
       <div class="timeline__road" aria-hidden="true"><span class="timeline__line"></span></div>
@@ -278,13 +353,27 @@
           <p data-i18n="history.item5Text">ESSENZA incorpora unidades exóticas y de edición limitada a su selección permanente.</p>
         </li>
       </ol>
-      <p class="timeline__note" data-i18n="history.note">Cronología editable — pendiente de fechas e hitos reales proporcionados por ESSENZA MOTORS.</p>
+    </div>
+  </section>
+
+  <!-- INTERLUDIO CINEMATOGRÁFICO -->
+  <section class="interlude reveal" aria-label="ESSENZA showroom">
+    <div class="interlude__media">
+      <video class="interlude__video" id="interludeVideo" muted loop playsinline preload="none">
+        <source data-src="assets/video/hero-showroom-journey.mp4" type="video/mp4" />
+        <source data-src="assets/video/hero-showroom-journey.webm" type="video/webm" />
+      </video>
+      <div class="interlude__vignette" aria-hidden="true"></div>
+    </div>
+    <div class="interlude__content">
+      <p class="interlude__line" data-i18n="interlude.line">El showroom nunca duerme.</p>
+      <a class="interlude__cta" href="#experiencia" data-i18n="interlude.cta">Agenda tu visita →</a>
     </div>
   </section>
 
   <!-- 9. CONFIANZA Y OPINIONES -->
   <section id="confianza" class="trust reveal">
-    <p class="eyebrow" data-i18n="trust.eyebrow">Confianza y opiniones</p>
+    <p class="eyebrow" data-num="09" data-i18n="trust.eyebrow">Confianza y opiniones</p>
     <h2 class="section-title" data-i18n="trust.title">Reputación construida en cada entrega.</h2>
 
     <div class="trust__rating">
@@ -314,25 +403,31 @@
       </div>
     </div>
 
-    <div class="trust__testimonials">
-      <article class="testimonial-card">
-        <p class="testimonial-card__quote">“Los mejores autos gama alta de León y del estado. 100% recomendables.”</p>
-        <p class="testimonial-card__author">Felipe Terán · Local Guide, 489 opiniones</p>
-      </article>
-      <article class="testimonial-card">
-        <p class="testimonial-card__quote">“Un lugar agradable aunque algo confuso para llegar, personal muy amable, vehículos increíbles, bastante bonitos y bien cuidados.”</p>
-        <p class="testimonial-card__author">Pablo López · Local Guide, 31 opiniones</p>
-      </article>
-      <article class="testimonial-card">
-        <p class="testimonial-card__quote">“Buscas autos exóticos a buen precio, este es el lugar indicado. Excelente atención del propietario.”</p>
-        <p class="testimonial-card__author">Oscar Ernesto Rangel Ruiz · Local Guide, 150 opiniones</p>
-      </article>
+    <div class="review-carousel" id="reviewCarousel">
+      <div class="review-carousel__track">
+        <article class="review-slide is-active">
+          <span class="review-slide__stars" aria-hidden="true">★★★★★</span>
+          <blockquote class="review-slide__quote">“Los mejores autos gama alta de León y del estado. 100% recomendables.”</blockquote>
+          <p class="review-slide__author">Felipe Terán · Google Review</p>
+        </article>
+        <article class="review-slide">
+          <span class="review-slide__stars" aria-hidden="true">★★★★★</span>
+          <blockquote class="review-slide__quote">“Un lugar agradable aunque algo confuso para llegar, personal muy amable, vehículos increíbles, bastante bonitos y bien cuidados.”</blockquote>
+          <p class="review-slide__author">Pablo López · Google Review</p>
+        </article>
+        <article class="review-slide">
+          <span class="review-slide__stars" aria-hidden="true">★★★★★</span>
+          <blockquote class="review-slide__quote">“Buscas autos exóticos a buen precio, este es el lugar indicado. Excelente atención del propietario.”</blockquote>
+          <p class="review-slide__author">Oscar Ernesto Rangel Ruiz · Google Review</p>
+        </article>
+      </div>
+      <div class="review-carousel__dots" id="reviewDots"></div>
     </div>
   </section>
 
   <!-- 10. UBICACIÓN Y CONTACTO -->
   <section id="ubicacion" class="location reveal">
-    <p class="eyebrow" data-i18n="location.eyebrow">Visítanos</p>
+    <p class="eyebrow" data-num="10" data-i18n="location.eyebrow">Visítanos</p>
     <h2 class="section-title">León, Guanajuato</h2>
     <p class="location__address">
       Blvd. Juan Alonso de Torres Pte. 2404, Lomas del Campestre,<br />
@@ -348,10 +443,7 @@
   </section>
 
   <footer class="site-footer">
-    <div class="site-footer__top">
-      <span class="hero__nav-mark">ESSENZA MOTORS</span>
-      <p class="site-footer__cta" data-i18n="footer.cta">Tu próxima máquina extraordinaria comienza aquí.</p>
-    </div>
+    <p class="site-footer__cta" data-i18n="footer.cta">Tu próxima máquina extraordinaria comienza aquí.</p>
     <div class="site-footer__grid">
       <div>
         <h4 data-i18n="footer.contacto">Contacto</h4>
@@ -369,6 +461,7 @@
         <p><a href="#" data-i18n="footer.terminos">Términos y condiciones</a></p>
       </div>
     </div>
+    <span class="site-footer__wordmark" aria-hidden="true">ESSENZA</span>
     <p class="site-footer__copy">© <span id="year"></span> ESSENZA MOTORS mx. <span data-i18n="footer.copyright">Todos los derechos reservados.</span></p>
   </footer>
 

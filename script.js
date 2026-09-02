@@ -804,16 +804,70 @@ function initFeaturedVehicle() {
   });
 })();
 
-// ---------- 6. Vende tu auto — form → WhatsApp ----------
+// ---------- 6. Vende tu auto — form → Supabase (fotos incluidas) → WhatsApp ----------
 (() => {
   const form = document.getElementById('sellForm');
   if (!form) return;
   const confirmation = document.getElementById('sellConfirmation');
   const whatsappLink = document.getElementById('sellWhatsappLink');
+  const submitBtn = form.querySelector('button[type="submit"]');
 
-  form.addEventListener('submit', (event) => {
+  const SUPABASE_URL = 'https://hoijdsbztoupcdkbfujk.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_9KtFtsBaFSYWMkRagbntKw_X47Jzonr';
+
+  async function uploadPhoto(file) {
+    const path = `${Date.now()}-${Math.random().toString(36).slice(2)}-${file.name.replace(/[^a-zA-Z0-9.\-]/g, '_')}`;
+    const res = await fetch(`${SUPABASE_URL}/storage/v1/object/sell-photos/${path}`, {
+      method: 'POST',
+      headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}`, 'Content-Type': file.type },
+      body: file,
+    });
+    if (!res.ok) throw new Error(`upload failed: ${res.status}`);
+    return path;
+  }
+
+  form.addEventListener('submit', async (event) => {
     event.preventDefault();
     const data = Object.fromEntries(new FormData(form).entries());
+    const fotoInput = document.getElementById('sellFotos') || form.querySelector('input[name="fotos"]');
+    const files = fotoInput?.files ? Array.from(fotoInput.files) : [];
+
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = files.length ? 'Subiendo fotos…' : 'Enviando…';
+    }
+
+    let fotoPaths = [];
+    try {
+      fotoPaths = await Promise.all(files.map(uploadPhoto));
+    } catch (err) {
+      console.warn('No se pudieron subir todas las fotos, se continúa sin ellas.', err);
+    }
+
+    try {
+      await fetch(`${SUPABASE_URL}/rest/v1/sell_leads`, {
+        method: 'POST',
+        headers: {
+          apikey: SUPABASE_KEY,
+          Authorization: `Bearer ${SUPABASE_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          marca: data.marca || null,
+          modelo: data.modelo || null,
+          anio: data.anio || null,
+          kilometraje: data.kilometraje || null,
+          version: data.version || null,
+          precio_esperado: data.precio || null,
+          estado: data.estado || null,
+          nombre: data.nombre || null,
+          telefono: data.telefono || null,
+          fotos: fotoPaths,
+        }),
+      });
+    } catch (err) {
+      console.warn('No se pudo guardar el lead en Supabase.', err);
+    }
 
     const message = [
       'Hola, quiero vender/consignar mi automóvil en ESSENZA MOTORS:',
@@ -826,6 +880,7 @@ function initFeaturedVehicle() {
       `Estado general: ${data.estado}`,
       `Nombre: ${data.nombre}`,
       `Teléfono: ${data.telefono}`,
+      fotoPaths.length ? `(${fotoPaths.length} foto${fotoPaths.length > 1 ? 's' : ''} enviada${fotoPaths.length > 1 ? 's' : ''} desde el sitio)` : null,
     ]
       .filter(Boolean)
       .join('\n');

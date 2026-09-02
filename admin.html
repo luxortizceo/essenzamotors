@@ -74,6 +74,17 @@
     }
     #loginError { color: var(--danger); font-size: 13px; margin-top: 10px; min-height: 16px; }
 
+    .tabs { display: flex; gap: 8px; margin-bottom: 20px; border-bottom: 1px solid var(--border); }
+    .tabBtn {
+      background: none; border: none; color: var(--muted); padding: 10px 4px; margin-right: 18px;
+      font-size: 14px; cursor: pointer; border-bottom: 2px solid transparent; display: flex; align-items: center; gap: 8px;
+    }
+    .tabBtn.active { color: var(--text); border-bottom-color: var(--accent); }
+    .badge {
+      background: var(--accent); color: #0c0c0c; font-size: 11px; font-weight: 700;
+      border-radius: 20px; padding: 1px 7px;
+    }
+
     .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
     .toolbar button.primary { width: auto; margin: 0; padding: 9px 16px; }
 
@@ -126,10 +137,15 @@
 
   <div id="appView" class="hidden">
     <header>
-      <h1>ESSENZA · Inventario</h1>
+      <h1>ESSENZA · Panel</h1>
       <button id="logoutBtn">Cerrar sesión</button>
     </header>
     <main>
+      <div class="tabs">
+        <button class="tabBtn active" data-tab="inventario">Inventario</button>
+        <button class="tabBtn" data-tab="leads">Vende tu auto <span id="leadsBadge" class="badge hidden">0</span></button>
+      </div>
+
       <div id="listView">
         <div class="toolbar">
           <span></span>
@@ -184,6 +200,28 @@
         </div>
         <p id="formMsg"></p>
       </div>
+
+      <div id="leadsView" class="hidden">
+        <table>
+          <thead>
+            <tr><th>Fecha</th><th>Vehículo</th><th>Nombre</th><th>Teléfono</th><th>Estatus</th><th></th></tr>
+          </thead>
+          <tbody id="leadRows"></tbody>
+        </table>
+        <p id="leadsEmpty" class="hidden" style="color:var(--muted);font-size:13px;">Todavía no hay solicitudes de venta.</p>
+      </div>
+
+      <div id="leadDetailView" class="hidden">
+        <h2 id="leadDetailTitle">Solicitud</h2>
+        <div class="grid2" id="leadDetailFields"></div>
+        <label class="full" style="margin-top:18px;">Fotos</label>
+        <div class="gallery" id="leadPhotos"></div>
+        <div class="editor-actions">
+          <button class="primary" id="leadAtendidoBtn">Marcar como atendido</button>
+          <button class="secondary" id="leadBackBtn">Volver</button>
+          <button class="secondary" id="leadDeleteBtn" style="border-color:#5a2a2a;color:#e07a6c;">Eliminar solicitud</button>
+        </div>
+      </div>
     </main>
   </div>
 
@@ -200,10 +238,16 @@
     const vehicleRows = document.getElementById("vehicleRows");
     const galleryPreview = document.getElementById("galleryPreview");
     const formMsg = document.getElementById("formMsg");
+    const leadsView = document.getElementById("leadsView");
+    const leadDetailView = document.getElementById("leadDetailView");
+    const leadRows = document.getElementById("leadRows");
+    const leadsBadge = document.getElementById("leadsBadge");
 
     let currentVehicles = [];
     let editingId = null;
     let editingGallery = [];
+    let currentLeads = [];
+    let currentLeadId = null;
 
     async function checkSession() {
       const { data } = await sb.auth.getSession();
@@ -211,11 +255,25 @@
         loginView.classList.add("hidden");
         appView.classList.remove("hidden");
         loadVehicles();
+        loadLeads();
       } else {
         loginView.classList.remove("hidden");
         appView.classList.add("hidden");
       }
     }
+
+    // ---------- Tabs ----------
+    document.querySelectorAll(".tabBtn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".tabBtn").forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        const tab = btn.dataset.tab;
+        listView.classList.toggle("hidden", tab !== "inventario");
+        editorView.classList.add("hidden");
+        leadsView.classList.toggle("hidden", tab !== "leads");
+        leadDetailView.classList.add("hidden");
+      });
+    });
 
     document.getElementById("loginBtn").addEventListener("click", async () => {
       const email = document.getElementById("loginEmail").value.trim();
@@ -364,6 +422,101 @@
     });
 
     function numOrNull(v) { return v === "" || v === null ? null : Number(v); }
+
+    // ---------- Vende tu auto — leads ----------
+    async function loadLeads() {
+      const { data, error } = await sb
+        .from("sell_leads")
+        .select("*")
+        .order("created_at", { ascending: false });
+      if (error) { console.warn("No pudimos cargar las solicitudes:", error.message); return; }
+      currentLeads = data;
+      renderLeadRows();
+    }
+
+    function renderLeadRows() {
+      const pendientes = currentLeads.filter((l) => !l.atendido).length;
+      leadsBadge.textContent = String(pendientes);
+      leadsBadge.classList.toggle("hidden", pendientes === 0);
+
+      document.getElementById("leadsEmpty").classList.toggle("hidden", currentLeads.length > 0);
+
+      leadRows.innerHTML = currentLeads.map((l) => `
+        <tr style="${l.atendido ? "opacity:.55;" : ""}">
+          <td>${new Date(l.created_at).toLocaleDateString("es-MX")}</td>
+          <td>${[l.marca, l.modelo].filter(Boolean).join(" ") || "—"}</td>
+          <td>${l.nombre || "—"}</td>
+          <td>${l.telefono || "—"}</td>
+          <td>${l.atendido ? "Atendido" : `<span class="status-chip status-Apartado">Pendiente</span>`}</td>
+          <td class="actions"><button data-id="${l.id}" class="viewLeadBtn">Ver</button></td>
+        </tr>
+      `).join("");
+      leadRows.querySelectorAll(".viewLeadBtn").forEach((btn) => {
+        btn.addEventListener("click", () => openLead(btn.dataset.id));
+      });
+    }
+
+    async function openLead(id) {
+      currentLeadId = id;
+      const l = currentLeads.find((x) => x.id === id);
+      if (!l) return;
+
+      document.getElementById("leadDetailTitle").textContent =
+        [l.marca, l.modelo].filter(Boolean).join(" ") || "Solicitud";
+
+      const rows = [
+        ["Nombre", l.nombre], ["Teléfono", l.telefono],
+        ["Marca", l.marca], ["Modelo", l.modelo],
+        ["Año", l.anio], ["Kilometraje", l.kilometraje],
+        ["Versión", l.version], ["Precio esperado", l.precio_esperado],
+        ["Estado general", l.estado],
+        ["Recibido", new Date(l.created_at).toLocaleString("es-MX")],
+      ];
+      document.getElementById("leadDetailFields").innerHTML = rows.map(([label, val]) => `
+        <div><label>${label}</label><input value="${val || "—"}" readonly /></div>
+      `).join("");
+
+      const photosEl = document.getElementById("leadPhotos");
+      photosEl.innerHTML = "Cargando fotos…";
+      if (!l.fotos || !l.fotos.length) {
+        photosEl.innerHTML = "<span style='color:var(--muted);font-size:13px;'>No se adjuntaron fotos.</span>";
+      } else {
+        const { data, error } = await sb.storage.from("sell-photos").createSignedUrls(l.fotos, 3600);
+        photosEl.innerHTML = (data || [])
+          .filter((d) => d.signedUrl)
+          .map((d) => `<div class="thumb"><a href="${d.signedUrl}" target="_blank"><img src="${d.signedUrl}" alt="" /></a></div>`)
+          .join("") || "<span style='color:var(--muted);font-size:13px;'>No se pudieron cargar las fotos.</span>";
+        if (error) console.warn(error);
+      }
+
+      document.getElementById("leadAtendidoBtn").textContent = l.atendido ? "Marcar como pendiente" : "Marcar como atendido";
+
+      leadsView.classList.add("hidden");
+      leadDetailView.classList.remove("hidden");
+    }
+
+    document.getElementById("leadBackBtn").addEventListener("click", () => {
+      leadDetailView.classList.add("hidden");
+      leadsView.classList.remove("hidden");
+    });
+
+    document.getElementById("leadAtendidoBtn").addEventListener("click", async () => {
+      const l = currentLeads.find((x) => x.id === currentLeadId);
+      if (!l) return;
+      const { error } = await sb.from("sell_leads").update({ atendido: !l.atendido }).eq("id", currentLeadId);
+      if (error) { alert("Error: " + error.message); return; }
+      await loadLeads();
+      openLead(currentLeadId);
+    });
+
+    document.getElementById("leadDeleteBtn").addEventListener("click", async () => {
+      if (!confirm("¿Eliminar esta solicitud? Esta acción no se puede deshacer.")) return;
+      const { error } = await sb.from("sell_leads").delete().eq("id", currentLeadId);
+      if (error) { alert("Error: " + error.message); return; }
+      await loadLeads();
+      leadDetailView.classList.add("hidden");
+      leadsView.classList.remove("hidden");
+    });
 
     checkSession();
   </script>

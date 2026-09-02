@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel de inventario — ESSENZA MOTORS</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <style>
+    :root {
+      --bg: #0c0c0c;
+      --panel: #151515;
+      --border: #2a2a2a;
+      --text: #f2f2f2;
+      --muted: #9a9a9a;
+      --accent: #c9a227;
+      --danger: #c0392b;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif;
+    }
+    header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    header h1 { font-size: 18px; margin: 0; letter-spacing: 0.04em; }
+    header button {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+    main { max-width: 960px; margin: 0 auto; padding: 24px; }
+    .hidden { display: none !important; }
+
+    #loginView {
+      max-width: 360px;
+      margin: 80px auto;
+      padding: 32px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+    #loginView h2 { margin-top: 0; font-size: 16px; }
+    label { display: block; font-size: 12px; color: var(--muted); margin: 14px 0 6px; }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px 12px;
+      background: #0f0f0f;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-size: 14px;
+    }
+    button.primary {
+      margin-top: 18px;
+      width: 100%;
+      padding: 11px;
+      background: var(--accent);
+      color: #0c0c0c;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    #loginError { color: var(--danger); font-size: 13px; margin-top: 10px; min-height: 16px; }
+
+    .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+    .toolbar button.primary { width: auto; margin: 0; padding: 9px 16px; }
+
+    table { width: 100%; border-collapse: collapse; }
+    th, td { text-align: left; padding: 10px; border-bottom: 1px solid var(--border); font-size: 13px; }
+    th { color: var(--muted); font-weight: 500; font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; }
+    tr:hover { background: #131313; }
+    td.actions { white-space: nowrap; }
+    td.actions button { background: none; border: 1px solid var(--border); color: var(--text); padding: 5px 10px; border-radius: 5px; cursor: pointer; margin-right: 6px; font-size: 12px; }
+    .status-chip { padding: 2px 8px; border-radius: 20px; font-size: 11px; background: #1e1e1e; }
+    .status-Disponible { color: #6fbf73; }
+    .status-Apartado { color: #e0b64a; }
+    .status-Proximo.ingreso, .status-Próximo.ingreso { color: #7aa7d9; }
+    .status-Oculto { color: var(--muted); }
+
+    #editorView { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 24px; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 16px; }
+    .full { grid-column: 1 / -1; }
+    .editor-actions { display: flex; gap: 10px; margin-top: 22px; }
+    .editor-actions button.primary { width: auto; margin: 0; }
+    .editor-actions button.secondary {
+      background: none; border: 1px solid var(--border); color: var(--text);
+      padding: 10px 16px; border-radius: 6px; cursor: pointer;
+    }
+
+    .gallery { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+    .gallery img { width: 84px; height: 84px; object-fit: cover; border-radius: 6px; border: 1px solid var(--border); }
+    .gallery .thumb { position: relative; }
+    .gallery .thumb button {
+      position: absolute; top: -6px; right: -6px; width: 20px; height: 20px; border-radius: 50%;
+      background: var(--danger); color: #fff; border: none; cursor: pointer; font-size: 12px; line-height: 1;
+    }
+    #uploadStatus { font-size: 12px; color: var(--muted); margin-top: 8px; }
+    #formMsg { font-size: 13px; margin-top: 10px; min-height: 16px; }
+    #formMsg.error { color: var(--danger); }
+    #formMsg.ok { color: #6fbf73; }
+  </style>
+</head>
+<body>
+
+  <div id="loginView">
+    <h2>Panel de inventario ESSENZA</h2>
+    <label for="loginEmail">Correo</label>
+    <input id="loginEmail" type="email" autocomplete="username" />
+    <label for="loginPassword">Contraseña</label>
+    <input id="loginPassword" type="password" autocomplete="current-password" />
+    <button class="primary" id="loginBtn">Entrar</button>
+    <p id="loginError"></p>
+  </div>
+
+  <div id="appView" class="hidden">
+    <header>
+      <h1>ESSENZA · Inventario</h1>
+      <button id="logoutBtn">Cerrar sesión</button>
+    </header>
+    <main>
+      <div id="listView">
+        <div class="toolbar">
+          <span></span>
+          <button class="primary" id="newVehicleBtn">+ Agregar vehículo</button>
+        </div>
+        <table>
+          <thead>
+            <tr><th>Orden</th><th>Marca / Modelo</th><th>Año</th><th>Precio</th><th>Estatus</th><th></th></tr>
+          </thead>
+          <tbody id="vehicleRows"></tbody>
+        </table>
+      </div>
+
+      <div id="editorView" class="hidden">
+        <h2 id="editorTitle">Nuevo vehículo</h2>
+        <div class="grid2">
+          <div><label>Marca</label><input id="f_marca" /></div>
+          <div><label>Modelo</label><input id="f_modelo" /></div>
+          <div><label>Año</label><input id="f_anio" type="number" /></div>
+          <div><label>Tipo</label><input id="f_tipo" placeholder="Deportivo, SUV performance..." /></div>
+          <div><label>Kilometraje</label><input id="f_km" type="number" /></div>
+          <div><label>Precio (MXN)</label><input id="f_precio" type="number" /></div>
+          <div><label>Motor</label><input id="f_motor" /></div>
+          <div><label>Potencia</label><input id="f_potencia" /></div>
+          <div><label>Transmisión</label><input id="f_transmision" /></div>
+          <div><label>Tracción</label><input id="f_traccion" /></div>
+          <div><label>Rines</label><input id="f_rines" /></div>
+          <div><label>Audio</label><input id="f_audio" /></div>
+          <div><label>Color exterior</label><input id="f_color_exterior" /></div>
+          <div><label>Color interior</label><input id="f_color_interior" /></div>
+          <div>
+            <label>Estatus</label>
+            <select id="f_estatus">
+              <option>Disponible</option>
+              <option>Apartado</option>
+              <option>Próximo ingreso</option>
+              <option>Oculto</option>
+            </select>
+          </div>
+          <div><label>Orden (menor = primero)</label><input id="f_orden" type="number" /></div>
+        </div>
+
+        <label class="full" style="margin-top:18px;">Fotos</label>
+        <input id="f_fotos" type="file" accept="image/*" multiple />
+        <div id="uploadStatus"></div>
+        <div class="gallery" id="galleryPreview"></div>
+
+        <div class="editor-actions">
+          <button class="primary" id="saveBtn">Guardar</button>
+          <button class="secondary" id="cancelBtn">Cancelar</button>
+          <button class="secondary" id="deleteBtn" style="border-color:#5a2a2a;color:#e07a6c;">Eliminar vehículo</button>
+        </div>
+        <p id="formMsg"></p>
+      </div>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script>
+    const SUPABASE_URL = "https://hoijdsbztoupcdkbfujk.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_9KtFtsBaFSYWMkRagbntKw_X47Jzonr";
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    const loginView = document.getElementById("loginView");
+    const appView = document.getElementById("appView");
+    const listView = document.getElementById("listView");
+    const editorView = document.getElementById("editorView");
+    const vehicleRows = document.getElementById("vehicleRows");
+    const galleryPreview = document.getElementById("galleryPreview");
+    const formMsg = document.getElementById("formMsg");
+
+    let currentVehicles = [];
+    let editingId = null;
+    let editingGallery = [];
+
+    async function checkSession() {
+      const { data } = await sb.auth.getSession();
+      if (data.session) {
+        loginView.classList.add("hidden");
+        appView.classList.remove("hidden");
+        loadVehicles();
+      } else {
+        loginView.classList.remove("hidden");
+        appView.classList.add("hidden");
+      }
+    }
+
+    document.getElementById("loginBtn").addEventListener("click", async () => {
+      const email = document.getElementById("loginEmail").value.trim();
+      const password = document.getElementById("loginPassword").value;
+      const errEl = document.getElementById("loginError");
+      errEl.textContent = "";
+      const { error } = await sb.auth.signInWithPassword({ email, password });
+      if (error) { errEl.textContent = "Correo o contraseña incorrectos."; return; }
+      checkSession();
+    });
+
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+      await sb.auth.signOut();
+      checkSession();
+    });
+
+    async function loadVehicles() {
+      const { data, error } = await sb.from("vehicles").select("*").order("orden", { ascending: true });
+      if (error) { alert("No pudimos cargar el inventario: " + error.message); return; }
+      currentVehicles = data;
+      renderRows();
+    }
+
+    function money(n) { return n == null ? "Consultar" : "$" + Number(n).toLocaleString("es-MX") + " MXN"; }
+
+    function renderRows() {
+      vehicleRows.innerHTML = currentVehicles.map((v) => `
+        <tr>
+          <td>${v.orden ?? ""}</td>
+          <td>${v.marca} ${v.modelo}</td>
+          <td>${v.anio ?? "—"}</td>
+          <td>${money(v.precio)}</td>
+          <td><span class="status-chip status-${v.estatus.replace(/\s/g, ".")}">${v.estatus}</span></td>
+          <td class="actions">
+            <button data-id="${v.id}" class="editBtn">Editar</button>
+          </td>
+        </tr>
+      `).join("");
+      vehicleRows.querySelectorAll(".editBtn").forEach((btn) => {
+        btn.addEventListener("click", () => openEditor(btn.dataset.id));
+      });
+    }
+
+    document.getElementById("newVehicleBtn").addEventListener("click", () => openEditor(null));
+    document.getElementById("cancelBtn").addEventListener("click", closeEditor);
+
+    function openEditor(id) {
+      editingId = id;
+      const v = id ? currentVehicles.find((x) => x.id === id) : null;
+      document.getElementById("editorTitle").textContent = v ? `Editar: ${v.marca} ${v.modelo}` : "Nuevo vehículo";
+      const fields = ["marca","modelo","anio","tipo","km","precio","motor","potencia","transmision","traccion","rines","audio","color_exterior","color_interior","orden"];
+      fields.forEach((f) => { document.getElementById("f_" + f).value = v ? (v[f] ?? "") : ""; });
+      document.getElementById("f_estatus").value = v ? v.estatus : "Disponible";
+      editingGallery = v ? [...v.galeria] : [];
+      renderGallery();
+      formMsg.textContent = "";
+      formMsg.className = "";
+      document.getElementById("deleteBtn").style.display = v ? "inline-block" : "none";
+      listView.classList.add("hidden");
+      editorView.classList.remove("hidden");
+    }
+
+    function closeEditor() {
+      editorView.classList.add("hidden");
+      listView.classList.remove("hidden");
+    }
+
+    function renderGallery() {
+      galleryPreview.innerHTML = editingGallery.map((url, i) => `
+        <div class="thumb">
+          <img src="${url}" alt="" />
+          <button data-i="${i}" class="removeImgBtn" title="Quitar">×</button>
+        </div>
+      `).join("");
+      galleryPreview.querySelectorAll(".removeImgBtn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          editingGallery.splice(Number(btn.dataset.i), 1);
+          renderGallery();
+        });
+      });
+    }
+
+    document.getElementById("f_fotos").addEventListener("change", async (e) => {
+      const files = Array.from(e.target.files || []);
+      if (!files.length) return;
+      const statusEl = document.getElementById("uploadStatus");
+      const folder = editingId || "tmp-" + Date.now();
+      for (const file of files) {
+        statusEl.textContent = `Subiendo ${file.name}...`;
+        const path = `${folder}/${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.\-]/g, "_")}`;
+        const { error } = await sb.storage.from("vehicle-photos").upload(path, file, { upsert: false });
+        if (error) { statusEl.textContent = `Error subiendo ${file.name}: ${error.message}`; continue; }
+        const { data: pub } = sb.storage.from("vehicle-photos").getPublicUrl(path);
+        editingGallery.push(pub.publicUrl);
+      }
+      statusEl.textContent = "Listo.";
+      e.target.value = "";
+      renderGallery();
+    });
+
+    document.getElementById("saveBtn").addEventListener("click", async () => {
+      const payload = {
+        marca: document.getElementById("f_marca").value.trim(),
+        modelo: document.getElementById("f_modelo").value.trim(),
+        anio: numOrNull(document.getElementById("f_anio").value),
+        tipo: document.getElementById("f_tipo").value.trim() || null,
+        km: numOrNull(document.getElementById("f_km").value),
+        precio: numOrNull(document.getElementById("f_precio").value),
+        motor: document.getElementById("f_motor").value.trim() || null,
+        potencia: document.getElementById("f_potencia").value.trim() || null,
+        transmision: document.getElementById("f_transmision").value.trim() || null,
+        traccion: document.getElementById("f_traccion").value.trim() || null,
+        rines: document.getElementById("f_rines").value.trim() || null,
+        audio: document.getElementById("f_audio").value.trim() || null,
+        color_exterior: document.getElementById("f_color_exterior").value.trim() || null,
+        color_interior: document.getElementById("f_color_interior").value.trim() || null,
+        estatus: document.getElementById("f_estatus").value,
+        orden: numOrNull(document.getElementById("f_orden").value) ?? 0,
+        galeria: editingGallery,
+      };
+      if (!payload.marca || !payload.modelo) {
+        formMsg.textContent = "Marca y modelo son obligatorios.";
+        formMsg.className = "error";
+        return;
+      }
+      let error;
+      if (editingId) {
+        ({ error } = await sb.from("vehicles").update(payload).eq("id", editingId));
+      } else {
+        ({ error } = await sb.from("vehicles").insert(payload));
+      }
+      if (error) { formMsg.textContent = "Error: " + error.message; formMsg.className = "error"; return; }
+      formMsg.textContent = "Guardado.";
+      formMsg.className = "ok";
+      await loadVehicles();
+      setTimeout(closeEditor, 400);
+    });
+
+    document.getElementById("deleteBtn").addEventListener("click", async () => {
+      if (!editingId) return;
+      if (!confirm("¿Eliminar este vehículo del inventario? Esta acción no se puede deshacer.")) return;
+      const { error } = await sb.from("vehicles").delete().eq("id", editingId);
+      if (error) { formMsg.textContent = "Error: " + error.message; formMsg.className = "error"; return; }
+      await loadVehicles();
+      closeEditor();
+    });
+
+    function numOrNull(v) { return v === "" || v === null ? null : Number(v); }
+
+    checkSession();
+  </script>
+</body>
+</html>

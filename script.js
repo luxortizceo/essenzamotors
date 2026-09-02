@@ -103,7 +103,7 @@
 // Vehículos reales del showroom. Los campos marcados con null (precio, km,
 // rines) no fueron proporcionados por ESSENZA para esa unidad y no deben
 // inventarse — se muestran como "Consultar" hasta confirmarse.
-const ESSENZA_INVENTORY = [
+let ESSENZA_INVENTORY = [
   {
     marca: 'Lamborghini',
     modelo: 'Urus',
@@ -244,7 +244,7 @@ const ESSENZA_INVENTORY = [
   },
 ];
 
-(() => {
+function initShowroomCarousel() {
   const carousel = document.getElementById('showroomCarousel');
   const stage = document.getElementById('carouselStage');
   const ring = document.getElementById('carouselRing');
@@ -580,10 +580,10 @@ const ESSENZA_INVENTORY = [
   });
 
   applyFilters();
-})();
+}
 
 // ---------- 3c. Featured vehicle — real inventory data only, never invented ----------
-(() => {
+function initFeaturedVehicle() {
   const section = document.getElementById('destacado');
   if (!section) return;
 
@@ -620,6 +620,46 @@ const ESSENZA_INVENTORY = [
   ctaBtn.addEventListener('click', () => {
     if (window.essenzaOpenVehicleModal) window.essenzaOpenVehicleModal(vehicle, money, (v) => (v == null ? t('inventory.consultarKm') : v.toLocaleString('es-MX') + ' km'));
   });
+}
+
+// ---------- 3b/3c bootstrap — try Supabase first, fall back to the data above ----------
+// Keeps the rest of the page (nav, menu, reveal animations, forms) unblocked;
+// only the carousel and featured section wait on this one request.
+(async () => {
+  const SUPABASE_URL = 'https://hoijdsbztoupcdkbfujk.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_9KtFtsBaFSYWMkRagbntKw_X47Jzonr';
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/vehicles?select=*&order=orden.asc`, {
+      headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` },
+    });
+    if (!res.ok) throw new Error(`status ${res.status}`);
+    const rows = await res.json();
+    if (Array.isArray(rows) && rows.length) {
+      ESSENZA_INVENTORY = rows.map((r) => ({
+        id: r.id,
+        marca: r.marca,
+        modelo: r.modelo,
+        anio: r.anio,
+        tipo: r.tipo,
+        km: r.km,
+        precio: r.precio,
+        motor: r.motor,
+        potencia: r.potencia,
+        transmision: r.transmision,
+        traccion: r.traccion,
+        rines: r.rines,
+        audio: r.audio,
+        colorExterior: r.color_exterior,
+        colorInterior: r.color_interior,
+        estatus: r.estatus,
+        galeria: r.galeria || [],
+      }));
+    }
+  } catch (err) {
+    console.warn('No se pudo cargar el inventario desde Supabase, usando datos de respaldo.', err);
+  }
+  initShowroomCarousel();
+  initFeaturedVehicle();
 })();
 
 // ---------- 3d. Cinematic interlude — lazy-loaded, plays only while in view ----------

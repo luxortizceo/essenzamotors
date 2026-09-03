@@ -999,8 +999,10 @@ function initFeaturedVehicle() {
   );
 })();
 
-// ---------- 9. Reputation — single-review spotlight ----------
-(() => {
+// ---------- 9. Reputation — real Google reviews via /api/reviews, static
+// markup (real reviews, just not auto-updating) as fallback if that endpoint
+// isn't configured yet or the request fails ----------
+function initReviewCarousel() {
   const carousel = document.getElementById('reviewCarousel');
   if (!carousel) return;
 
@@ -1042,6 +1044,37 @@ function initFeaturedVehicle() {
   carousel.addEventListener('mouseleave', startAuto);
 
   startAuto();
+}
+
+const escapeHtml = (str) =>
+  String(str).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+(async () => {
+  const carousel = document.getElementById('reviewCarousel');
+  if (carousel) {
+    try {
+      const res = await fetch('/api/reviews', { signal: AbortSignal.timeout(4000) });
+      if (!res.ok) throw new Error(`status ${res.status}`);
+      const { reviews } = await res.json();
+      if (Array.isArray(reviews) && reviews.length) {
+        const track = carousel.querySelector('.review-carousel__track');
+        track.innerHTML = reviews
+          .map((r, i) => {
+            const stars = Math.round(r.rating || 5);
+            return `
+        <article class="review-slide${i === 0 ? ' is-active' : ''}">
+          <span class="review-slide__stars" aria-hidden="true">${'★'.repeat(stars)}${'☆'.repeat(5 - stars)}</span>
+          <blockquote class="review-slide__quote">"${escapeHtml(r.text)}"</blockquote>
+          <p class="review-slide__author">${escapeHtml(r.author)} · Google Review</p>
+        </article>`;
+          })
+          .join('');
+      }
+    } catch (err) {
+      console.warn('No se pudieron cargar reseñas en vivo de Google, usando reseñas fijas.', err);
+    }
+  }
+  initReviewCarousel();
 })();
 
 // ---------- Footer year ----------

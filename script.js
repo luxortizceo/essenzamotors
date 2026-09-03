@@ -99,6 +99,19 @@
   numbers.forEach((el) => observer.observe(el));
 })();
 
+// Fallback cuando un vehículo (nuevo, recién capturado en el admin) todavía
+// no tiene fotos, o cuando la primera foto de su galería no carga — evita el
+// bloque de "vehículo destacado"/carrusel con imagen rota.
+const VEHICLE_IMG_PLACEHOLDER =
+  'data:image/svg+xml;utf8,' +
+  encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">' +
+      '<rect width="800" height="600" fill="#0a0a0c"/>' +
+      '<text x="400" y="300" font-family="Inter, sans-serif" font-size="26" fill="#8b8f96" text-anchor="middle" dominant-baseline="middle">Foto próximamente</text>' +
+      '</svg>'
+  );
+const vehicleCoverImage = (v) => (v.galeria && v.galeria[0]) || VEHICLE_IMG_PLACEHOLDER;
+
 // ---------- 3. Inventory — data + 3D showroom carousel ----------
 // Vehículos reales del showroom. Los campos marcados con null (precio, km,
 // rines) no fueron proporcionados por ESSENZA para esa unidad y no deben
@@ -400,7 +413,7 @@ function initShowroomCarousel() {
       <div class="showroom-carousel__car" data-index="${i}" role="button" tabindex="-1" aria-label="${v.marca} ${v.modelo}">
         <span class="showroom-carousel__reflection" aria-hidden="true"></span>
         <div class="showroom-carousel__frame">
-          <img src="${v.galeria[0]}" alt="${v.marca} ${v.modelo}" loading="lazy" />
+          <img src="${vehicleCoverImage(v)}" alt="${v.marca} ${v.modelo}" loading="lazy" onerror="this.onerror=null;this.src='${VEHICLE_IMG_PLACEHOLDER}';" />
           <span class="showroom-carousel__status">${tv(v.estatus)}</span>
         </div>
       </div>`
@@ -606,7 +619,11 @@ function initFeaturedVehicle() {
   const ctaBtn = document.getElementById('featuredCta');
 
   const render = () => {
-    img.src = vehicle.galeria[0];
+    img.src = vehicleCoverImage(vehicle);
+    img.onerror = () => {
+      img.onerror = null;
+      img.src = VEHICLE_IMG_PLACEHOLDER;
+    };
     img.alt = `${vehicle.marca} ${vehicle.modelo}`;
     brandEl.textContent = vehicle.marca;
     modelEl.textContent = vehicle.modelo;
@@ -762,7 +779,7 @@ function initFeaturedVehicle() {
     currentVehicle = v;
     currentMoneyFn = money;
     currentKmLabelFn = kmLabel;
-    gallery = v.galeria;
+    gallery = v.galeria && v.galeria.length ? v.galeria : [VEHICLE_IMG_PLACEHOLDER];
     galleryIndex = 0;
 
     renderContent(v, money, kmLabel);

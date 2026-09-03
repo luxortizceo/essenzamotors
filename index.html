@@ -371,9 +371,24 @@
     </div>
   </section>
 
-  <!-- 9. CONFIANZA Y OPINIONES -->
+  <!-- 8b. VEHÍCULOS VENDIDOS (trayectoria — solo aparece si hay al menos un
+       vehículo marcado "Vendido" en el inventario; ver script.js) -->
+  <section id="vendidos" class="sold reveal" hidden>
+    <p class="eyebrow" data-num="09" data-i18n="sold.eyebrow">Trayectoria</p>
+    <h2 class="section-title" data-i18n="sold.title">Autos que ya encontraron nuevo dueño</h2>
+    <p class="section-lead" data-i18n="sold.lead">Una muestra de lo que ha pasado por el showroom ESSENZA. Si buscas algo similar, es probable que ya sepamos dónde encontrarlo.</p>
+
+    <div class="sold-grid" id="soldGrid"><!-- vehículos vendidos inyectados por script.js --></div>
+
+    <a class="btn btn--ghost sold__cta" target="_blank" rel="noopener"
+       href="https://wa.me/524774492547?text=Hola%2C%20vi%20su%20trayectoria%20de%20autos%20vendidos%20y%20busco%20algo%20similar.">
+      <span data-i18n="sold.cta">¿Buscas algo similar? Escríbenos</span>
+    </a>
+  </section>
+
+  <!-- 10. CONFIANZA Y OPINIONES -->
   <section id="confianza" class="trust reveal">
-    <p class="eyebrow" data-num="09" data-i18n="trust.eyebrow">Confianza y opiniones</p>
+    <p class="eyebrow" data-num="10" data-i18n="trust.eyebrow">Confianza y opiniones</p>
     <h2 class="section-title" data-i18n="trust.title">Reputación construida en cada entrega.</h2>
 
     <div class="trust__rating">
@@ -425,9 +440,9 @@
     </div>
   </section>
 
-  <!-- 10. UBICACIÓN Y CONTACTO -->
+  <!-- 11. UBICACIÓN Y CONTACTO -->
   <section id="ubicacion" class="location reveal">
-    <p class="eyebrow" data-num="10" data-i18n="location.eyebrow">Visítanos</p>
+    <p class="eyebrow" data-num="11" data-i18n="location.eyebrow">Visítanos</p>
     <h2 class="section-title">León, Guanajuato</h2>
     <p class="location__address">
       Blvd. Juan Alonso de Torres Pte. 2404, Lomas del Campestre,<br />

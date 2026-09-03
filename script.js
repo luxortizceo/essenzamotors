@@ -116,6 +116,10 @@ const vehicleCoverImage = (v) => (v.galeria && v.galeria[0]) || VEHICLE_IMG_PLAC
 // Vehículos reales del showroom. Los campos marcados con null (precio, km,
 // rines) no fueron proporcionados por ESSENZA para esa unidad y no deben
 // inventarse — se muestran como "Consultar" hasta confirmarse.
+// Vehículos con estatus "Vendido" — solo se llena desde Supabase (ver
+// bootstrap más abajo); no hay datos de respaldo inventados aquí.
+let ESSENZA_SOLD = [];
+
 let ESSENZA_INVENTORY = [
   {
     marca: 'Lamborghini',
@@ -639,6 +643,41 @@ function initFeaturedVehicle() {
   });
 }
 
+// ---------- 3e. Vehículos vendidos — sección de trayectoria, solo visible
+// si hay al menos un vehículo con estatus "Vendido" en Supabase ----------
+function initSoldVehicles() {
+  const section = document.getElementById('vendidos');
+  if (!section) return;
+
+  if (!ESSENZA_SOLD.length) {
+    section.hidden = true;
+    return;
+  }
+
+  const { t } = window.essenzaI18n;
+  const grid = document.getElementById('soldGrid');
+
+  const render = () => {
+    grid.innerHTML = ESSENZA_SOLD.map(
+      (v) => `
+      <article class="sold-card">
+        <div class="sold-card__image">
+          <img src="${vehicleCoverImage(v)}" alt="${v.marca} ${v.modelo}" loading="lazy" onerror="this.onerror=null;this.src='${VEHICLE_IMG_PLACEHOLDER}';" />
+          <span class="sold-card__badge">${t('sold.badge')}</span>
+        </div>
+        <div class="sold-card__info">
+          <h3>${v.marca} ${v.modelo}</h3>
+          ${v.anio ? `<p>${v.anio}</p>` : ''}
+        </div>
+      </article>`
+    ).join('');
+  };
+
+  render();
+  document.addEventListener('essenza:langchange', render);
+  section.hidden = false;
+}
+
 // ---------- 3b/3c bootstrap — try Supabase first, fall back to the data above ----------
 // Keeps the rest of the page (nav, menu, reveal animations, forms) unblocked;
 // only the carousel and featured section wait on this one request.
@@ -652,7 +691,7 @@ function initFeaturedVehicle() {
     if (!res.ok) throw new Error(`status ${res.status}`);
     const rows = await res.json();
     if (Array.isArray(rows) && rows.length) {
-      ESSENZA_INVENTORY = rows.map((r) => ({
+      const mapped = rows.map((r) => ({
         id: r.id,
         marca: r.marca,
         modelo: r.modelo,
@@ -671,12 +710,17 @@ function initFeaturedVehicle() {
         estatus: r.estatus,
         galeria: r.galeria || [],
       }));
+      // "Vendido" va a su propia sección de trayectoria, no al inventario en
+      // venta; "Oculto" no debe aparecer en ningún lado del sitio público.
+      ESSENZA_SOLD = mapped.filter((v) => v.estatus === 'Vendido');
+      ESSENZA_INVENTORY = mapped.filter((v) => v.estatus !== 'Vendido' && v.estatus !== 'Oculto');
     }
   } catch (err) {
     console.warn('No se pudo cargar el inventario desde Supabase, usando datos de respaldo.', err);
   }
   initShowroomCarousel();
   initFeaturedVehicle();
+  initSoldVehicles();
 })();
 
 // ---------- 3d. Cinematic interlude — lazy-loaded, plays only while in view ----------

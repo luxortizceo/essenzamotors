@@ -2013,3 +2013,74 @@ section {
   color: var(--blanco-frio);
   font-weight: 500;
 }
+
+/* ---------- 9b. VEHÍCULOS VENDIDOS (trayectoria) ---------- */
+
+.sold-grid {
+  margin-top: 3rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.sold-card {
+  border: 1px solid rgba(244, 246, 248, 0.08);
+  border-radius: 4px;
+  background: #101012;
+  overflow: hidden;
+}
+
+.sold-card__image {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+
+.sold-card__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(0.55) brightness(0.75);
+  transition: filter 0.4s ease;
+}
+
+.sold-card:hover .sold-card__image img {
+  filter: grayscale(0) brightness(0.9);
+}
+
+.sold-card__badge {
+  position: absolute;
+  top: 0.7rem;
+  left: 0.7rem;
+  font-family: var(--font-display);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--blanco-frio);
+  padding: 0.3rem 0.6rem;
+  background: rgba(5, 5, 5, 0.75);
+  border: 1px solid rgba(244, 246, 248, 0.25);
+  border-radius: 2px;
+}
+
+.sold-card__info {
+  padding: 1rem 1.1rem 1.2rem;
+}
+
+.sold-card__info h3 {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--blanco-frio);
+}
+
+.sold-card__info p {
+  margin-top: 0.3rem;
+  color: var(--gris-titanio);
+  font-size: 0.8rem;
+}
+
+.sold__cta {
+  margin-top: 2.5rem;
+}

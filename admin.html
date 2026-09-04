@@ -251,6 +251,12 @@
     let currentLeads = [];
     let currentLeadId = null;
 
+    function esc(v) {
+      return String(v ?? "").replace(/[&<>"']/g, (c) => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
+      }[c]));
+    }
+
     async function checkSession() {
       const { data } = await sb.auth.getSession();
       if (data.session) {
@@ -305,10 +311,10 @@
       vehicleRows.innerHTML = currentVehicles.map((v) => `
         <tr>
           <td>${v.orden ?? ""}</td>
-          <td>${v.marca} ${v.modelo}</td>
+          <td>${esc(v.marca)} ${esc(v.modelo)}</td>
           <td>${v.anio ?? "—"}</td>
           <td>${money(v.precio)}</td>
-          <td><span class="status-chip status-${v.estatus.replace(/\s/g, ".")}">${v.estatus}</span></td>
+          <td><span class="status-chip status-${esc(v.estatus.replace(/\s/g, "."))}">${esc(v.estatus)}</span></td>
           <td class="actions">
             <button data-id="${v.id}" class="editBtn">Editar</button>
           </td>
@@ -446,9 +452,9 @@
       leadRows.innerHTML = currentLeads.map((l) => `
         <tr style="${l.atendido ? "opacity:.55;" : ""}">
           <td>${new Date(l.created_at).toLocaleDateString("es-MX")}</td>
-          <td>${[l.marca, l.modelo].filter(Boolean).join(" ") || "—"}</td>
-          <td>${l.nombre || "—"}</td>
-          <td>${l.telefono || "—"}</td>
+          <td>${esc([l.marca, l.modelo].filter(Boolean).join(" ")) || "—"}</td>
+          <td>${esc(l.nombre) || "—"}</td>
+          <td>${esc(l.telefono) || "—"}</td>
           <td>${l.atendido ? "Atendido" : `<span class="status-chip status-Apartado">Pendiente</span>`}</td>
           <td class="actions"><button data-id="${l.id}" class="viewLeadBtn">Ver</button></td>
         </tr>
@@ -475,7 +481,7 @@
         ["Recibido", new Date(l.created_at).toLocaleString("es-MX")],
       ];
       document.getElementById("leadDetailFields").innerHTML = rows.map(([label, val]) => `
-        <div><label>${label}</label><input value="${val || "—"}" readonly /></div>
+        <div><label>${esc(label)}</label><input value="${esc(val) || "—"}" readonly /></div>
       `).join("");
 
       const photosEl = document.getElementById("leadPhotos");

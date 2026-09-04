@@ -99,7 +99,7 @@
     }
     const ctx = canvas.getContext('2d');
     const FRAME_COUNT = 72;
-    const frameSrc = (i) => `assets/video/hero-frames/frame-${String(i + 1).padStart(3, '0')}.jpg`;
+    const frameSrc = (i) => `assets/video/hero-frames/frame-${String(i + 1).padStart(3, '0')}.jpg?v=2`;
     const frames = Array.from({ length: FRAME_COUNT }, (_, i) => {
       const img = new Image();
       img.src = frameSrc(i);

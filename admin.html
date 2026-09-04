@@ -42,7 +42,7 @@
     main { max-width: 960px; margin: 0 auto; padding: 24px; }
     .hidden { display: none !important; }
 
-    #loginView {
+    #loginView, #recoveryView {
       max-width: 360px;
       margin: 80px auto;
       padding: 32px;
@@ -50,7 +50,7 @@
       border: 1px solid var(--border);
       border-radius: 10px;
     }
-    #loginView h2 { margin-top: 0; font-size: 16px; }
+    #loginView h2, #recoveryView h2 { margin-top: 0; font-size: 16px; }
     label { display: block; font-size: 12px; color: var(--muted); margin: 14px 0 6px; }
     input, select, textarea {
       width: 100%;
@@ -134,6 +134,14 @@
     <input id="loginPassword" type="password" autocomplete="current-password" />
     <button class="primary" id="loginBtn">Entrar</button>
     <p id="loginError"></p>
+  </div>
+
+  <div id="recoveryView" class="hidden">
+    <h2>Nueva contraseña</h2>
+    <label for="recoveryPassword">Contraseña nueva</label>
+    <input id="recoveryPassword" type="password" autocomplete="new-password" minlength="6" />
+    <button class="primary" id="recoveryBtn">Guardar contraseña</button>
+    <p id="recoveryMsg"></p>
   </div>
 
   <div id="appView" class="hidden">
@@ -234,6 +242,7 @@
     const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     const loginView = document.getElementById("loginView");
+    const recoveryView = document.getElementById("recoveryView");
     const appView = document.getElementById("appView");
     const listView = document.getElementById("listView");
     const editorView = document.getElementById("editorView");
@@ -269,6 +278,30 @@
         appView.classList.add("hidden");
       }
     }
+
+    sb.auth.onAuthStateChange((event) => {
+      if (event === "PASSWORD_RECOVERY") {
+        loginView.classList.add("hidden");
+        appView.classList.add("hidden");
+        recoveryView.classList.remove("hidden");
+      }
+    });
+
+    document.getElementById("recoveryBtn").addEventListener("click", async () => {
+      const recoveryMsg = document.getElementById("recoveryMsg");
+      const password = document.getElementById("recoveryPassword").value;
+      if (password.length < 6) {
+        recoveryMsg.textContent = "La contraseña debe tener al menos 6 caracteres.";
+        return;
+      }
+      const { error } = await sb.auth.updateUser({ password });
+      if (error) { recoveryMsg.textContent = "Error: " + error.message; return; }
+      recoveryMsg.textContent = "Contraseña actualizada. Entrando...";
+      recoveryView.classList.add("hidden");
+      appView.classList.remove("hidden");
+      loadVehicles();
+      loadLeads();
+    });
 
     // ---------- Tabs ----------
     document.querySelectorAll(".tabBtn").forEach((btn) => {

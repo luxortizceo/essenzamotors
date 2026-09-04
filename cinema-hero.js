@@ -17,6 +17,12 @@
   if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
   gsap.registerPlugin(ScrollTrigger);
 
+  // Phones decode/seek compressed video far slower than desktop. Snapping to
+  // a coarser time step means fewer seeks per scroll gesture — the video
+  // still tracks scroll, just in slightly bigger steps instead of every tick.
+  const isMobile = window.matchMedia('(max-width: 767px)').matches;
+  const seekThreshold = isMobile ? 0.12 : 0.02;
+
   // ---- Lenis smooth scroll, driven by GSAP's ticker ----
   const lenis = new Lenis({ duration: 1.1, smoothWheel: true });
   lenis.on('scroll', ScrollTrigger.update);
@@ -73,7 +79,7 @@
       scrub: 0.4,
       onUpdate: (self) => {
         const t = Math.min(Math.max(self.progress, 0), 1) * duration;
-        if (Number.isFinite(t) && Math.abs(video.currentTime - t) > 0.02) {
+        if (Number.isFinite(t) && Math.abs(video.currentTime - t) > seekThreshold) {
           requestSeek(t);
         }
       },

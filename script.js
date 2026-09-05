@@ -710,10 +710,12 @@ function initSoldVehicles() {
         estatus: r.estatus,
         galeria: r.galeria || [],
       }));
-      // "Vendido" va a su propia sección de trayectoria, no al inventario en
-      // venta; "Oculto" no debe aparecer en ningún lado del sitio público.
+      // "Vendido" aparece tanto en su propia sección de trayectoria como en
+      // el carrusel principal (marcado con su etiqueta de estatus, filtrable
+      // desde "Disponibilidad"); "Oculto" no debe aparecer en ningún lado del
+      // sitio público.
       ESSENZA_SOLD = mapped.filter((v) => v.estatus === 'Vendido');
-      ESSENZA_INVENTORY = mapped.filter((v) => v.estatus !== 'Vendido' && v.estatus !== 'Oculto');
+      ESSENZA_INVENTORY = mapped.filter((v) => v.estatus !== 'Oculto');
     }
   } catch (err) {
     console.warn('No se pudo cargar el inventario desde Supabase, usando datos de respaldo.', err);

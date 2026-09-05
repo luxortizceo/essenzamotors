@@ -186,6 +186,7 @@ const ESSENZA_UI = {
 const ESSENZA_VAL = {
   'Disponible': { en: 'Available', de: 'Verfügbar', fr: 'Disponible', ru: 'В наличии', it: 'Disponibile' },
   'Apartado': { en: 'On hold', de: 'Reserviert', fr: 'Réservé', ru: 'Забронирован', it: 'Riservato' },
+  'Vendido': { en: 'Sold', de: 'Verkauft', fr: 'Vendu', ru: 'Продано', it: 'Venduto' },
   'Próximo ingreso': { en: 'Arriving soon', de: 'Demnächst verfügbar', fr: 'Arrivée prochaine', ru: 'Скоро в продаже', it: 'Prossimo arrivo' },
   'Deportivo': { en: 'Sports car', de: 'Sportwagen', fr: 'Sportive', ru: 'Спортивный', it: 'Sportiva' },
   'Gran Turismo': { en: 'Grand Tourer', de: 'Gran Turismo', fr: 'Grand Tourisme', ru: 'Гран-туризмо', it: 'Gran Turismo' },
